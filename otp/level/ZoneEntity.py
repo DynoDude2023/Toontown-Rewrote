@@ -10,7 +10,7 @@ class ZoneEntity(ZoneEntityBase.ZoneEntityBase, BasicEntities.NodePathAttribs):
             if __dev__:
                 self.level.reportModelSpecSyncError('unknown zoneNum %s; zone was removed from model?' % self.entId)
             else:
-                self.notify.error('zone %s not found in level model' % self.entId)
+                pass
         BasicEntities.NodePathAttribs.initNodePathAttribs(self, doReparent=0)
         self.visibleZoneNums = {}
         self.incrementRefCounts(self.visibility)

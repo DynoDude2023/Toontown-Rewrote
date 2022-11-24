@@ -1,10 +1,10 @@
 <CoordinateSystem> { Z-Up }
 
 <Comment> {
-  "bam2egg -noabs tt_a_ene_cga_zero.bam tt_a_ene_cga_zero.egg"
+  "bam2egg -o tt_a_ene_cga_zero.egg tt_a_ene_cga_zero.bam"
 }
 <Texture> shoe {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/shoe.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/shoe.jpg"
   <Scalar> format { luminance }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -13,7 +13,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> hand {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/hand.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/hand.jpg"
   <Scalar> format { luminance }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -22,7 +22,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> c_sleeve {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_sleeve.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_sleeve.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -31,7 +31,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> c_leg {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_leg.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_leg.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -40,7 +40,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> c_blazer {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_blazer.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_blazer.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -49,7 +49,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> c_arm {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_arm.jpg"
+  "/c/TTRewrote3.0/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/c_arm.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }

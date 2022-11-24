@@ -1,0 +1,169 @@
+group "toonfest" [
+ visgroup "7100:safe_zone" [
+  vis [   "7100:safe_zone"   ]
+  node "level" [
+   prop "toonfest_7100_DNARoot" [
+    code [ "toonfest_ccc_exterior" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   group "bunch_o_trees" [
+    prop "tf_the_tree_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 6.9 6.9 6.9 ]
+     pos [ -250.7 5.75 -0.344 ]
+     nhpr [ 0.0 0.0 0.0 ]
+    ]
+    prop "tf_tree_m1_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ 23.922 -146.4 11.162 ]
+     nhpr [ 8.0 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m2_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -35.63 -127.7 11.551 ]
+     nhpr [ -95 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m3_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -116.4 -173.8 14.016 ]
+     nhpr [ 106 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m4_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -181.2 -144.6 14.340 ]
+     nhpr [ 197 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m5_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -308.7 -102.1 8.4098 ]
+     nhpr [ 225 11.2 0.0 ]
+    ]
+    prop "tf_tree_m6_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -290.5 84.044 2.0704 ]
+     nhpr [ 71 6.10 0.0 ]
+    ]
+    prop "tf_tree_m7_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ 23.922 146.4 11.162 ]
+     nhpr [ 8.0 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m8_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -35.63 127.7 11.551 ]
+     nhpr [ -95 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m9_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -116.4 173.8 14.016 ]
+     nhpr [ 106 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m10_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -181.2 144.6 14.340 ]
+     nhpr [ 197 -2.2 0.0 ]
+    ]
+   ]
+   prop "linktunnel_tf_7000_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ 36.755 1.2026 0.0080 ]
+    nhpr [ -91 0.0 0.0 ]
+    sign [
+	 code [ "DD_sign2" ]
+	 scale [ 1.85 1 1.35 ]
+	 nhpr [ 0 0 -3.0 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.6 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "f" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "E" ]
+      ]
+      text [
+       letters [ "v" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "G" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "u" ]
+      ]
+      text [
+       letters [ "n" ]
+      ] 
+      text [
+       letters [ "d" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ]
+]

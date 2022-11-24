@@ -1,0 +1,12 @@
+group "toontownCentral" [
+ visgroup "2401" [
+  vis [   "2401"   ]
+  group "props" [
+   prop "prop_tt_m_ara_int_toonhall_DNARoot" [
+    code [ "prop_tt_m_ara_int_toonhall" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+  ]
+ ]
+]

@@ -1,0 +1,12 @@
+group "toonfest" [
+ visgroup "7200:safe_zone" [
+  vis [   "7200:safe_zone"   ]
+  node "level" [
+   prop "toonfest_7200_DNARoot" [
+    code [ "bills_hills" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+  ]
+ ]
+]

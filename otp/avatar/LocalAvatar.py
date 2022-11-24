@@ -25,6 +25,12 @@ from direct.controls.PhysicsWalker import PhysicsWalker
 from direct.controls.SwimWalker import SwimWalker
 from direct.controls.TwoDWalker import TwoDWalker
 
+import time
+
+from toontown.toonbase import ToontownGlobals
+
+
+
 class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.DistributedSmoothNode):
     notify = DirectNotifyGlobal.directNotify.newCategory('LocalAvatar')
     wantDevCameraPositions = base.config.GetBool('want-dev-camera-positions', 0)
@@ -71,6 +77,8 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.movingFlag = 0
         self.swimmingFlag = 0
         self.lastNeedH = None
+        self.fov = OTPGlobals.DefaultCameraFov
+        self.fallbackFov = self.fov
         self.accept('friendOnline', self.__friendOnline)
         self.accept('friendOffline', self.__friendOffline)
         self.accept('clickedWhisper', self.clickedWhisper)
@@ -85,8 +93,49 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.showNametag2d()
         self.setPickable(0)
         self.cameraLerp = None
+        self.lastForwardPress = 0
+        self.accept(base.MOVE_UP, self.__handleForwardPress)
+        self.accept(base.MOVE_UP + '-up', self.__handleForwardRelease)
+        self.isSprinting = 0
         return
 
+    def __handleForwardPress(self):
+
+        # See the time difference from when we last hit forward key
+        timeDif = time.time() - self.lastForwardPress
+        # If we hit the forward key a second or less ago set state to sprinting
+        if timeDif <= OTPGlobals.ToonDoubleTapSprintWindow:
+            self.setSprinting()
+
+        # Otherwise update last time we pressed sprint key
+        self.lastForwardPress = time.time()
+
+    def __handleForwardRelease(self):
+        self.exitSprinting()
+
+    def __setFov(self, fov):
+        localAvatar.setCameraFov(fov, updateFallback=False)
+
+    def lerpFov(self, start, target):
+        LerpFunc(
+            self.__setFov, fromData=start, toData=target, duration=.3, blendType='easeInOut'
+        ).start()
+
+    def setSprinting(self):
+        self.currentSpeed = OTPGlobals.ToonForwardSprintSpeed
+        self.currentReverseSpeed = OTPGlobals.ToonReverseSprintSpeed
+        self.controlManager.setSpeeds(OTPGlobals.ToonForwardSprintSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonReverseSprintSpeed, OTPGlobals.ToonRotateSprintingSpeed)
+        self.isSprinting = 1
+        self.lerpFov(self.fov, self.fallbackFov+OTPGlobals.ToonSprintFovIncrease)
+
+    def exitSprinting(self):
+        self.currentSpeed = OTPGlobals.ToonForwardSpeed
+        self.currentReverseSpeed = OTPGlobals.ToonReverseSpeed
+        self.controlManager.setSpeeds(OTPGlobals.ToonForwardSpeed, OTPGlobals.ToonJumpForce, OTPGlobals.ToonReverseSpeed, OTPGlobals.ToonRotateSpeed)
+        if self.isSprinting:
+            self.lerpFov(self.fov, self.fallbackFov)
+        self.isSprinting = 0
+    
     def useSwimControls(self):
         self.controlManager.use('swim', self)
 
@@ -852,7 +901,9 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             self.camLerpInterval = LerpFunctionInterval(setCamFov, fromData=oldFov, toData=fov, duration=time, name='cam-fov-lerp')
             self.camLerpInterval.start()
 
-    def setCameraFov(self, fov):
+    def setCameraFov(self, fov, updateFallback=True):
+        if updateFallback:
+            self.fallbackFov = fov
         self.fov = fov
         if not (self.isPageDown or self.isPageUp):
             base.camLens.setMinFov(self.fov / (4. / 3.))

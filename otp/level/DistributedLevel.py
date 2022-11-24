@@ -4,15 +4,16 @@ from direct.showbase.PythonUtil import Functor, sameElements, list2dict, uniqueE
 from direct.interval.IntervalGlobal import *
 from toontown.distributed.ToontownMsgTypes import *
 from toontown.toonbase import ToontownGlobals
-from otp.otpbase import OTPGlobals
 from direct.distributed import DistributedObject
 import Level
+from otp.otpbase import OTPGlobals
 import LevelConstants
+import LevelUtil
 from direct.directnotify import DirectNotifyGlobal
 import EntityCreator
 from direct.gui import OnscreenText
 from direct.task import Task
-import LevelUtil
+
 import random
 
 class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
@@ -378,8 +379,6 @@ class DistributedLevel(DistributedObject.DistributedObject, Level.Level):
             return
         if zoneNum == self.curZoneNum:
             return
-        if zoneNum not in self.zoneNumDict:
-            DistributedLevel.notify.error('no ZoneEntity for this zone (%s)!!' % zoneNum)
         self.updateVisibility(zoneNum)
 
     def updateVisibility(self, zoneNum = None):

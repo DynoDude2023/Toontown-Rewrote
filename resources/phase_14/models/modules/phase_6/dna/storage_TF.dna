@@ -1,0 +1,64 @@
+place_model "phase_6/models/events/ttr_m_ww_grounds" [
+	store_node [ "prop" "tf_grounds_1" "" ]
+	]
+
+place_model "phase_6/models/events/ttr_m_toonfest_ccc_exterior" [
+	store_node [ "prop" "toonfest_ccc_exterior" "" ]
+	]
+
+place_model "phase_14/models/modules/bills_hills" [
+	store_node [ "prop" "bills_hills" "" ]
+	]
+
+place_model "phase_6/models/events/tf_tower" [
+	store_node [ "prop" "tf_tower" "" ]
+	]
+
+place_model "phase_6/models/events/ttr_m_tf_ducktank" [
+	store_node [ "prop" "tf_duck_tank" "" ]
+	]
+
+place_model "phase_6/models/events/outdoor_zone_tree" [
+	store_node [ "prop" "tf_tree" "" ]
+	]
+
+place_model "phase_6/models/events/ttr_m_ww_tree_l" [
+	store_node [ "prop" "tf_tree_l" "" ]
+	]
+
+place_model "phase_6/models/events/ttr_m_ww_tree_m" [
+	store_node [ "prop" "tf_tree_m" "" ]
+	]
+
+place_model "phase_6/models/events/ttr_m_ww_tree_s" [
+	store_node [ "prop" "tf_tree_s" "" ]
+	]
+
+place_model "phase_6/models/golf/picnic_table" [
+	store_node [ "prop" "prop_picnic_table" "" ]
+	]
+
+place_model "phase_6/models/golf/game_table" [
+	store_node [ "prop" "prop_game_table" "" ]
+	]
+
+store_font [ "font" "TT_Comedy" "phase_3/models/fonts/Comedy" ]
+
+place_model "phase_6/models/golf/outdoor_zone_entrance" [
+	store_node [ "prop" "prop_outdoor_zone_entrance" "" ]
+	]
+
+place_model "phase_4/models/props/construction_sign" [
+	store_node [ "prop" "prop_construction_sign" "" ]
+	]
+
+place_model "phase_6/models/golf/picnic_table" [
+	store_node [ "prop" "prop_picnic_table" "" ]
+	]
+
+place_model "phase_6/models/props/signs_DD" [
+	store_node [ "sign" "DD_sign1" ]
+	store_node [ "sign" "DD_sign2" ]
+	store_node [ "sign" "DD_sign3" ]
+	]
+

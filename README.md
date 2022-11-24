@@ -1,46 +1,36 @@
-Changes Right Now:
-- V2 Cog Balancing Change
-- 3 Extra Levels for Sellbots.
-- Toontown Rerigged Models.
-- Some of the Taskforce Balancing
-- TTR's Toon Hall
+--Version 2.0.0--
 
-Changes Soon to be made:
-- Cogs can go up three levels extra in certain areas by normal.
-- Cogs can go up to level 20 by boss mechanics.
-- Revisioning of the battle system.
-- Dear and Croc Species.
-- Silly Meter and it's tasks.
-- Event toon tasks.
-- Sellbot Task Force Balancing.
-- Sellbot Task Force Taskline and it's New Toon Task Types.
-- Sellbot Task Force NPCs.
-- Options Update.
-- Rewritten's CEO Changes.
-- Spotlight Search and Doodle Round-up.
+The Taskforce has been added with new task types!
 
-Task Force:
-- Instead of field offices your be remaching the bosses in a hardmode but not a copycat version with just more difficulty.
-- For the Hardmodes there will at least be one or two different mechanics.
-- I'm Prob gonna start on ceo why not :3c
-- The Taskforce Will not be directly copied from ttr but will have alot of the same aspects.
+New Toontasks Include:
+- Version 2.0 Department Tasks
+- Cog Tier Toontasks
+- Cog Level Type Toontasks
+- Pick-up Treasure Toontasks
+- VP, CFO, CJ, CEO Toontasks
+- Go to a Area Toontasks
+- Golfing, Racing, Trolley and New Fishing Toontasks
+- New Factory, Mint, DA Office, Golf Course Toontasks
+- Petshop, Gagshop Toontasks
 
-ALPHA 1.0.0:
-- The Hideout is in action, and it's "Secret Shakes" are in Oak Street!
-- The Cogs have caught on and have sent higher levels of cogs!
-- Croc Toons have been added!
+The Resistance has launched PACK THE COURT.
 
-ALPHA 1.0.1:
-- The Cogs have focused kaboomberg!
-- There are now safe districts! a safe district when hovered over will have a blue outline. No invasions can be spawned, and summons are disabled.
-- There can now be Version 2.0 Cog invasions!
+PACK THE COURT INCLUDES:
+- Higher lawbot levels
+- Any Toon can enter the CJ
+- A mini Taskline.
+- New Lawbot Music
+- New Clothing
 
-ALPHA 1.0.2:
-- The Sellbot Factory is slightly harder in Kaboomberg!
-- A Scrapped TTR Daisy's garden theme plays instead of the normal Playground song in Kaboomberg
-  It was meant for a scapped piece of cog content in ttr.
+BATTLE SYSTEM:
+- Various Expansions for Cogs, Toons Etc
+- Cog Cheats
+- Up to 7 cogs in a battle
+- Status Effects
+- Independent Cog Damages
 
-ALPHA 1.0.3:
-- The Stone Cheese is now alive!
-- He is fightable in non safe districts, Bossbot HQ.
-- The Hideout now has 3 New Rangers.
+THE EXECUTIVE OFFICE:
+- Fight all four bosses in a Executive Way
+- Halt Security
+- Break into the Chairmans Rooftop
+- Save Toontown Once and for all

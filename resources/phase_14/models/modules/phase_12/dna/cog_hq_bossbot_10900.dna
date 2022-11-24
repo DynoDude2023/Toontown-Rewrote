@@ -1,0 +1,14 @@
+store_suit_point [ 0, STREET_POINT, -346.541 163.606 -4.717 ]
+store_suit_point [ 1, STREET_POINT, -588.391 284.543 -3.228 ]
+store_suit_point [ 2, STREET_POINT, -643.457 311.823 21.141 ]
+
+group "bossbotHQExecutiveWalkway" [
+ visgroup "10900" [
+  vis [ "10900" ]
+  suit_edge [ 0 1 ]
+  suit_edge [ 1 2 ]
+  suit_edge [ 2 1 ]
+  suit_edge [ 1 0 ]
+  battle_cell [ 20 20 -518.134 249.983 -3.614 ]
+ ]
+]

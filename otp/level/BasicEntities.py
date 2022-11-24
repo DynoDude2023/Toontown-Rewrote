@@ -8,7 +8,10 @@ class NodePathEntityBase:
         self.callSetters('pos', 'x', 'y', 'z', 'hpr', 'h', 'p', 'r', 'scale', 'sx', 'sy', 'sz')
         if doReparent:
             self.callSetters('parentEntId')
-        self.getNodePath().setName('%s-%s' % (self.__class__.__name__, self.entId))
+        try:
+            self.getNodePath().setName('%s-%s' % (self.__class__.__name__, self.entId))
+        except:
+            pass
         if __dev__:
             self.getNodePath().setTag('entity', '1')
 

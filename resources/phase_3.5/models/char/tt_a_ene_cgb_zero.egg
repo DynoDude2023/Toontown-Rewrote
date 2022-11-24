@@ -4,7 +4,7 @@
   "bam2egg -o tt_a_ene_cgb_zero.egg tt_a_ene_cgb_zero.bam"
 }
 <Texture> shoe {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/shoe.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/shoe.jpg"
   <Scalar> format { luminance }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -13,7 +13,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> s_sleeve {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/s_sleeve.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/s_sleeve.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -22,7 +22,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> s_leg {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/s_leg.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/s_leg.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -31,7 +31,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> s_blazer {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/s_blazer.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/s_blazer.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -40,7 +40,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> s_arm {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/s_arm.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/s_arm.jpg"
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
@@ -49,7 +49,7 @@
   <Scalar> envtype { modulate }
 }
 <Texture> hand {
-  "/c/Toontown-Rewrote/Toontown-Rewrote/resources/phase_3.5/models/char/phase_3.5/maps/hand.jpg"
+  "/c/Program Files (x86)/Toontown Rewritten/phase_3.5/models/char/phase_3.5/maps/hand.jpg"
   <Scalar> format { luminance }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }

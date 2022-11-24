@@ -1,0 +1,12 @@
+group "oldDaisysGarden" [
+ visgroup "21401" [
+  vis [   "21401"   ]
+  group "props" [
+   prop "prop_tt_dg_moneybin_interior_DNARoot" [
+    code [ "prop_tt_dg_moneybin_interior" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+  ]
+ ]
+]

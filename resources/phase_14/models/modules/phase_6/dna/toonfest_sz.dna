@@ -1,0 +1,717 @@
+group "toonfest" [
+ visgroup "7000:safe_zone" [
+  vis [   "7000:safe_zone"   ]
+  node "level" [
+   prop "toonfest_DNARoot" [
+    code [ "tf_grounds_1" ]
+    pos [ 0 0 0 ]
+    nhpr [ 0 0 0 ]
+   ]
+   prop "toonfest_tower_DNARoot" [
+    code [ "tf_tower" ]
+    pos [ 221 -61 4.5 ]
+    nhpr [ -30 0 0 ]
+   ]
+   prop "toonfest_duck_tank_DNARoot" [
+    code [ "tf_duck_tank" ]
+    pos [ 122.80 34.346 6.2989 ]
+    nhpr [ 45.5 5.5 2.0 ]
+   ]
+   group "bunch_o_trees" [
+    prop "tf_tree_l1_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 2.69 2.69 2.69 ]
+     pos [ -102.4 -142.6 14.205 ]
+     nhpr [ -48 12.0 0.0 ]
+    ]
+    prop "tf_tree_l2_DNARoot" [
+     code [ "tf_tree_l" ]
+     pos [ 93.073 -146.7 8.2917 ]
+     nhpr [ -117 0.0 0.0 ]
+    ]
+    prop "tf_tree_l3_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.3 1.3 1.3 ]
+     pos [ -50.98 43.172 16.731 ]
+     nhpr [ -171 3.75 0.0 ]
+    ]
+    prop "tf_tree_l4_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.3 1.3 1.3 ]
+     pos [ 347.30 47.533 8.0769 ]
+     nhpr [ -126 3.75 0.0 ]
+    ]
+    prop "tf_tree_l5_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 0.9420 0.9420 0.9420 ]
+     pos [ 49.378 -200.6 9.4817 ]
+     nhpr [ -170 -1.5 0.0 ]
+    ]
+    prop "tf_tree_l6_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ 71.487 -91.77 12.747 ]
+     nhpr [ -69 -7.0 0.0 ]
+    ]
+    prop "tf_tree_l7_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.37 1.37 1.37 ]
+     pos [ 19.297 -35.49 21.953 ]
+     nhpr [ -69 -7.0 0.0 ]
+    ]
+    prop "tf_tree_l9_DNARoot" [
+     code [ "tf_tree_l" ]
+     pos [ -25.47 97.857 18.618 ]
+     nhpr [ 70.2 -12 0.0 ]
+    ]
+    prop "tf_tree_l10_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.1 1.1 1.1 ]
+     pos [ 77.478 78.854 19.801 ]
+     nhpr [ 225 -14 0.0 ]
+    ]
+    prop "tf_tree_l11_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.02 1.02 1.02 ]
+     pos [ 80.037 117.61 21.475 ]
+     nhpr [ 354 -4.0 0.0 ]
+    ]
+    prop "tf_tree_l12_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.05 1.05 1.05 ]
+     pos [ 218.42 -414.0 5.3383 ]
+     nhpr [ 354 7.0 0.0 ]
+    ]
+    prop "tf_tree_l13_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.25 1.25 1.25 ]
+     pos [ 290.46 -451.5 2.6110 ]
+     nhpr [ 475 0.25 0.0 ]
+    ]
+    prop "tf_tree_l14_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.25 1.25 1.25 ]
+     pos [ 225.46 -358.3 9.3309 ]
+     nhpr [ 625 -1.0 0.0 ]
+    ]
+    prop "tf_tree_l15_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.19 1.19 1.19 ]
+     pos [ -147.4 -251.6 36.676 ]
+     nhpr [ 590 5.0 0.0 ]
+    ]
+    prop "tf_tree_l16_DNARoot" [
+     code [ "tf_tree_l" ]
+     scale [ 1.31 1.31 1.31 ]
+     pos [ 430.63 -283.4 28.107 ]
+     nhpr [ 603 8.5 0.0 ]
+    ]
+    prop "tf_tree_m1_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.69 1.69 1.69 ]
+     pos [ -32.92 -175.0 13.044 ]
+     nhpr [ -103 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m2_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.420 1.420 1.420 ]
+     pos [ 22.407 -93.04 24.581 ]
+     nhpr [ -103 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m3_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.52 1.52 1.52 ]
+     pos [ -12.39 39.793 20.631 ]
+     nhpr [ -103 -2.2 0.0 ]
+    ]
+    prop "tf_tree_m4_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.6 1.6 1.6 ]
+     pos [ 89.568 -265.1 3.8039 ]
+     nhpr [ 24.7 -0.7 0.0 ]
+    ]
+    prop "tf_tree_m5_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ 34.334 125.20 32.856 ]
+     nhpr [ -165 11.2 0.0 ]
+    ]
+    prop "tf_tree_m6_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 0.88 0.88 0.88 ]
+     pos [ 51.886 104.04 33.938 ]
+     nhpr [ -280 5.44 0.0 ]
+    ]
+    prop "tf_tree_m7_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.45 1.45 1.45 ]
+     pos [ 378.80 -229.1 9.2931 ]
+     nhpr [ -258 -0.7 0.0 ]
+    ]
+    prop "tf_tree_m8_DNARoot" [
+     code [ "tf_tree_m" ]
+     pos [ 230.58 71.142 3.6377 ]
+     nhpr [ -369 0.04 0.0 ]
+    ]
+    prop "tf_tree_m9_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.13 1.13 1.13 ]
+     pos [ 181.37 80.131 5.4192 ]
+     nhpr [ -213 -0.6 0.0 ]
+    ]
+    prop "tf_tree_m10_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.39 1.39 1.39 ]
+     pos [ 261.77 -411.0 7.4843 ]
+     nhpr [ -6.6 -0.6 0.0 ]
+    ]
+    prop "tf_tree_m11_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 2.6 2.6 2.6 ]
+     pos [ 357.86 -280.1 8.6810 ]
+     nhpr [ -95 0.64 0.0 ]
+    ]
+    prop "tf_tree_m12_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 4 4 4 ]
+     pos [ 121.92 -358.7 7.2108 ]
+     nhpr [ -193 2.88 0.0 ]
+    ]
+    prop "tf_tree_m13_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.1 1.1 1.1 ]
+     pos [ 43.591 -279.1 22.363 ]
+     nhpr [ -168 -5.3 0.0 ]
+    ]
+    prop "tf_tree_m14_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.3 1.3 1.3 ]
+     pos [ 8.8943 -235.3 33.463 ]
+     nhpr [ -89 -5.3 0.0 ]
+    ]
+    prop "tf_tree_m15_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ -45.06 -249.8 37.984 ]
+     nhpr [ -23 14.1 0.0 ]
+    ]
+    prop "tf_tree_m16_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.3 1.3 1.3 ]
+     pos [ -91.26 -345.7 26.389 ]
+     nhpr [ 37.5 -7.3 0.0 ]
+    ]
+    prop "tf_tree_m17_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.5 1.5 1.5 ]
+     pos [ -43.28 -361.4 26.625 ]
+     nhpr [ 134 3.94 0.0 ]
+    ]
+    prop "tf_tree_m18_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.3 1.3 1.3 ]
+     pos [ 13.588 -417.1 40.687 ]
+     nhpr [ 48.5 -1.0 0.0 ]
+    ]
+    prop "tf_tree_m19_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.1 1.1 1.1 ]
+     pos [ 55.099 -395.0 23.175 ]
+     nhpr [ 120 -1.0 0.0 ]
+    ]
+    prop "tf_tree_m20_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.25 1.25 1.25 ]
+     pos [ 117.41 -462.9 48.924 ]
+     nhpr [ 202 -1.0 0.0 ]
+    ]
+    prop "tf_tree_m21_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ 214.55 -596.6 43.362 ]
+     nhpr [ 323 3.5 0.0 ]
+    ]
+    prop "tf_tree_m22_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.4 1.4 1.4 ]
+     pos [ 306.09 -565.8 27.233 ]
+     nhpr [ 215 -0.2 0.0 ]
+    ]
+    prop "tf_tree_m23_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.1 1.1 1.1 ]
+     pos [ 357.04 -533.3 26.887 ]
+     nhpr [ 90.5 2.05 0.0 ]
+    ]
+    prop "tf_tree_m24_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.35 1.35 1.35 ]
+     pos [ 347.82 -458.0 30.242 ]
+     nhpr [ -35 2.04 0.0 ]
+    ]
+    prop "tf_tree_m25_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ 399.57 -386.0 29.636 ]
+     nhpr [ 188 2.03 0.0 ]
+    ]
+    prop "tf_tree_m26_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.25 1.25 1.25 ]
+     pos [ 512.88 -280.3 24.455 ]
+     nhpr [ 74.7 2.02 0.0 ]
+    ]
+    prop "tf_tree_m27_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.4 1.4 1.4 ]
+     pos [ 494.43 -193.9 32.086 ]
+     nhpr [ 168 2.01 0.0 ]
+    ]
+    prop "tf_tree_m28_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.26 1.26 1.26 ]
+     pos [ 496.46 -33.08 24.750 ]
+     nhpr [ 246 2.00 0.0 ]
+    ]
+    prop "tf_tree_m29_DNARoot" [
+     code [ "tf_tree_m" ]
+     scale [ 1.37 1.37 1.37 ]
+     pos [ 458.97 -119.6 25.355 ]
+     nhpr [ 368 2.0 0.0 ]
+    ]
+    prop "tf_tree_s1_DNARoot" [
+     code [ "tf_tree_s" ]
+     pos [ 58.546 -353.2 8.0077 ]
+     nhpr [ -177 3.0 0.0 ]
+    ]
+    prop "tf_tree_s2_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 2.2 2.2 2.2 ]
+     pos [ -28.15 -114.4 37.559 ]
+     nhpr [ -170 -19 0.0 ]
+    ]
+    prop "tf_tree_s3_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 2.37 2.37 2.37 ]
+     pos [ 17.491 -151.6 15.967 ]
+     nhpr [ -343 6.5 0.0 ]
+    ]
+    prop "tf_tree_s4_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.9 1.9 1.9 ]
+     pos [ 94.077 -207.1 5.6635 ]
+     nhpr [ -343 4.25 0.0 ]
+    ]
+    prop "tf_tree_s5_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 2 2 2 ]
+     pos [ -32.57 -66.45 41.410 ]
+     nhpr [ -186 9.75 0.0 ]
+    ]
+    prop "tf_tree_s6_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.28 1.28 1.28 ]
+     pos [ -110.0 29.424 14.915 ]
+     nhpr [ -186 -4.2 0.0 ]
+    ]
+    prop "tf_tree_s7_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.59 1.59 1.59 ]
+     pos [ -27.77 -24.94 29.059 ]
+     nhpr [ -198 17.2 0.0 ]
+    ]
+    prop "tf_tree_s8_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.8 1.8 1.8 ]
+     pos [ 18.810 88.666 29.762 ]
+     nhpr [ -21 19.9 0.0 ]
+    ]
+    prop "tf_tree_s9_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.2 1.2 1.2 ]
+     pos [ 33.369 39.871 20.765 ]
+     nhpr [ -84 -0.6 0.0 ]
+    ]
+    prop "tf_tree_s10_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.49 1.49 1.49 ]
+     pos [ 88.982 4.5913 7.5061 ]
+     nhpr [ 75.0 8.39 0.0 ]
+    ]
+    prop "tf_tree_s11_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.16 1.16 1.16 ]
+     pos [ 135.40 71.414 7.8439 ]
+     nhpr [ 370 6.13 0.0 ]
+    ]
+    prop "tf_tree_s12_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.46 1.46 1.46 ]
+     pos [ 320.56 -380.8 11.499 ]
+     nhpr [ 168 -6.8 0.0 ]
+    ]
+    prop "tf_tree_s13_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 2 2 2 ]
+     pos [ 308.06 -326.9 20.019 ]
+     nhpr [ 63.5 24.7 0.0 ]
+    ]
+    prop "tf_tree_s14_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.8 1.8 1.8 ]
+     pos [ -176.8 -4.934 11.772 ]
+     nhpr [ -35 0.25 0.0 ]
+    ]
+    prop "tf_tree_s15_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 1.8 1.8 1.8 ]
+     pos [ -192.1 -75.49 11.481 ]
+     nhpr [ -35 0.25 0.0 ]
+    ]
+    prop "tf_tree_s16_DNARoot" [
+     code [ "tf_tree_s" ]
+     scale [ 2.1 2.1 2.1 ]
+     pos [ 134.19 -557.7 40.573 ]
+     nhpr [ -35 -16 0.0 ]
+    ]
+   ]
+   
+  // Picnic Tables
+  group "picnic_tables" [
+  node "picnic_table_1" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 71 -135 12.85 ]
+    nhpr [ 114 4 -4 ]
+   ]
+  ]
+
+  node "picnic_table_2" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 274.243 48.4145 4.59702 ]
+    nhpr [ -231 0 0 ]
+   ]
+  ]
+
+  node "picnic_table_3" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 415 -140 9.63 ]
+    nhpr [ 105 0 0 ]
+   ]
+  ]
+
+  node "picnic_table_4" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 326 -514 0.93 ]
+    nhpr [ -260 0 0 ]
+   ]
+  ]
+
+  node "picnic_table_5" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 100 -355 8.4 ]
+    nhpr [ 310 0 0 ]
+   ]   
+  ]
+  
+  node "picnic_table_6" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 136 -332 8.35 ]
+    nhpr [ 10 0 0 ]
+   ]   
+  ]
+  
+  node "picnic_table_7" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 319 -535 1.0 ]
+    nhpr [ 20 0 0 ]
+   ]   
+  ]
+  
+  node "picnic_table_8" [
+   prop "prop_picnic_table_DNARoot" [
+    code [ "prop_picnic_table" ]
+    pos [ 66 -180 11.15 ]
+    nhpr [ -75 -1 3 ]
+    ]   
+   ]
+  ] 
+   group "prize_clerks" [
+    prop "npc_prizeclerk_origin_2" [
+     code [ "DCS" ]
+     pos [ 220 -72 8.5 ]
+     nhpr [ 180 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_3" [
+     code [ "DCS" ]
+     pos [ 216 -70 8.5 ]
+     nhpr [ 150 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_4" [
+     code [ "DCS" ]
+     pos [ 210 -61 8.5 ]
+     nhpr [ 90 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_5" [
+     code [ "DCS" ]
+     pos [ 211.5 -55.5 8.5 ]
+     nhpr [ 60 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_6" [
+     code [ "DCS" ]
+     pos [ 221 -50 8.5 ]
+     nhpr [ 0 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_7" [
+     code [ "DCS" ]
+     pos [ 226 -51 8.5 ]
+     nhpr [ -30 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_8" [
+     code [ "DCS" ]
+     pos [ 231.8 -61 8.5 ]
+     nhpr [ -90 0 0 ]
+    ]
+    prop "npc_prizeclerk_origin_9" [
+     code [ "DCS" ]
+     pos [ 230 -66 8.5 ]
+     nhpr [ -120 0 0 ]
+    ]
+   ]
+   group "fishing_pond_1" [
+    prop "npc_fisherman_origin_0" [
+     code [ "DCS" ]
+     pos [ 311 -509 0.9 ]
+     nhpr [ 100 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 239 -551 0.9 ]
+     nhpr [ 0 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 262 -543 0.9 ]
+     nhpr [ 40 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 275 -524 0.9 ]
+     nhpr [ 75 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 273 -503 0.9 ]
+     nhpr [ 120 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 260 -494 0.9 ]
+     nhpr [ 170 0 0 ]
+    ]
+    prop "fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 245 -493 0.9 ]
+     nhpr [ 170 0 0 ]
+    ]
+    prop "classic_fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 164.572 -467.493 0.900001 ]
+     nhpr [ -90 0 0 ]
+    ]
+    prop "classic_fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 166.572 -481.492 0.900001 ]
+     nhpr [ -75 0 0 ]
+    ]
+    prop "classic_fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 174.196 -456.162 0.900001 ]
+     nhpr [ -150 0 0 ]
+    ]
+    prop "classic_fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 191.053 -453.359 0.900001 ]
+     nhpr [ 165 0 0 ]
+    ]
+    prop "classic_fishing_spot_DNARoot" [
+     code [ "fishing_spot" ]
+     pos [ 205.024 -459.174 0.900001 ]
+     nhpr [ 150 0 0 ]
+    ]
+   ]
+   prop "linktunnel_tf_7100_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [  -160.5 -46.86 11.907 ]
+    nhpr [ -276 0.25 0.0 ]
+    sign [
+	 code [ "DD_sign2" ]
+	 scale [ 1.85 1 1.35 ]
+	 nhpr [ 0 0 -3.0 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.6 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "T" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "f" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+      text [
+       letters [ "t" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "?" ]
+      ]
+      text [
+       letters [ "?" ]
+      ]
+      text [
+       letters [ "?" ]
+      ]
+      text [
+       letters [ "?" ]
+      ]
+      text [
+       letters [ "?" ]
+      ]
+     ]
+    ]
+   ]
+   prop "linktunnel_oz_6000_DNARoot" [
+    code [ "prop_outdoor_zone_entrance" ]
+    pos [ -83.9 -303.4 18.3 ]
+    nhpr [ 82.5 0 0 ]
+    sign [
+	 code [ "DD_sign2" ]
+	 scale [ 1.85 1 1.35 ]
+	 nhpr [ 0 0 -3.0 ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -0.2 ]
+      scale [ 1.6 1 1.7 ]
+      wiggle [ 7 ]
+      stumble [ 0.1 ]
+      text [
+       letters [ "C" ]
+      ]
+      text [
+       letters [ "h" ]
+      ]
+      text [
+       letters [ "i" ]
+      ]
+      text [
+       letters [ "p" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ "'" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "D" ]
+      ]
+      text [
+       letters [ "a" ]
+      ]
+      text [
+       letters [ "l" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "'" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+     baseline [
+      code [ "TT_Comedy" ]
+      color [ 0.439216 0.247059 0.184314 1 ]
+      pos [ 0 0 -1.4 ]
+      scale [ 1.2 1 1.2 ]
+      wiggle [ 3 ]
+      stomp [ 0.0367716 ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "o" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "n" ]
+      ]
+      text [
+       letters [ " " ]
+      ]
+      text [
+       letters [ "A" ]
+      ]
+      text [
+       letters [ "c" ]
+      ]
+      text [
+       letters [ "r" ]
+      ]
+      text [
+       letters [ "e" ]
+      ]
+      text [
+       letters [ "s" ]
+      ]
+     ]
+    ]
+   ]
+  ]
+ ]
+]
