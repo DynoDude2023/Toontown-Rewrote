@@ -121,10 +121,8 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         self.cogJuror.setDNA(self.cogJuror.dna)
         self.cogJuror.pose('landing', 0)
         self.cogJuror.reparentTo(self.nodePath)
-        self.cogJuror.prop = None
-        if self.cogJuror.prop == None:
-            self.cogJuror.prop = BattleProps.globalPropPool.getProp('propeller')
-        head = self.cogJuror.find('**/joint_head')
+        self.cogJuror.prop = BattleProps.globalPropPool.getProp('propeller')
+        head = self.cogJuror.find('**/def_head')
         self.cogJuror.prop.reparentTo(head)
         self.propTrack = Sequence(ActorInterval(self.cogJuror.prop, 'propeller', startFrame=8, endFrame=25))
         return

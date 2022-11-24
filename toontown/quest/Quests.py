@@ -67,7 +67,7 @@ DL_TIER = 14
 LAWBOT_HQ_TIER = 18
 BOSSBOT_HQ_TIER = 32
 HIDEOUT_TIER = 33
-ELDER_TIER = 50
+ELDER_TIER = 51
 LOOPING_FINAL_TIER = ELDER_TIER
 VISIT_QUEST_ID = 1000
 TROLLEY_QUEST_ID = 110
@@ -79,6 +79,18 @@ SELLBOT_HQ_NEWBIE_HP = 50
 CASHBOT_HQ_NEWBIE_HP = 85
 from toontown.toonbase.ToontownGlobals import FT_FullSuit, FT_Leg, FT_Arm, FT_Torso
 QuestRandGen = random.Random()
+
+trackV2NamesS = ['a Version 2.0 Bossbot', 'a Version 2.0 Lawbot', 'a Version 2.0 Cashbot', 'a Version 2.0 Sellbot']
+trackV2NamesP = ['Version 2.0 Bossbots', 'Version 2.0 Lawbots', 'Version 2.0 Cashbots', 'Version 2.0 Sellbots']
+
+tierToSuitDNADict = {0: ['f', 'bf', 'sc', 'cc'],
+                     1: ['p', 'b', 'pp', 'tm'],
+                     2: ['ym', 'dt', 'tw', 'nd'],
+                     3: ['mm', 'ac', 'bc', 'gh'],
+                     4: ['ds', 'bs', 'nc', 'ms'],
+                     5: ['hh', 'sd', 'mb', 'tf'],
+                     6: ['cr', 'le', 'ls', 'm'],
+                     7: ['tbc', 'bw', 'rb', 'mh']}
 
 def seedRandomGen(npcId, avId, tier, rewardHistory):
     QuestRandGen.seed(npcId * 100 + avId + tier + len(rewardHistory))
@@ -200,6 +212,9 @@ class Quest:
 
     def checkNumCogs(self, num):
         self.check(1, 'invalid number of cogs: %s' % num)
+    
+    def checkCogTier(self, num):
+        self.check(1, 'invalid Tier for cogs: %s' % num)
 
     def checkNewbieLevel(self, level):
         self.check(1, 'invalid newbie level: %s' % level)
@@ -507,6 +522,11 @@ class CogQuest(LocationBasedQuest):
     def getString(self):
         return TTLocalizer.QuestsCogQuestDefeat % self.getObjectiveStrings()[0]
 
+    
+
+    def getHeadlineString(self):
+        return TTLocalizer.QuestsCogQuestHeadline
+    
     def getSCStrings(self, toNpcId, progress):
         if progress >= self.getNumCogs():
             return getFinishToonTaskSCStrings(toNpcId)
@@ -519,14 +539,28 @@ class CogQuest(LocationBasedQuest):
         cogLoc = self.getLocationName()
         return text % {'cogName': cogName,
          'cogLoc': cogLoc}
-
-    def getHeadlineString(self):
-        return TTLocalizer.QuestsCogQuestHeadline
-
+    
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogType = self.getCogType()
         return (questCogType is Any or questCogType is cogDict['type']) and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
 
+class CogTierQuest(CogQuest):
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        if self.__class__ == CogNewbieQuest:
+            self.checkNumCogs(self.quest[1])
+            self.checkCogTier(self.quest[2])
+    
+    def getCogNameString(self):
+        numCogs = self.getNumCogs()
+        if numCogs == 1:
+            return 'a Tier ' + str(self.quest[2] + 1) + ' Cog'
+        else:
+            return 'Tier ' + str(self.quest[2] + 1) + ' Cogs'
+     
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        tierNeeded = tierToSuitDNADict[self.quest[2]]
+        return cogDict['type'] in tierNeeded and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
 
 class CogNewbieQuest(CogQuest, NewbieQuest):
     def __init__(self, id, quest):
@@ -615,6 +649,68 @@ class CogTrackQuest(CogQuest):
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         questCogTrack = self.getCogTrack()
         return questCogTrack == cogDict['track'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
+
+class CogLevelTypeQuest(CogQuest):
+    def __init__(self, id, quest):
+        CogQuest.__init__(self, id, quest)
+        self.checkNumCogs(self.quest[1])
+        self.checkCogLevel(self.quest[2])
+        self.checkCogType(self.quest[3])
+
+    def getCogType(self):
+        return self.quest[3]
+
+    def getCogLevel(self):
+        return self.quest[2]
+
+    def getProgressString(self, avatar, questDesc):
+        if self.getCompletionStatus(avatar, questDesc) == COMPLETE:
+            return CompleteString
+        elif self.getNumCogs() == 1:
+            return ''
+        else:
+            return TTLocalizer.QuestsCogLevelQuestProgress % {'progress': questDesc[4],
+             'numCogs': self.getNumCogs()}
+
+    def getObjectiveStrings(self):
+        count = self.getNumCogs()
+        level = self.getCogLevel()
+        name = self.getCogNameString()
+        if count == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescC
+        return (text % {'count': count,
+          'level': level,
+          'name': name},)
+
+    def getString(self):
+        return TTLocalizer.QuestsCogLevelQuestDefeat % self.getObjectiveStrings()[0]
+
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumCogs():
+            return getFinishToonTaskSCStrings(toNpcId)
+        count = self.getNumCogs()
+        level = self.getCogLevel()
+        name = self.getCogNameString()
+        if count == 1:
+            text = TTLocalizer.QuestsCogLevelQuestDesc
+        else:
+            text = TTLocalizer.QuestsCogLevelQuestDescI
+        objective = text % {'level': level,
+         'name': name}
+        location = self.getLocationName()
+        return TTLocalizer.QuestsCogLevelQuestSCString % {'objective': objective,
+         'location': location}
+
+    def getHeadlineString(self):
+        return TTLocalizer.QuestsCogLevelQuestHeadline
+    
+
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        questCogType = self.getCogType()
+        questCogLevel = self.getCogLevel()
+        return questCogType is Any or questCogType is cogDict['type'] and questCogLevel <= cogDict['level'] and avId in cogDict['activeToons'] and self.isLocationMatch(zoneId)
 
 
 class CogLevelQuest(CogQuest):
@@ -785,6 +881,44 @@ class SkeleReviveQuest(CogQuest, SkeleReviveQBase):
 
     def doesCogCount(self, avId, cogDict, zoneId, avList):
         return SkeleReviveQBase.doesCogCount(self, avId, cogDict, zoneId, avList)
+
+class SkeleReviveTrackQuest(CogTrackQuest, SkeleReviveQBase):
+    def __init__(self, id, quest):
+        CogTrackQuest.__init__(self, id, quest)
+        self.checkNumSkeleRevives(self.quest[1])
+        self.checkCogTrack(self.quest[2])
+    
+    def getObjectiveStrings(self):
+        numCogs = self.getNumCogs()
+        track = self.trackCodes.index(self.getCogTrack())
+        if numCogs == 1:
+            text = trackV2NamesS[track]
+        else:
+            text = TTLocalizer.QuestsCogTrackDefeatDesc % {'numCogs': numCogs,
+             'trackName': trackV2NamesP[track]}
+        return (text,) 
+    
+    def getSCStrings(self, toNpcId, progress):
+        if progress >= self.getNumCogs():
+            return getFinishToonTaskSCStrings(toNpcId)
+        numCogs = self.getNumCogs()
+        track = self.trackCodes.index(self.getCogTrack())
+        if numCogs == 1:
+            cogText = trackV2NamesS[track]
+            text = TTLocalizer.QuestsCogTrackQuestSCStringS
+        else:
+            cogText = trackV2NamesP[track]
+            text = TTLocalizer.QuestsCogTrackQuestSCStringP
+        cogLocName = self.getLocationName()
+        return text % {'cogText': cogText,
+         'cogLoc': cogLocName}
+    
+    def getCogTrack(self):
+        return self.quest[2]
+
+    def doesCogCount(self, avId, cogDict, zoneId, avList):
+        questCogTrack = self.getCogTrack()
+        return questCogTrack == cogDict['track'] and SkeleReviveQBase.doesCogCount(self, avId, cogDict, zoneId, avList)
 
 
 class ForemanQuest(CogQuest):
@@ -17671,112 +17805,182 @@ QuestDict = {
          TTLocalizer.QuestDialogDict[12032]),
  14000: (HIDEOUT_TIER,
         Start,
-        (CogQuest,
-          Anywhere,
-          7,
-          'le'),
+        (VisitQuest,),
+        Any,
+        2,
+        NA,
+        14001,
+        TTLocalizer.QuestDialogDict[14000]),
+ 14001: (HIDEOUT_TIER,
+        Cont,
+        (VisitQuest,),
+        2,
+        3,
+        1002,
+        NA,
+        TTLocalizer.QuestDialogDict[14001]),
+ 14002: (HIDEOUT_TIER + 1,
+        Start,
+        (CogLevelTypeQuest,
+         Anywhere,
+         5,
+         10,
+         'ms'),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
- 14007: (HIDEOUT_TIER,
+ 14010: (HIDEOUT_TIER + 1,
+        Start,
+        (CogLevelTypeQuest,
+         Anywhere,
+         20,
+         7,
+         'ac'),
+        Any,
+        Any,
+        1002,
+        NA,
+        DefaultDialog),
+ 14011: (HIDEOUT_TIER + 1,
+        Start,
+        (CogLevelTypeQuest,
+         Anywhere,
+         25,
+         4,
+         'cc'),
+        Any,
+        Any,
+        1002,
+        NA,
+        DefaultDialog),
+ 14012: (HIDEOUT_TIER + 1,
+        Start,
+        (CogTierQuest,
+         Anywhere,
+         5,
+         5),
+        Any,
+        Any,
+        1002,
+        NA,
+        DefaultDialog),
+ 14013: (HIDEOUT_TIER + 1,
+        Start,
+        (CogTierQuest,
+         Anywhere,
+         8,
+         3),
+        Any,
+        Any,
+        1001,
+        NA,
+        DefaultDialog),
+ 14014: (HIDEOUT_TIER + 1,
         Start,
         (BuildingQuest,
-          Anywhere,
-          1,
-          's',
-          6),
+         Anywhere,
+         2,
+         'c',
+         5),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14001: (HIDEOUT_TIER,
+ 14015: (HIDEOUT_TIER + 1,
         Start,
-        (CogQuest,
-          Anywhere,
-          5,
-          'bw'),
+        (BuildingQuest,
+         Anywhere,
+         4,
+         Any,
+         3),
         Any,
         Any,
-        100,
+        1003,
         NA,
         DefaultDialog),
-  14002: (HIDEOUT_TIER,
+ 14018: (HIDEOUT_TIER + 1,
         Start,
-        (CogQuest,
-          Anywhere,
-          100,
-          Any),
+        (SkeleReviveTrackQuest, Anywhere, 3, 's'),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14003: (HIDEOUT_TIER,
+ 14019: (HIDEOUT_TIER + 1,
         Start,
-        (CogQuest,
-          Anywhere,
-          20,
-          'ac'),
+        (CogTierQuest,
+         Anywhere,
+         8,
+         5),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14004: (HIDEOUT_TIER,
+ 14020: (HIDEOUT_TIER + 1,
         Start,
         (CogQuest,
-          Anywhere,
-          15,
-          'bs'),
+         Anywhere,
+         32,
+         'nd'),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14005: (HIDEOUT_TIER,
+ 14021: (HIDEOUT_TIER + 1,
         Start,
         (CogQuest,
-          Anywhere,
-          10,
-          'sd'),
+         Anywhere,
+         22,
+         'mm'),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14005: (HIDEOUT_TIER,
+  14024: (HIDEOUT_TIER + 1,
         Start,
-        (CogQuest,
-          Anywhere,
-          10,
-          'sd'),
+        (CogLevelTypeQuest,
+         Anywhere,
+         15,
+         7,
+         'nd'),
         Any,
         Any,
-        100,
+        1002,
         NA,
         DefaultDialog),
-  14006: (HIDEOUT_TIER,
+  14025: (HIDEOUT_TIER + 1,
         Start,
-        (CogQuest,
-          Anywhere,
-          50,
-          Any),
+        (CogLevelTypeQuest,
+         ToontownGlobals.LawbotHQ,
+         2,
+         10,
+         'sd'),
         Any,
         Any,
-        100,
+        1002,
         NA,
-        DefaultDialog),}
-
-"""
-(BuildingQuest,
-          Anywhere,
-          20,
-          'c',
-          5),
-"""
+        DefaultDialog),
+  14026: (HIDEOUT_TIER + 1,
+        Start,
+        (CogLevelTypeQuest,
+         ToontownGlobals.DaisyGardens,
+         2,
+         12,
+         'm'),
+        Any,
+        Any,
+        1002,
+        NA,
+        DefaultDialog),
+ 
+ 
+ }
 
 Tier2QuestsDict = {}
 for questId, questDesc in QuestDict.items():
@@ -18348,6 +18552,28 @@ class MaxHpReward(Reward):
     def getPosterString(self):
         return TTLocalizer.QuestsMaxHpRewardPoster % self.getAmount()
 
+class ResistanceRankReward(Reward):
+    def __init__(self, id, reward):
+        Reward.__init__(self, id, reward)
+
+    def getAmount(self):
+        return self.reward[0]
+
+    def sendRewardAI(self, av):
+        maxHp = av.getMaxHp()
+        maxHp = min(ToontownGlobals.MaxHpLimit, maxHp + self.getAmount())
+        av.b_setMaxHp(maxHp)
+        av.toonUp(maxHp)
+
+    def countReward(self, qrc):
+        qrc.maxHp += self.getAmount()
+
+    def getString(self):
+        return TTLocalizer.QuestsMaxHpReward % self.getAmount()
+
+    def getPosterString(self):
+        return 'Reward: ' + str(self.getAmount()) + ' Resistance Rank'
+
 
 class MoneyReward(Reward):
     def __init__(self, id, reward):
@@ -18821,6 +19047,8 @@ RewardDict = {100: (MaxHpReward, 1),
  500: (MaxQuestCarryReward, 2),
  501: (MaxQuestCarryReward, 3),
  502: (MaxQuestCarryReward, 4),
+ 503: (MaxQuestCarryReward, 5),
+ 504: (MaxQuestCarryReward, 6),
  600: (MoneyReward, 10),
  601: (MoneyReward, 20),
  602: (MoneyReward, 40),
@@ -18953,6 +19181,12 @@ RewardDict = {100: (MaxHpReward, 1),
  905: (TrackCompleteReward, ToontownBattleGlobals.THROW_TRACK),
  906: (TrackCompleteReward, ToontownBattleGlobals.SQUIRT_TRACK),
  907: (TrackCompleteReward, ToontownBattleGlobals.DROP_TRACK),
+ 1000: (ResistanceRankReward, 100),
+ 1001: (ResistanceRankReward, 200),
+ 1002: (ResistanceRankReward, 300),
+ 1003: (ResistanceRankReward, 400),
+ 1004: (ResistanceRankReward, 500),
+ 1005: (ResistanceRankReward, 600),
  2205: (CheesyEffectReward,
         ToontownGlobals.CEBigToon,
         2000,
@@ -19554,7 +19788,8 @@ RequiredRewardTrackDict = {TT_TIER: (100,),
  BOSSBOT_HQ_TIER + 14: (4214,),
  BOSSBOT_HQ_TIER + 15: (4215,),
  BOSSBOT_HQ_TIER + 16: (4216,),
- HIDEOUT_TIER: (100,),
+ HIDEOUT_TIER: (1002,),
+ HIDEOUT_TIER+1: (1001, 1002, 1003, 1002, 1002, 1002, 1002, 1002, 1002),
  ELDER_TIER: (4000,
               4001,
               4002,

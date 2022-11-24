@@ -13,8 +13,8 @@ class TTSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
         self.toonHallMusicFile = 'phase_4/audio/bgm/ttr_s_ara_toonhall.ogg'
 
-        self.dnaFile = 'phase_4/dna/toontown_central_sz.xml'
-        self.safeZoneStorageDNAFile = 'phase_4/dna/storage_TT_sz.xml'
+        self.dnaFile = 'phase_4/dna/toontown_central_sz.dna'
+        self.safeZoneStorageDNAFile = 'phase_4/dna/storage_TT_sz.dna'
 
     def load(self):
         SafeZoneLoader.SafeZoneLoader.load(self)

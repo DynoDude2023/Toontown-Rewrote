@@ -70,17 +70,17 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
 
     def initToonState(self):
         self.setAnimState('neutral', 0.9, None, None)
-        npcOrigin = render.find('**/npc_origin_' + `(self.posIndex)`)
+        npcOrigin = render.find('**/npc_origin_' + str(self.posIndex))
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
             self.initPos()
         else:
             try:
-                npcOrigin2 = render.find('**/npc_questgiver_origin_' + `(self.posIndex)`)
+                npcOrigin2 = render.find('**/npc_questgiver_origin_' + str(self.posIndex))
                 self.reparentTo(npcOrigin2)
                 self.initPos()
             except:
-                self.setPos(0, 0, 0)
+                pass
                 
         return
 
@@ -137,6 +137,7 @@ class DistributedNPCToonBase(DistributedToon.DistributedToon):
     def freeAvatar(self):
         base.localAvatar.posCamera(0, 0)
         base.cr.playGame.getPlace().setState('walk')
+        self.initToonState()
 
     def setPositionIndex(self, posIndex):
         self.posIndex = posIndex

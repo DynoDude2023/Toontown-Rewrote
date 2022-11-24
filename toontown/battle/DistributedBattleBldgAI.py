@@ -1,23 +1,17 @@
-from otp.ai.AIBase import *
-from direct.distributed.ClockDelta import *
-from BattleBase import *
-from BattleCalculatorAI import *
-from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
-from direct.showbase.PythonUtil import addListsByValue
-import DistributedBattleBaseAI
-from direct.task import Task
-from direct.directnotify import DirectNotifyGlobal
-import random
 from direct.fsm import State
-from direct.fsm import ClassicFSM, State
+from direct.showbase.PythonUtil import addListsByValue
+
+from BattleCalculatorAI import *
 from otp.otpbase import PythonUtil
+from toontown.toonbase.ToontownBattleGlobals import *
+
 
 class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleBldgAI')
 
-    def __init__(self, air, zoneId, roundCallback = None, finishCallback = None, maxSuits = 4, bossBattle = 0):
-        DistributedBattleBaseAI.DistributedBattleBaseAI.__init__(self, air, zoneId, finishCallback, maxSuits, bossBattle)
+    def __init__(self, air, zoneId, roundCallback=None, finishCallback=None, maxSuits=4, bossBattle=0):
+        DistributedBattleBaseAI.DistributedBattleBaseAI.__init__(self, air, zoneId, finishCallback, maxSuits,
+                                                                 bossBattle)
         self.streetBattle = 0
         self.roundCallback = roundCallback
         self.fsm.addState(State.State('BuildingReward', self.enterBuildingReward, self.exitBuildingReward, ['Resume']))
@@ -63,7 +57,9 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         self.notify.debug('enterFaceOff()')
         self.joinableFsm.request('Joinable')
         self.runableFsm.request('Unrunable')
-        self.timer.startCallback(self.calcToonMoveTime(self.pos, self.elevatorPos) + FACEOFF_TAUNT_T + SERVER_BUFFER_TIME, self.__serverFaceOffDone)
+        self.timer.startCallback(
+            self.calcToonMoveTime(self.pos, self.elevatorPos) + FACEOFF_TAUNT_T + SERVER_BUFFER_TIME,
+            self.__serverFaceOffDone)
         return None
 
     def __serverFaceOffDone(self):
@@ -78,11 +74,10 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
 
     def handleFaceOffDone(self):
         for suit in self.suits:
-            self.activeSuits.append(suit)
+            self.activateSuit(suit)
 
         for toon in self.toons:
             self.activeToons.append(toon)
-            self.sendEarnedExperience(toon)
 
         self.d_setMembers()
         self.b_setState('WaitForInput')
@@ -107,7 +102,7 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
     def __goToResumeState(self, task):
         self.b_setState('Resume')
 
-    def resume(self, currentFloor = 0, topFloor = 0):
+    def resume(self, currentFloor=0, topFloor=0):
         if len(self.suits) == 0:
             self.d_setMembers()
             self.suitsKilledPerFloor.append(self.suitsKilledThisBattle)
@@ -118,10 +113,12 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
                     for toonId in self.activeToons:
                         toon = self.getToon(toonId)
                         if toon:
-                            recovered, notRecovered = self.air.questManager.recoverItems(toon, cogsThisFloor, self.zoneId)
+                            recovered, notRecovered = self.air.questManager.recoverItems(toon, cogsThisFloor,
+                                                                                         self.zoneId)
                             self.toonItems[toonId][0].extend(recovered)
                             self.toonItems[toonId][1].extend(notRecovered)
-                            meritArray = self.air.promotionMgr.recoverMerits(toon, cogsThisFloor, self.zoneId, getCreditMultiplier(floorNum))
+                            meritArray = self.air.promotionMgr.recoverMerits(toon, cogsThisFloor, self.zoneId,
+                                                                             getCreditMultiplier(floorNum))
                             if toonId in self.helpfulToons:
                                 self.toonMerits[toonId] = addListsByValue(self.toonMerits[toonId], meritArray)
                             else:
@@ -132,7 +129,8 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         else:
             if self.resumeNeedUpdate == 1:
                 self.d_setMembers()
-                if len(self.resumeDeadSuits) > 0 and self.resumeLastActiveSuitDied == 0 or len(self.resumeDeadToons) > 0:
+                if len(self.resumeDeadSuits) > 0 and self.resumeLastActiveSuitDied == 0 or len(
+                        self.resumeDeadToons) > 0:
                     self.needAdjust = 1
             self.setState('WaitForJoin')
         self.resumeNeedUpdate = 0
@@ -140,10 +138,10 @@ class DistributedBattleBldgAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
         self.resumeDeadSuits = []
         self.resumeLastActiveSuitDied = 0
 
-    def enterReservesJoining(self, ts = 0):
+    def enterReservesJoining(self, ts=0):
         return None
 
-    def exitReservesJoining(self, ts = 0):
+    def exitReservesJoining(self, ts=0):
         return None
 
     def enterReward(self):

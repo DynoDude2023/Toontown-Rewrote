@@ -14,6 +14,22 @@ place_model "phase_8/models/modules/safe_zone_tunnel_DG" [
 	store_node [ "prop" "prop_safe_zone_tunnel" ]
         ]
 
+hood_model "phase_8/models/modules/DG_A1" [
+	store_node [ "toon_landmark" "toon_landmark_DG_A1" "DG_A1"  ]
+	]
+hood_model "phase_8/models/modules/DG_A2" [
+	store_node [ "toon_landmark" "toon_landmark_DG_A2" "DG_A2"  ]
+	]
+hood_model "phase_8/models/modules/DG_B1" [
+	store_node [ "toon_landmark" "toon_landmark_DG_B1" "DG_B1"  ]
+	]
+hood_model "phase_8/models/modules/DG_C1" [
+	store_node [ "toon_landmark" "toon_landmark_DG_C1" "DG_C1"  ]
+	]
+hood_model "phase_8/models/modules/DG_D1" [
+	store_node [ "toon_landmark" "toon_landmark_DG_D1" "DG_D1"  ]
+	]
+
 place_model "phase_8/models/modules/trolley_station_DG" [
 	store_node [ "prop" "prop_trolley_station" ]
 	]

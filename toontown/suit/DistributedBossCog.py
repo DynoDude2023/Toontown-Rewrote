@@ -212,91 +212,13 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         doId = localAvatar.doId
         return doId in self.toonsA or doId in self.toonsB
 
-    def setBattleExperience(self, id0, origExp0, earnedExp0, origQuests0, items0, missedItems0, origMerits0, merits0, parts0, id1, origExp1, earnedExp1, origQuests1, items1, missedItems1, origMerits1, merits1, parts1, id2, origExp2, earnedExp2, origQuests2, items2, missedItems2, origMerits2, merits2, parts2, id3, origExp3, earnedExp3, origQuests3, items3, missedItems3, origMerits3, merits3, parts3, id4, origExp4, earnedExp4, origQuests4, items4, missedItems4, origMerits4, merits4, parts4, id5, origExp5, earnedExp5, origQuests5, items5, missedItems5, origMerits5, merits5, parts5, id6, origExp6, earnedExp6, origQuests6, items6, missedItems6, origMerits6, merits6, parts6, id7, origExp7, earnedExp7, origQuests7, items7, missedItems7, origMerits7, merits7, parts7, deathList, uberList, helpfulToons):
+    def setBattleExperience(self, rewards, deathList, helpfulToons):
         self.deathList = deathList
-        self.uberList = uberList
         self.helpfulToons = helpfulToons
-        entries = ((id0,
-          origExp0,
-          earnedExp0,
-          origQuests0,
-          items0,
-          missedItems0,
-          origMerits0,
-          merits0,
-          parts0),
-         (id1,
-          origExp1,
-          earnedExp1,
-          origQuests1,
-          items1,
-          missedItems1,
-          origMerits1,
-          merits1,
-          parts1),
-         (id2,
-          origExp2,
-          earnedExp2,
-          origQuests2,
-          items2,
-          missedItems2,
-          origMerits2,
-          merits2,
-          parts2),
-         (id3,
-          origExp3,
-          earnedExp3,
-          origQuests3,
-          items3,
-          missedItems3,
-          origMerits3,
-          merits3,
-          parts3),
-         (id4,
-          origExp4,
-          earnedExp4,
-          origQuests4,
-          items4,
-          missedItems4,
-          origMerits4,
-          merits4,
-          parts4),
-         (id5,
-          origExp5,
-          earnedExp5,
-          origQuests5,
-          items5,
-          missedItems5,
-          origMerits5,
-          merits5,
-          parts5),
-         (id6,
-          origExp6,
-          earnedExp6,
-          origQuests6,
-          items6,
-          missedItems6,
-          origMerits6,
-          merits6,
-          parts6),
-         (id7,
-          origExp7,
-          earnedExp7,
-          origQuests7,
-          items7,
-          missedItems7,
-          origMerits7,
-          merits7,
-          parts7))
-        self.toonRewardDicts = BattleExperience.genRewardDicts(entries)
-        self.toonRewardIds = [id0,
-         id1,
-         id2,
-         id3,
-         id4,
-         id5,
-         id6,
-         id7]
+        self.toonRewardDicts = BattleExperience.genRewardDicts(rewards)
+        self.toonRewardIds = []
+        for reward in rewards:
+            self.toonRewardIds.append(reward[0])
 
     def setArenaSide(self, arenaSide):
         self.arenaSide = arenaSide

@@ -8,7 +8,6 @@ from panda3d.core import *
 from panda3d.toontown import *
 from libotp import *
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
-from toontown.dna import DNAParser as XMLDNAParser
 
 class CogHQExterior(BattlePlace.BattlePlace):
     notify = DirectNotifyGlobal.directNotify.newCategory('CogHQExterior')
@@ -53,6 +52,11 @@ class CogHQExterior(BattlePlace.BattlePlace):
          State.State('tunnelIn', self.enterTunnelIn, self.exitTunnelIn, ['walk', 'WaitForBattle', 'battle']),
          State.State('tunnelOut', self.enterTunnelOut, self.exitTunnelOut, ['final']),
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
+        self.fsm.addState(State.State('purchase', self.enterPurchase, self.exitPurchase, ['walk']))
+        self.fsm.addState(State.State('quest', self.enterQuest, self.exitQuest, ['walk']))
+        state = self.fsm.getStateNamed('walk')
+        state.addTransition('purchase')
+        state.addTransition('quest')
 
     def load(self):
         self.parentFSM.getStateNamed('cogHQExterior').addChild(self.fsm)
@@ -67,6 +71,7 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.zoneId = requestStatus['zoneId']
         BattlePlace.BattlePlace.enter(self)
         self.fsm.enterInitialState()
+        self.loader.resetMusic(self.zoneId)
         base.playMusic(self.loader.music, looping=1, volume=0.8)
         self.loader.geom.reparentTo(render)
         self.nodeList = [self.loader.geom]
@@ -74,21 +79,29 @@ class CogHQExterior(BattlePlace.BattlePlace):
         self.accept('doorDoneEvent', self.handleDoorDoneEvent)
         self.accept('DistributedDoor_doorTrigger', self.handleDoorTrigger)
         NametagGlobals.setMasterArrowsOn(1)
-        self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
-        how = requestStatus['how']
+        if self.zoneId == ToontownGlobals.SellbotResistanceHideout:
+            how = 'teleportIn'
+        else:
+            self.tunnelOriginList = base.cr.hoodMgr.addLinkTunnelHooks(self, self.nodeList, self.zoneId)
+            how = requestStatus['how']
         self.fsm.request(how, [requestStatus])
-        if self.zoneId != ToontownGlobals.BossbotHQ:
-            self.handleInterests()
+        self.handleInterests()
 
     def exit(self):
         self.fsm.requestFinalState()
         self._telemLimiter.destroy()
         del self._telemLimiter
         self.loader.music.stop()
-        for node in self.tunnelOriginList:
-            node.removeNode()
+        try:
+            for node in self.tunnelOriginList:
+                node.removeNode()
+        except:
+            pass
 
-        del self.tunnelOriginList
+        try:
+            del self.tunnelOriginList
+        except:
+            pass
         if self.loader.geom:
             self.loader.geom.reparentTo(hidden)
         self.ignoreAll()
@@ -140,36 +153,26 @@ class CogHQExterior(BattlePlace.BattlePlace):
         taskMgr.remove(base.localAvatar.uniqueName('finishSquishTask'))
         base.localAvatar.laffMeter.stop()
 
-    def loadDNAXML(self, filename):
-
-        with open(filename, 'r') as f:
-            tree = XMLDNAParser.parse(f)
-
-        return tree
-    
     def handleInterests(self):
         # First, we need to load the DNA file for this Cog HQ.
-        from toontown.dna.DNAStorage import DNAStorage as ttrXML
+        dnaStore = DNAStorage()
         dnaFileName = self.genDNAFileName(self.zoneId)
-        if self.zoneId == 11000 and base.localAvatar.defaultShard == 401000001:
-            self.loadDNAXML('daisys_garden_kaboomberg_sz.xml')
-        else:
-            dnaStore = DNAStorage()
-            loadDNAFileAI(dnaStore, dnaFileName)
+        loadDNAFileAI(dnaStore, dnaFileName)
 
-            # Next, we need to collect all of the visgroup zone IDs.
-            self.zoneVisDict = {}
-            for i in xrange(dnaStore.getNumDNAVisGroupsAI()):
-                groupFullName = dnaStore.getDNAVisGroupName(i)
-                visGroup = dnaStore.getDNAVisGroupAI(i)
-                visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
-                visZoneId = ZoneUtil.getTrueZoneId(visZoneId, self.zoneId)
-                visibles = []
-                for i in xrange(visGroup.getNumVisibles()):
-                    visibles.append(int(visGroup.getVisibleName(i)))
+        # Next, we need to collect all of the visgroup zone IDs.
+        self.zoneVisDict = {}
+        for i in xrange(dnaStore.getNumDNAVisGroupsAI()):
+            groupFullName = dnaStore.getDNAVisGroupName(i)
+            visGroup = dnaStore.getDNAVisGroupAI(i)
+            visZoneId = int(base.cr.hoodMgr.extractGroupName(groupFullName))
+            visZoneId = ZoneUtil.getTrueZoneId(visZoneId, self.zoneId)
+            visibles = []
+            for i in xrange(visGroup.getNumVisibles()):
+                visibles.append(int(visGroup.getVisibleName(i)))
 
-                visibles.append(ZoneUtil.getBranchZone(visZoneId))
-                self.zoneVisDict[visZoneId] = visibles
+            visibles.append(ZoneUtil.getBranchZone(visZoneId))
+            self.zoneVisDict[visZoneId] = visibles
 
-            # Finally, we want interest in all visgroups due to this being a Cog HQ.
+        # Finally, we want interest in all visgroups due to this being a Cog HQ.
+        if self.zoneId != ToontownGlobals.SellbotResistanceHideout:
             base.cr.sendSetZoneMsg(self.zoneId, self.zoneVisDict.values()[0])

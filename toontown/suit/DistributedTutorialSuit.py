@@ -20,6 +20,7 @@ class DistributedTutorialSuit(DistributedSuitBase.DistributedSuitBase, DelayDele
              State.State('WaitForBattle', self.enterWaitForBattle, self.exitWaitForBattle, ['Battle'])], 'Off', 'Off')
             self.fsm.enterInitialState()
 
+        #sit-vip-loop
         return None
 
     def generate(self):

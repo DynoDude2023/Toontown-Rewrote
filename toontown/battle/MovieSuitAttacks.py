@@ -234,6 +234,8 @@ def doSuitAttack(attack):
         suitTrack = doSpin(attack)
     elif name == SYNERGY:
         suitTrack = doSynergy(attack)
+    elif name == ADVANCED_SYNERGY:
+        suitTrack = doAdvancedSynergy(attack)
     elif name == TABULATE:
         suitTrack = doTabulate(attack)
     elif name == TEE_OFF:
@@ -366,6 +368,11 @@ def doDefault(attack):
         attack['id'] = PICK_POCKET
         attack['name'] = 'PickPocket'
         attack['animName'] = 'pickpocket'
+        return doPickPocket(attack)
+    elif suitName == 'hfm':
+        attack['id'] = ADVANCED_SYNERGY
+        attack['name'] = 'AdvancedSynergy'
+        attack['animName'] = 'magic3'
         return doPickPocket(attack)
     elif suitName == 'gh':
         attack['id'] = FOUNTAIN_PEN
@@ -1213,6 +1220,38 @@ def doSynergy(attack):
             hitAtleastOneToon = 1
 
     particleEffect = BattleParticles.createParticleEffect('Synergy')
+    waterfallEffect = BattleParticles.createParticleEffect(file='synergyWaterfall')
+    suitTrack = getSuitAnimTrack(attack)
+    partTrack = getPartTrack(particleEffect, 1.0, 1.9, [particleEffect, suit, 0])
+    waterfallTrack = getPartTrack(waterfallEffect, 0.8, 1.9, [waterfallEffect, suit, 0])
+    damageAnims = [['slip-forward']]
+    dodgeAnims = []
+    dodgeAnims.append(['jump',
+     0.01,
+     0,
+     0.6])
+    dodgeAnims.extend(getSplicedLerpAnims('jump', 0.31, 1.3, startTime=0.6))
+    dodgeAnims.append(['jump', 0, 0.91])
+    toonTracks = getToonTracks(attack, damageDelay=damageDelay, damageAnimNames=['slip-forward'], dodgeDelay=0.91, splicedDodgeAnims=dodgeAnims, showMissedExtraTime=1.0)
+    synergySoundTrack = Sequence(Wait(0.9), SoundInterval(globalBattleSoundCache.getSound('SA_synergy.ogg'), node=suit))
+    if hitAtleastOneToon > 0:
+        fallingSoundTrack = Sequence(Wait(damageDelay + 0.5), SoundInterval(globalBattleSoundCache.getSound('Toon_bodyfall_synergy.ogg'), node=suit))
+        return Parallel(suitTrack, partTrack, waterfallTrack, synergySoundTrack, fallingSoundTrack, toonTracks)
+    else:
+        return Parallel(suitTrack, partTrack, waterfallTrack, synergySoundTrack, toonTracks)
+
+def doAdvancedSynergy(attack):
+    suit = attack['suit']
+    battle = attack['battle']
+    targets = attack['target']
+    damageDelay = 1.7
+    hitAtleastOneToon = 0
+    for t in targets:
+        if t['hp'] > 0:
+            hitAtleastOneToon = 1
+
+    particleEffect = BattleParticles.createParticleEffect('Synergy')
+    particleEffect.setColorScale(0.6, 0.4, 0.6, 1)
     waterfallEffect = BattleParticles.createParticleEffect(file='synergyWaterfall')
     suitTrack = getSuitAnimTrack(attack)
     partTrack = getPartTrack(particleEffect, 1.0, 1.9, [particleEffect, suit, 0])

@@ -95,6 +95,7 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
         self.disguisePage = None
         self.sosPage = None
         self.gardenPage = None
+        self.extraUberGags = [0,0,0,0,0,0,0]
         self.cogTypes = [0,
          0,
          0,
@@ -1833,6 +1834,12 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
 
     def getCogSummonsEarned(self):
         return self.cogSummonsEarned
+
+    def setExtraUberGags(self, uberGags):
+        self.extraUberGags = uberGags
+
+    def getExtraUberGags(self):
+        return self.extraUberGags
 
     def hasCogSummons(self, suitIndex, type = None):
         summons = self.getCogSummonsEarned()

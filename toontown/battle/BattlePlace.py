@@ -114,4 +114,4 @@ class BattlePlace(Place.Place):
         if hoodId == zoneId:
             zoneId = 'sz'
 
-        return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
+        return 'phase_%s/dna/%s_%s.dna' % (phase, hood, zoneId)

@@ -156,7 +156,7 @@ class SuitPlannerInteriorAI:
         if suitName and self.respectInvasions:
             suitType = SuitDNA.getSuitType(suitName)
             bldgTrack = SuitDNA.getSuitDept(suitName)
-            suitLevel = min(max(suitLevel, suitType), suitType + 4)
+            suitLevel = min(max(suitLevel, suitType), suitType + 7)
         dna = SuitDNA.SuitDNA()
         dna.newSuitRandom(suitType, bldgTrack)
         suit.dna = dna
@@ -173,8 +173,10 @@ class SuitPlannerInteriorAI:
         if skel:
             if skel == 2:
                 newSuit.b_setSkeleRevives(1)
+            elif skel == 1:
+                suit.setSkelecog(1)
             else:
-                newSuit.setSkelecog(1)
+                pass
         return newSuit
 
     def myPrint(self):

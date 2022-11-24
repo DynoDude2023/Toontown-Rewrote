@@ -5,9 +5,9 @@ from toontown.coghq import DistributedLawOfficeElevatorExtAI
 from toontown.coghq import DistributedCogHQDoorAI
 from toontown.building import DistributedDoorAI
 from toontown.building import DoorTypes
-from toontown.coghq import LobbyManagerAI
+from toontown.coghq import LobbyManagerAI, DistributedResistanceHideoutPipeAI, DistributedFillTheCourtPropsAI
 from toontown.building import DistributedBossElevatorAI
-from toontown.suit import DistributedLawbotBossAI
+from toontown.suit import DistributedLawbotBossAI, DistributedChiefJusticeAI
 from toontown.building import DistributedCJElevatorAI
 from toontown.building import FADoorCodes
 from toontown.building import DistributedBoardingPartyAI
@@ -20,6 +20,7 @@ class LawbotHQDataAI(HoodDataAI.HoodDataAI):
         hoodId = ToontownGlobals.LawbotHQ
         if zoneId == None:
             zoneId = hoodId
+        self.air = air
         HoodDataAI.HoodDataAI.__init__(self, air, zoneId, hoodId)
         return
 
@@ -32,13 +33,13 @@ class LawbotHQDataAI(HoodDataAI.HoodDataAI):
             elev.generateWithRequired(ToontownGlobals.LawbotOfficeExt)
             self.addDistObj(elev)
             return elev.doId
-
+        
         mins = ToontownGlobals.FactoryLaffMinimums[2]
         officeId0 = makeOfficeElevator(0, 0, mins[0])
         officeId1 = makeOfficeElevator(1, 0, mins[1])
         officeId2 = makeOfficeElevator(2, 0, mins[2])
         officeId3 = makeOfficeElevator(3, 0, mins[3])
-        self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, DistributedLawbotBossAI.DistributedLawbotBossAI)
+        self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, DistributedChiefJusticeAI.DistributedChiefJusticeAI, 5)
         self.lobbyMgr.generateWithRequired(ToontownGlobals.LawbotLobby)
         self.addDistObj(self.lobbyMgr)
         self.lobbyElevator = DistributedCJElevatorAI.DistributedCJElevatorAI(self.air, self.lobbyMgr, ToontownGlobals.LawbotLobby, antiShuffle=1)
@@ -61,6 +62,13 @@ class LawbotHQDataAI(HoodDataAI.HoodDataAI):
             extDoor.sendUpdate('setDoorIndex', [extDoor.getDoorIndex()])
             self.addDistObj(extDoor)
 
+        
+        from toontown.toon import NPCToons
+        
+        npcs = NPCToons.createNpcsInZone(self.air, 13700)
+        for npc in npcs:
+            self.addDistObj(npc)
+
         makeDoor(ToontownGlobals.LawbotLobby, 0, 1, FADoorCodes.LB_DISGUISE_INCOMPLETE)
         makeDoor(ToontownGlobals.LawbotOfficeExt, 0, 0)
         officeIdList = [
@@ -68,3 +76,5 @@ class LawbotHQDataAI(HoodDataAI.HoodDataAI):
         if simbase.config.GetBool('want-boarding-parties', 1):
             self.officeBoardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, officeIdList, 4)
             self.officeBoardingParty.generateWithRequired(ToontownGlobals.LawbotOfficeExt)
+    
+    

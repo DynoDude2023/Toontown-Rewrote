@@ -22,12 +22,40 @@ import math
 import copy
 import DistributedSuitBase
 from otp.otpbase import OTPLocalizer
+from direct.particles import ParticleEffect
+from toontown.battle import BattleParticles
+from toontown.battle import BattleProps
 import random
 STAND_OUTSIDE_DOOR = 2.5
 BATTLE_IGNORE_TIME = 6
 BATTLE_WAIT_TIME = 3
 CATCHUP_SPEED_MULTIPLIER = 3
 ALLOW_BATTLE_DETECT = 1
+
+def createKapowExplosionTrack(parent, explosionPoint = None, scale = 1.0):
+    explosionTrack = Sequence()
+    explosion = loader.loadModel('phase_3.5/models/props/explosion.bam')
+    explosion.setBillboardPointEye()
+    explosion.setDepthWrite(False)
+    if not explosionPoint:
+        explosionPoint = Point3(0, 3.6, 2.1)
+    explosionTrack.append(Func(explosion.reparentTo, parent))
+    explosionTrack.append(Func(explosion.setPos, explosionPoint))
+    explosionTrack.append(Func(explosion.setScale, 0.4 * scale))
+    explosionTrack.append(Wait(0.6))
+    explosionTrack.append(Func(removeProp, explosion))
+    return explosionTrack
+
+def removeProp(prop):
+    from direct.actor import Actor
+    if prop.isEmpty() == 1 or prop == None:
+        return
+    prop.detachNode()
+    if isinstance(prop, Actor.Actor):
+        prop.cleanup()
+    else:
+        prop.removeNode()
+    return
 
 class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedSuit')
@@ -57,6 +85,7 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
         self.initState = None
         self.finalState = None
         self.buildingSuit = 0
+        self.accept('kill-all-suits', self.handleKillAllSuits)
         self.fsm = ClassicFSM.ClassicFSM('DistributedSuit', [
             State.State('Off',
                         self.enterOff,
@@ -539,7 +568,40 @@ class DistributedSuit(DistributedSuitBase.DistributedSuitBase, DelayDeletable):
 
     def exitToToonBuilding(self):
         pass
-
+    
+    def handleKillAllSuits(self):
+        #stop the path.
+        self.resumePath(0)
+        self.loseActor = self.getLoseActor()
+        self.loseActor.reparentTo(render)
+        self.loseActor.setBlend(frameBlend=base.settings.getBool('game', 'interpolate-animations', False))
+        spinningSound = base.loader.loadSfx('phase_3.5/audio/sfx/Cog_Death.ogg')
+        deathSound = base.loader.loadSfx('phase_3.5/audio/sfx/ENC_cogfall_apart.ogg')
+        deathSoundTrack = Sequence(Wait(0.8), SoundInterval(spinningSound, duration=1.2, startTime=1.5, volume=0.2, node=self.loseActor), SoundInterval(spinningSound, duration=3.0, startTime=0.6, volume=0.8, node=self.loseActor), SoundInterval(deathSound, volume=0.32, node=self.loseActor))
+        BattleParticles.loadParticles()
+        smallGears = BattleParticles.createParticleEffect(file='gearExplosionSmall')
+        singleGear = BattleParticles.createParticleEffect('GearExplosion', numParticles=1)
+        smallGearExplosion = BattleParticles.createParticleEffect('GearExplosion', numParticles=10)
+        bigGearExplosion = BattleParticles.createParticleEffect('BigGearExplosion', numParticles=30)
+        gearPoint = Point3(self.loseActor.getX(), self.loseActor.getY(), self.loseActor.getZ() + self.height - 0.2)
+        smallGears.setPos(gearPoint)
+        singleGear.setPos(gearPoint)
+        smallGears.setDepthWrite(False)
+        singleGear.setDepthWrite(False)
+        smallGearExplosion.setPos(gearPoint)
+        bigGearExplosion.setPos(gearPoint)
+        smallGearExplosion.setDepthWrite(False)
+        bigGearExplosion.setDepthWrite(False)
+        explosionTrack = Sequence()
+        explosionTrack.append(Wait(5.4))
+        explosionTrack.append(createKapowExplosionTrack(self.loseActor, explosionPoint=gearPoint))
+        gears1Track = Sequence(Wait(2.1), ParticleInterval(smallGears, self.loseActor, worldRelative=0, duration=4.3, cleanup=True), name='gears1Track')
+        gears2MTrack = Track((0.0, explosionTrack), (0.7, ParticleInterval(singleGear, self.loseActor, worldRelative=0, duration=5.7, cleanup=True)), (5.2, ParticleInterval(smallGearExplosion, self.loseActor, worldRelative=0, duration=1.2, cleanup=True)), (5.4, ParticleInterval(bigGearExplosion, self.loseActor, worldRelative=0, duration=1.0, cleanup=True)), name='gears2MTrack')
+        toonMTrack = Parallel(name='toonMTrack')
+    
+        self.loseActorSeq = Sequence(Func(self.loseActor.setPos, Point3(self.getX(), self.getY(), self.getZ())), Func(self.detachNode), self.loseActor.actorInterval('lose', duration=6.0, playRate=1.0),
+                                     Func(self.loseActor.hide), Func(self.setState, 'Off'), name=self.taskName('lose')).start()
+    
     def enterToSuitBuilding(self, leg, time):
         self.loop('walk', 0)
         if not self.verifySuitPlanner():

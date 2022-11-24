@@ -14,8 +14,10 @@ from toontown.building import DistributedBBElevatorAI
 from toontown.building import DistributedBoardingPartyAI
 from toontown.building import FADoorCodes
 from toontown.coghq import DistributedCogKartAI
+from toontown.suit import DistributedBossbotHQGoonAI
 from toontown.suit import DistributedSuitPlannerAI
 from toontown.suit.DistributedBossbotStatueSuitAI import DistributedBossbotStatueSuitAI
+from toontown.safezone import TTTreasurePlannerAI, DistributedIntelTreasureAI
 
 class BossbotHQDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('BossbotHQDataAI')
@@ -40,15 +42,28 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
             self.addDistObj(elev)
         
         self.createSuitPlanners()
-
+        
+        self.goon1 = DistributedBossbotHQGoonAI.DistributedBossbotHQGoonAI(self.air, 0)
+        self.goon1.generateWithRequired(self.zoneId)
+        self.goon1.b_setupGoon(5, 100, 10, 4, 2.5)
+        self.goon1.b_setEntId(0)
+        
+        self.goon3 = DistributedBossbotHQGoonAI.DistributedBossbotHQGoonAI(self.air, 2)
+        self.goon3.generateWithRequired(self.zoneId)
+        self.goon3.b_setupGoon(5, 100, 10, 4, 2.5)
+        self.goon3.b_setEntId(2)
+        
+        self.goon5 = DistributedBossbotHQGoonAI.DistributedBossbotHQGoonAI(self.air, 4)
+        self.goon5.generateWithRequired(ToontownGlobals.BossbotHQ)
+        self.goon5.b_setupGoon(5, 100, 10, 4, 2.5)
+        self.goon5.b_setEntId(4)
+        
         self.lobbyMgr = LobbyManagerAI.LobbyManagerAI(self.air, DistributedBossbotBossAI.DistributedBossbotBossAI)
         self.lobbyMgr.generateWithRequired(ToontownGlobals.BossbotLobby)
         self.addDistObj(self.lobbyMgr)
         self.lobbyElevator = DistributedBBElevatorAI.DistributedBBElevatorAI(self.air, self.lobbyMgr, ToontownGlobals.BossbotLobby, antiShuffle = 1)
         self.lobbyElevator.generateWithRequired(ToontownGlobals.BossbotLobby)
         self.addDistObj(self.lobbyElevator)
-        self.bigCheese = DistributedBossbotStatueSuitAI(self.air)
-        self.bigCheese.generateWithRequired(ToontownGlobals.BossbotHQ)
         if simbase.config.GetBool('want-boarding-groups', 1):
             self.boardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, [
                 self.lobbyElevator.doId], 8)
@@ -69,8 +84,10 @@ class BossbotHQDataAI(HoodDataAI.HoodDataAI):
             extDoor.sendUpdate('setDoorIndex', [
                 extDoor.getDoorIndex()])
             self.addDistObj(extDoor)
-
+        
+        
         makeDoor(ToontownGlobals.BossbotLobby, 0, 0, FADoorCodes.BB_DISGUISE_INCOMPLETE)
+        makeDoor(ToontownGlobals.BossbotLobby, 0, 1, FADoorCodes.BB_DISGUISE_INCOMPLETE)
         kartIdList = self.createCogKarts()
         if simbase.config.GetBool('want-boarding-groups', 1):
             self.courseBoardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, kartIdList, 4)

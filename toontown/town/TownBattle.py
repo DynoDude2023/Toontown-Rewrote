@@ -10,6 +10,7 @@ import TownBattleSOSPanel
 import TownBattleSOSPetSearchPanel
 import TownBattleSOSPetInfoPanel
 import TownBattleToonPanel
+import TownBattleCogPanel
 from toontown.toontowngui import TTDialog
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import BattleBase
@@ -22,11 +23,8 @@ from toontown.battle import FireCogPanel
 
 class TownBattle(StateData.StateData):
     notify = DirectNotifyGlobal.directNotify.newCategory('TownBattle')
-    evenPos = (0.75,
-     0.25,
-     -0.25,
-     -0.75)
-    oddPos = (0.5, 0, -0.5)
+    evenPos = (0.75, 0.25, -0.25, -0.75, 1.25, -1.25, 1.75, -1.75)
+    oddPos = (0.5, 0, -0.5, 1, -1, 1.5, -1.5)
 
     def __init__(self, doneEvent):
         StateData.StateData.__init__(self, doneEvent)
@@ -43,6 +41,10 @@ class TownBattle(StateData.StateData):
         self.level = -1
         self.target = 0
         self.toonAttacks = [(-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
          (-1, 0, 0),
          (-1, 0, 0),
          (-1, 0, 0)]
@@ -124,11 +126,23 @@ class TownBattle(StateData.StateData):
         self.cogFireCosts = [None,
          None,
          None,
+         None,
+         None,
+         None,
+         None,
          None]
         self.toonPanels = (TownBattleToonPanel.TownBattleToonPanel(0),
          TownBattleToonPanel.TownBattleToonPanel(1),
          TownBattleToonPanel.TownBattleToonPanel(2),
-         TownBattleToonPanel.TownBattleToonPanel(3))
+         TownBattleToonPanel.TownBattleToonPanel(3),
+         TownBattleToonPanel.TownBattleToonPanel(4),
+         TownBattleToonPanel.TownBattleToonPanel(5),
+         TownBattleToonPanel.TownBattleToonPanel(6),
+         TownBattleToonPanel.TownBattleToonPanel(7))
+        self.cogPanels = (TownBattleCogPanel.TownBattleCogPanel(0),
+         TownBattleCogPanel.TownBattleCogPanel(1),
+         TownBattleCogPanel.TownBattleCogPanel(2),
+         TownBattleCogPanel.TownBattleCogPanel(3))
         self.timer = ToontownTimer.ToontownTimer()
         self.timer.reparentTo(base.a2dTopRight)
         self.timer.setPos(-0.151, 0, -0.158)
@@ -152,11 +166,38 @@ class TownBattle(StateData.StateData):
         del self.SOSPetInfoPanel
         for toonPanel in self.toonPanels:
             toonPanel.cleanup()
+        for cogPanel in self.cogPanels:
+            cogPanel.cleanup()
+        
+        del self.cogPanels
 
         del self.toonPanels
         self.timer.destroy()
         del self.timer
         del self.toons
+    
+    def __cogPanels(self, num):
+        for panel in self.cogPanels:
+            panel.hide()
+            panel.setPos(0, 0, 0.7)
+
+        if num == 1:
+            self.cogPanels[0].setX(self.oddPos[1])
+            self.cogPanels[0].show()
+        elif num == 2:
+            for i in range(2):
+                self.cogPanels[i].setX(self.evenPos[i + 1])
+                self.cogPanels[i].show()
+
+        elif num == 3:
+            for i in range(3):
+                self.cogPanels[i].setX(self.oddPos[i])
+                self.cogPanels[i].show()
+
+        elif num == 4:
+            for i in range(4):
+                self.cogPanels[i].setX(self.evenPos[i])
+                self.cogPanels[i].show()
 
     def enter(self, event, parentFSMState, bldg = 0, creditMultiplier = 1, tutorialFlag = 0):
         self.parentFSMState = parentFSMState
@@ -229,37 +270,100 @@ class TownBattle(StateData.StateData):
         if num == 1:
             self.toonPanels[0].setX(self.oddPos[1])
             self.toonPanels[0].show()
-        elif num == 2:
-            self.toonPanels[0].setX(self.evenPos[1])
-            self.toonPanels[0].show()
-            self.toonPanels[1].setX(self.evenPos[2])
-            self.toonPanels[1].show()
-        elif num == 3:
-            self.toonPanels[0].setX(self.oddPos[0])
-            self.toonPanels[0].show()
-            self.toonPanels[1].setX(self.oddPos[1])
-            self.toonPanels[1].show()
-            self.toonPanels[2].setX(self.oddPos[2])
-            self.toonPanels[2].show()
-        elif num == 4:
-            self.toonPanels[0].setX(self.evenPos[0])
-            self.toonPanels[0].show()
-            self.toonPanels[1].setX(self.evenPos[1])
-            self.toonPanels[1].show()
-            self.toonPanels[2].setX(self.evenPos[2])
-            self.toonPanels[2].show()
-            self.toonPanels[3].setX(self.evenPos[3])
-            self.toonPanels[3].show()
         else:
-            self.notify.error('Bad number of toons: %s' % num)
-        return None
+            if num == 2:
+                self.toonPanels[0].setX(self.evenPos[1])
+                self.toonPanels[0].show()
+                self.toonPanels[1].setX(self.evenPos[2])
+                self.toonPanels[1].show()
+            else:
+                if num == 3:
+                    self.toonPanels[0].setX(self.oddPos[0])
+                    self.toonPanels[0].show()
+                    self.toonPanels[1].setX(self.oddPos[1])
+                    self.toonPanels[1].show()
+                    self.toonPanels[2].setX(self.oddPos[2])
+                    self.toonPanels[2].show()
+                else:
+                    if num == 4:
+                        self.toonPanels[0].setX(self.evenPos[0])
+                        self.toonPanels[0].show()
+                        self.toonPanels[1].setX(self.evenPos[1])
+                        self.toonPanels[1].show()
+                        self.toonPanels[2].setX(self.evenPos[2])
+                        self.toonPanels[2].show()
+                        self.toonPanels[3].setX(self.evenPos[3])
+                        self.toonPanels[3].show()
+                    else:
+                        if num == 5:
+                            self.toonPanels[0].setX(self.oddPos[3])
+                            self.toonPanels[0].show()
+                            self.toonPanels[1].setX(self.oddPos[0])
+                            self.toonPanels[1].show()
+                            self.toonPanels[2].setX(self.oddPos[1])
+                            self.toonPanels[2].show()
+                            self.toonPanels[3].setX(self.oddPos[2])
+                            self.toonPanels[3].show()
+                            self.toonPanels[4].setX(self.oddPos[4])
+                            self.toonPanels[4].show()
+                        else:
+                            if num == 6:
+                                self.toonPanels[0].setX(self.evenPos[4] * 0.85)
+                                self.toonPanels[0].show()
+                                self.toonPanels[1].setX(self.evenPos[0] * 0.85)
+                                self.toonPanels[1].show()
+                                self.toonPanels[2].setX(self.evenPos[1] * 0.85)
+                                self.toonPanels[2].show()
+                                self.toonPanels[3].setX(self.evenPos[2] * 0.85)
+                                self.toonPanels[3].show()
+                                self.toonPanels[4].setX(self.evenPos[3] * 0.85)
+                                self.toonPanels[4].show()
+                                self.toonPanels[5].setX(self.evenPos[5] * 0.85)
+                                self.toonPanels[5].show()
+                            else:
+                                if num == 7:
+                                    self.toonPanels[0].setX(self.oddPos[5] * 0.8)
+                                    self.toonPanels[0].show()
+                                    self.toonPanels[1].setX(self.oddPos[3] * 0.8)
+                                    self.toonPanels[1].show()
+                                    self.toonPanels[2].setX(self.oddPos[0] * 0.8)
+                                    self.toonPanels[2].show()
+                                    self.toonPanels[3].setX(self.oddPos[1] * 0.8)
+                                    self.toonPanels[3].show()
+                                    self.toonPanels[4].setX(self.oddPos[2] * 0.8)
+                                    self.toonPanels[4].show()
+                                    self.toonPanels[5].setX(self.oddPos[4] * 0.8)
+                                    self.toonPanels[5].show()
+                                    self.toonPanels[6].setX(self.oddPos[6] * 0.8)
+                                    self.toonPanels[6].show()
+                                else:
+                                    if num == 8:
+                                        self.toonPanels[0].setX(self.evenPos[6] * 0.75)
+                                        self.toonPanels[0].show()
+                                        self.toonPanels[1].setX(self.evenPos[4] * 0.75)
+                                        self.toonPanels[1].show()
+                                        self.toonPanels[2].setX(self.evenPos[0] * 0.75)
+                                        self.toonPanels[2].show()
+                                        self.toonPanels[3].setX(self.evenPos[1] * 0.75)
+                                        self.toonPanels[3].show()
+                                        self.toonPanels[4].setX(self.evenPos[2] * 0.75)
+                                        self.toonPanels[4].show()
+                                        self.toonPanels[5].setX(self.evenPos[3] * 0.75)
+                                        self.toonPanels[5].show()
+                                        self.toonPanels[6].setX(self.evenPos[5] * 0.75)
+                                        self.toonPanels[6].show()
+                                        self.toonPanels[7].setX(self.evenPos[7] * 0.75)
+                                        self.toonPanels[7].show()
+                                    else:
+                                        self.notify.error('Bad number of toons: %s' % num)
+        return
 
-    def updateChosenAttacks(self, battleIndices, tracks, levels, targets):
+    def updateChosenAttacks(self, battleIndices, tracks, levels, targets, toonCount=4):
         self.notify.debug('updateChosenAttacks bi=%s tracks=%s levels=%s targets=%s' % (battleIndices,
-         tracks,
-         levels,
-         targets))
-        for i in xrange(4):
+                                                                                        tracks,
+                                                                                        levels,
+                                                                                        targets))
+        for i in xrange(toonCount):
             if battleIndices[i] == -1:
                 pass
             else:
@@ -269,7 +373,7 @@ class TownBattle(StateData.StateData):
                 elif tracks[i] == BattleBase.PASS_ATTACK:
                     numTargets = 0
                     target = -2
-                elif tracks[i] == BattleBase.SOS or tracks[i] == BattleBase.NPCSOS or tracks[i] == BattleBase.PETSOS:
+                elif tracks[i] in BattleBase.SOS_TRACKS:
                     numTargets = 0
                     target = -2
                 elif tracks[i] == HEAL_TRACK:
@@ -308,11 +412,18 @@ class TownBattle(StateData.StateData):
         if self.isLoaded:
             for toonPanel in self.toonPanels:
                 toonPanel.hide()
+            for cogPanel in self.cogPanels:
+                cogPanel.hide()
 
         self.toonAttacks = [(-1, 0, 0),
          (-1, 0, 0),
          (-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
+         (-1, 0, 0),
          (-1, 0, 0)]
+         
         self.target = 0
         if hasattr(self, 'timer'):
             self.timer.hide()
@@ -321,6 +432,7 @@ class TownBattle(StateData.StateData):
     def exitOff(self):
         if self.isLoaded:
             self.__enterPanels(self.numToons, self.localNum)
+            self.__cogPanels(self.numCogs)
         self.timer.show()
         self.track = -1
         self.level = -1
@@ -356,7 +468,7 @@ class TownBattle(StateData.StateData):
                     response['target'] = self.target
                     messenger.send(self.battleEvent, [response])
                     self.fsm.request('AttackWait')
-                elif self.numToons == 3 or self.numToons == 4:
+                elif self.numToons == 3 or self.numToons <= 4:
                     self.fsm.request('ChooseToon')
                 elif self.numToons == 2:
                     response = {}
@@ -456,8 +568,12 @@ class TownBattle(StateData.StateData):
         currStateName = self.fsm.getCurrentState().getName()
         if resetActivateMode:
             self.__enterPanels(self.numToons, self.localNum)
+            self.__cogPanels(self.numCogs)
             for i in xrange(len(toons)):
                 self.toonPanels[i].setLaffMeter(toons[i])
+            
+            for i in range(len(cogs)):
+                self.cogPanels[i].setCogInformation(cogs[i])
 
             if currStateName == 'ChooseCog':
                 self.chooseCogPanel.adjustCogs(self.numCogs, self.luredIndices, self.trappedIndices, self.track)

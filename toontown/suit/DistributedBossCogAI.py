@@ -199,8 +199,10 @@ class DistributedBossCogAI(DistributedAvatarAI.DistributedAvatarAI):
         self.sendUpdate('setBattleExperience', self.getBattleExperience())
 
     def getBattleExperience(self):
-        result = BattleExperienceAI.getBattleExperience(8, self.involvedToons, self.toonExp, self.toonSkillPtsGained, self.toonOrigQuests, self.toonItems, self.toonOrigMerits, self.toonMerits, self.toonParts, self.suitsKilled, self.helpfulToons)
-        return result
+        return BattleExperienceAI.getBattleExperience(self.involvedToons, self.toonExp, self.toonSkillPtsGained,
+                                                      self.toonOrigQuests, self.toonItems, self.toonOrigMerits,
+                                                      self.toonMerits, self.toonParts, self.suitsKilled,
+                                                      self.helpfulToons)
 
     def b_setArenaSide(self, arenaSide):
         self.setArenaSide(arenaSide)

@@ -185,7 +185,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_40x40_15_DNARoot" [
     code [ "street_40x40_15" ]
-    pos [ -60.86 3.25 7.62939e-006 ]
+    pos [ -60.86 3.25 7.62939e-06 ]
     nhpr [ -0 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -1511,7 +1511,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_20x40_15_DNARoot" [
     code [ "street_20x40_15" ]
-    pos [ 19.14 73.25 -3.05176e-005 ]
+    pos [ 19.14 73.25 -3.05176e-05 ]
     nhpr [ -90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -1635,7 +1635,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 29.4209 68.0042 -3.0607e-005 ]
+   pos [ 29.4209 68.0042 -3.0607e-05 ]
    nhpr [ 90 0 -0 ]
   ]
  ]
@@ -2446,7 +2446,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_curved_corner_15_DNARoot" [
     code [ "street_curved_corner_15" ]
-    pos [ 29.14 173.25 -7.62939e-006 ]
+    pos [ 29.14 173.25 -7.62939e-06 ]
     nhpr [ -0 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -2750,7 +2750,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_hydrant" ]
    anim [ "tt_a_ara_dga_hydrant_idle0" ]
    cell_id [ 0 ]
-   pos [ 49.8546 207.965 -7.689e-006 ]
+   pos [ 49.8546 207.965 -7.689e-06 ]
    nhpr [ 15 0 -0 ]
   ]
  ]
@@ -2762,7 +2762,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_20x40_15_DNARoot" [
     code [ "street_20x40_15" ]
-    pos [ 69.14 173.25 1.33514e-005 ]
+    pos [ 69.14 173.25 1.33514e-05 ]
     nhpr [ -0 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -2867,7 +2867,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 85.011 184.057 1.33514e-005 ]
+   pos [ 85.011 184.057 1.33514e-05 ]
    nhpr [ 180 0 -0 ]
   ]
  ]
@@ -3204,7 +3204,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_divided_40x70_DNARoot" [
     code [ "street_divided_40x70" ]
-    pos [ 129.14 163.25 -7.62939e-006 ]
+    pos [ 129.14 163.25 -7.62939e-06 ]
     nhpr [ 0 0 0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -3253,7 +3253,7 @@ group "daisysGarden" [
    street "street_sidewalk_20x20_DNARoot" [
     code [ "street_sidewalk_20x20" ]
     pos [ 159.14 113.25 0 ]
-    nhpr [ 90 -0.021399 2.5054e-006 ]
+    nhpr [ 90 -0.021399 2.5054e-06 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
     texture [ "street_curb_DG_tex" ]
@@ -3529,7 +3529,7 @@ group "daisysGarden" [
     prop "prop_daisys_flowerbox_yellow_DNARoot" [
      code [ "prop_daisys_flowerbox_yellow" ]
      pos [ 4.703 -1.58001 0 ]
-     nhpr [ 9.50016e-014 0 -0 ]
+     nhpr [ 9.50016e-14 0 -0 ]
     ]
    ]
    flat_building "tb8:random_DNARoot" [
@@ -3612,7 +3612,7 @@ group "daisysGarden" [
     prop "prop_daisys_flowerbox_pink_DNARoot" [
      code [ "prop_daisys_flowerbox_pink" ]
      pos [ 8.296 -1.305 0 ]
-     nhpr [ 2.03556e-013 0 -0 ]
+     nhpr [ 2.03556e-13 0 -0 ]
     ]
    ]
    flat_building "tb8:random_DNARoot" [
@@ -3959,14 +3959,14 @@ group "daisysGarden" [
    prop "prop_daisys_flowerbox_pink_DNARoot" [
     code [ "prop_daisys_flowerbox_pink" ]
     pos [ 9.99999 -1.323 0 ]
-    nhpr [ -180 0.0321975 5.62959e-009 ]
+    nhpr [ -180 0.0321975 5.62959e-09 ]
    ]
   ]
   interactive_prop "interactive_prop_phase_8_models_char__dga_mailbox_DNARoot" [
    code [ "interactive_prop_phase_8_models_char__dga_mailbox" ]
    anim [ "tt_a_ara_dga_mailbox_idle0" ]
    cell_id [ 0 ]
-   pos [ 153.637 227.24 -7.689e-006 ]
+   pos [ 153.637 227.24 -7.689e-06 ]
    nhpr [ -0 0 -0 ]
   ]
  ]
@@ -4358,7 +4358,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_curved_corner_15_DNARoot" [
     code [ "street_curved_corner_15" ]
-    pos [ 228.14 213.25 7.62939e-006 ]
+    pos [ 228.14 213.25 7.62939e-06 ]
     nhpr [ -90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -4692,7 +4692,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 234.718 179.504 7.62939e-006 ]
+   pos [ 234.718 179.504 7.62939e-06 ]
    nhpr [ 135.95 0 -0 ]
   ]
  ]
@@ -4929,7 +4929,7 @@ group "daisysGarden" [
     ]
     prop "prop_tree_small_ul_DNARoot" [
      code [ "prop_DG_flower_lamp1" ]
-     pos [ -10.1303 -14.25 7.62939e-006 ]
+     pos [ -10.1303 -14.25 7.62939e-06 ]
      nhpr [ -90 0 -0 ]
     ]
    ]
@@ -4984,7 +4984,7 @@ group "daisysGarden" [
     ]
     prop "prop_tree_large_ur_DNARoot" [
      code [ "prop_DG_flower_lamp1" ]
-     pos [ 24.8698 -12.25 7.62939e-006 ]
+     pos [ 24.8698 -12.25 7.62939e-06 ]
      nhpr [ -90 0 -0 ]
     ]
    ]
@@ -5245,7 +5245,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 224.351 123.424 -1.52588e-005 ]
+   pos [ 224.351 123.424 -1.52588e-05 ]
    nhpr [ 90 0 -0 ]
   ]
  ]
@@ -5261,7 +5261,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_divided_transition_15_DNARoot" [
     code [ "street_divided_transition_15" ]
-    pos [ 288.14 73.25 1.52588e-005 ]
+    pos [ 288.14 73.25 1.52588e-05 ]
     nhpr [ 90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -5300,7 +5300,7 @@ group "daisysGarden" [
     ]
     prop "prop_tree_small_ur_DNARoot" [
      code [ "prop_DG_flower_lamp1" ]
-     pos [ 5.62643 -22.3251 -7.62939e-006 ]
+     pos [ 5.62643 -22.3251 -7.62939e-06 ]
      nhpr [ -0 0 -0 ]
     ]
    ]
@@ -5394,7 +5394,7 @@ group "daisysGarden" [
     ]
     prop "prop_tree_small_ur_DNARoot" [
      code [ "prop_DG_flower_lamp1" ]
-     pos [ 18.0796 -24.8357 -7.62939e-006 ]
+     pos [ 18.0796 -24.8357 -7.62939e-06 ]
      nhpr [ -180 0 -0 ]
     ]
     prop "prop_tree_large_woodbox_ur_DNARoot" [
@@ -5525,7 +5525,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_hydrant" ]
    anim [ "tt_a_ara_dga_hydrant_idle0" ]
    cell_id [ 0 ]
-   pos [ 267.682 87.938 1.52588e-005 ]
+   pos [ 267.682 87.938 1.52588e-05 ]
    nhpr [ -135 0 -0 ]
   ]
  ]
@@ -6051,7 +6051,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_t_intersection_DNARoot" [
     code [ "street_t_intersection" ]
-    pos [ 298.14 48.25 -7.6592e-006 ]
+    pos [ 298.14 48.25 -7.6592e-06 ]
     nhpr [ -90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -6498,7 +6498,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_mailbox" ]
    anim [ "tt_a_ara_dga_mailbox_idle0" ]
    cell_id [ 0 ]
-   pos [ 333.204 16.1539 -7.689e-006 ]
+   pos [ 333.204 16.1539 -7.689e-06 ]
    nhpr [ -90 0 -0 ]
   ]
  ]
@@ -6783,7 +6783,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_t_intersection_DNARoot" [
     code [ "street_t_intersection" ]
-    pos [ 418.14 8.25 -9.91821e-005 ]
+    pos [ 418.14 8.25 -9.91821e-05 ]
     nhpr [ 90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -7158,7 +7158,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 412.7 44.7689 -9.91821e-005 ]
+   pos [ 412.7 44.7689 -9.91821e-05 ]
    nhpr [ -24.2106 0 -0 ]
   ]
  ]
@@ -8541,7 +8541,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_curved_corner_15_DNARoot" [
     code [ "street_curved_corner_15" ]
-    pos [ 448.14 173.25 -5.34058e-005 ]
+    pos [ 448.14 173.25 -5.34058e-05 ]
     nhpr [ -0 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -8837,7 +8837,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 481.595 179.233 -5.34654e-005 ]
+   pos [ 481.595 179.233 -5.34654e-05 ]
    nhpr [ -120 0 -0 ]
   ]
  ]
@@ -9549,7 +9549,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_trashcan" ]
    anim [ "tt_a_ara_dga_trashcan_fightBoost" ]
    cell_id [ 0 ]
-   pos [ 544.26 215.376 -1.52588e-005 ]
+   pos [ 544.26 215.376 -1.52588e-05 ]
    nhpr [ -0 0 -0 ]
   ]
  ]
@@ -9571,7 +9571,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_curved_corner_15_DNARoot" [
     code [ "street_curved_corner_15" ]
-    pos [ 568.14 213.25 1.52588e-005 ]
+    pos [ 568.14 213.25 1.52588e-05 ]
     nhpr [ -90 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -9741,7 +9741,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_hydrant" ]
    anim [ "tt_a_ara_dga_hydrant_idle0" ]
    cell_id [ 0 ]
-   pos [ 595.403 201.543 1.52588e-005 ]
+   pos [ 595.403 201.543 1.52588e-05 ]
    nhpr [ -45 0 0 ]
   ]
  ]
@@ -10023,7 +10023,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_courtyard_70_15_exit_DNARoot" [
     code [ "street_courtyard_70_15_exit" ]
-    pos [ 593.14 88.25 -6.10352e-005 ]
+    pos [ 593.14 88.25 -6.10352e-05 ]
     nhpr [ -0 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -10129,7 +10129,7 @@ group "daisysGarden" [
     ]
     prop "prop_tree_large_ur_DNARoot" [
      code [ "prop_DG_flower_lamp1" ]
-     pos [ -14.9996 -12.96 -6.10352e-005 ]
+     pos [ -14.9996 -12.96 -6.10352e-05 ]
      nhpr [ -90 0 -0 ]
     ]
     prop "prop_daisys_flowerbox_yellow_DNARoot" [
@@ -10716,7 +10716,7 @@ group "daisysGarden" [
    code [ "interactive_prop_phase_8_models_char__dga_mailbox" ]
    anim [ "tt_a_ara_dga_mailbox_idle0" ]
    cell_id [ 0 ]
-   pos [ 567.387 114.748 -6.1065e-005 ]
+   pos [ 567.387 114.748 -6.1065e-05 ]
    nhpr [ 90 0 -0 ]
   ]
  ]
@@ -10726,7 +10726,7 @@ group "daisysGarden" [
   group "streets" [
    street "street_40x40_15_DNARoot" [
     code [ "street_40x40_15" ]
-    pos [ 678.14 123.25 7.62939e-006 ]
+    pos [ 678.14 123.25 7.62939e-06 ]
     nhpr [ 180 0 -0 ]
     texture [ "street_street_DG_tex" ]
     texture [ "street_sidewalk_DG_tex" ]
@@ -10780,7 +10780,7 @@ group "daisysGarden" [
     ]
     prop "prop_daisys_flowerbox_pink_DNARoot" [
      code [ "prop_daisys_flowerbox_yellow" ]
-     pos [ -8.96008 -4 7.62939e-006 ]
+     pos [ -8.96008 -4 7.62939e-06 ]
      nhpr [ -0 0 -0 ]
      scale [ 1.4 1.4 1.4 ]
     ]
@@ -11353,7 +11353,7 @@ group "daisysGarden" [
    prop "prop_daisys_flowerbox_pink_DNARoot" [
     code [ "prop_daisys_flowerbox_pink" ]
     pos [ 140.186 78.1833 0 ]
-    nhpr [ -90 -0.0200133 -2.22603e-009 ]
+    nhpr [ -90 -0.0200133 -2.22603e-09 ]
    ]
   ]
   street "street_DG_pond_DNARoot" [
@@ -11363,6 +11363,78 @@ group "daisysGarden" [
    texture [ "street_street_DG_tex" ]
    texture [ "street_sidewalk_DG_tex" ]
    texture [ "street_curb_DG_tex" ]
+  ]
+  landmark_building "tb28:toon_landmark_DG_B1_DNARoot" [
+   code [ "toon_landmark_DG_B1" ]
+   title [ "" ]
+   pos [ 155 20 -1 ]
+   nhpr [ 180 0 -0 ]
+   door [
+    code [ "door_double_pillars_ur" ]
+    color [ 1 1 1 1 ]
+   ]
+   sign [
+    code [ "DG_sign3" ]
+    baseline [
+     code [ "suit" ]
+     color [ 0 0 0 1 ]
+     scale [ 0.7 1 0.7 ]
+     text [
+      letters [ "T" ]
+     ]
+     text [
+      letters [ "o" ]
+     ]
+     text [
+      letters [ "o" ]
+     ]
+     text [
+      letters [ "n" ]
+     ]
+     text [
+      letters [ "y" ]
+     ]
+     text [
+      letters [ " " ]
+     ]
+     text [
+      letters [ "l" ]
+     ]
+     text [
+      letters [ "i" ]
+     ]
+     text [
+      letters [ "k" ]
+     ]
+     text [
+      letters [ "e" ]
+     ]
+     text [
+      letters [ " " ]
+     ]
+     text [
+      letters [ "t" ]
+     ]
+     text [
+      letters [ "h" ]
+     ]
+     text [
+      letters [ "i" ]
+     ]
+     text [
+      letters [ "n" ]
+     ]
+     text [
+      letters [ "g" ]
+     ]
+     text [
+      letters [ "s" ]
+     ]
+     text [
+      letters [ "." ]
+     ]
+    ]
+   ]
   ]
  ]
 ]

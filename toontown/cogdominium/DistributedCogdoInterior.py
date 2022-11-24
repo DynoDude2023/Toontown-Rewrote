@@ -201,10 +201,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         return
 
     def __cleanupPenthouseIntro(self):
-        if hasattr(self, '_movie') and self._movie:
-            self._movie.unload()
-            self._movie = None
-        return
+        pass
 
     def delete(self):
         self._stashEntranceElevatorFC.destroy()
@@ -418,35 +415,9 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             SuitPositions = self.BottomFloor_SuitPositions
         if self.isBossFloor(self.currentFloor):
             self.barrelRoom.unload()
-            if self.FOType:
-                suiteName = SUITE_DICT.get(self.FOType)
-                self.floorModel = loader.loadModel('phase_5/models/cogdominium/%s' % suiteName)
-            self.cage = self.floorModel.find('**/cage')
-            pos = self.cage.getPos()
-            self.cagePos = []
-            for height in self.cageHeights:
-                self.cagePos.append(Point3(pos[0], pos[1], height))
-
-            self.cageDoor = self.floorModel.find('**/cage_door')
-            self.cageDoor.wrtReparentTo(self.cage)
-            if self.FOType:
-                paintingModelName = PAINTING_DICT.get(self.FOType)
-                for i in xrange(4):
-                    paintingModel = loader.loadModel('phase_5/models/cogdominium/%s' % paintingModelName)
-                    loc = self.floorModel.find('**/loc_painting%d' % (i + 1))
-                    paintingModel.reparentTo(loc)
-            if not self.floorModel.find('**/trophyCase').isEmpty():
-                for i in xrange(4):
-                    goldEmblem = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_goldTrophy.bam')
-                    loc = self.floorModel.find('**/gold_0%d' % (i + 1))
-                    goldEmblem.reparentTo(loc)
-                for i in xrange(20):
-                    silverEmblem = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_silverTrophy.bam')
-                    loc = self.floorModel.find('**/silver_0%d' % (i + 1))
-                    silverEmblem.reparentTo(loc)
+            self.floorModel = loader.loadModel('phase_5/models/cogdominium/ttr_m_ara_crg_boiler')
             SuitHs = self.BossOffice_SuitHs
             SuitPositions = self.BossOffice_SuitPositions
-            self.__makeShopOwnerNpc()
         else:
             if self._wantBarrelRoom:
                 self.barrelRoom.load()
@@ -455,25 +426,14 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             SuitPositions = self.Cubicle_SuitPositions
         if self.floorModel:
             self.floorModel.reparentTo(render)
-            if self.isBossFloor(self.currentFloor):
-                self.notify.debug('Load boss_suit_office')
-                elevIn = self.floorModel.find(CogdoGameConsts.PenthouseElevatorInPath).copyTo(render)
-                elevOut = self.floorModel.find(CogdoGameConsts.PenthouseElevatorOutPath)
-                frame = self.elevatorModelOut.find('**/frame')
-                if not frame.isEmpty():
-                    frame.hide()
-                frame = self.elevatorModelIn.find('**/frame')
-                if not frame.isEmpty():
-                    frame.hide()
-                self.elevatorModelOut.reparentTo(elevOut)
-            else:
-                elevIn = self.floorModel.find('**/elevator-in')
-                elevOut = self.floorModel.find('**/elevator-out')
+            
+            elevIn = self.floorModel.find('**/elevator_loc').copyTo(render)
+            elevOut = self.floorModel.find('**/exit1_loc').copyTo(render)
         else:
-            floorModel = loader.loadModel('phase_7/models/modules/boss_suit_office')
-            elevIn = floorModel.find('**/elevator-in').copyTo(render)
-            elevOut = floorModel.find('**/elevator-out').copyTo(render)
-            floorModel.removeNode()
+            self.floorModel = loader.loadModel('phase_5/models/cogdominium/ttr_m_ara_crg_boiler')
+            elevIn = self.floorModel.find('**/elevator_loc').copyTo(render)
+            elevOut = self.floorModel.find('**/exit1_loc').copyTo(render)
+            self.floorModel.removeNode()
         self.elevIn = elevIn
         self.elevOut = elevOut
         self._haveEntranceElevator.set(True)
@@ -626,13 +586,10 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             self.barrelRoom.hideRewardUi()
 
     def enterBattleIntro(self, ts = 0):
-        self._movie = CogdoExecutiveSuiteIntro(self.shopOwnerNpc)
-        self._movie.load()
-        self._movie.play()
-
+        pass
+    
     def exitBattleIntro(self):
-        self._movie.end()
-        self.__cleanupPenthouseIntro()
+        pass
 
     def __playCloseElevatorOut(self, name, delay = 0):
         track = Sequence(Wait(delay + SUIT_LEAVE_ELEVATOR_TIME), Parallel(SoundInterval(self.closeSfx), LerpPosInterval(self.leftDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], ElevatorUtils.getLeftClosePoint(ELEVATOR_NORMAL), startPos=Point3(0, 0, 0), blendType='easeOut'), LerpPosInterval(self.rightDoorOut, ElevatorData[ELEVATOR_NORMAL]['closeTime'], ElevatorUtils.getRightClosePoint(ELEVATOR_NORMAL), startPos=Point3(0, 0, 0), blendType='easeOut')))

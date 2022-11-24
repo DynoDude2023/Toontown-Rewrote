@@ -2,10 +2,11 @@ from direct.directnotify import DirectNotifyGlobal
 import HoodDataAI
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone import DistributedTrolleyAI
-from toontown.safezone import TTTreasurePlannerAI
+from toontown.safezone import TTTreasurePlannerAI, DistributedIntelTreasureAI
 from toontown.classicchars import DistributedMickeyAI
 from toontown.safezone import ButterflyGlobals
 from direct.task import Task
+from toontown.suit import DistributedBossbotHQGoonAI
 
 class TTHoodDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('TTHoodDataAI')
@@ -22,9 +23,14 @@ class TTHoodDataAI(HoodDataAI.HoodDataAI):
         trolley = DistributedTrolleyAI.DistributedTrolleyAI(self.air)
         trolley.generateWithRequired(self.zoneId)
         trolley.start()
+        
+        
+        #generate Resistance Pipe
         self.addDistObj(trolley)
         self.trolley = trolley
         self.treasurePlanner = TTTreasurePlannerAI.TTTreasurePlannerAI(self.zoneId)
+        self.intelTresure = DistributedIntelTreasureAI.DistributedIntelTreasureAI(self.air, self.treasurePlanner, 106, 1.0, 4.575)
+        self.intelTresure.generateWithRequired(self.zoneId)
         self.treasurePlanner.start()
         self.classicChar = DistributedMickeyAI.DistributedMickeyAI(self.air)
         self.classicChar.generateWithRequired(self.zoneId)

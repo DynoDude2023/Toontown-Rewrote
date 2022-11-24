@@ -1,17 +1,12 @@
-from panda3d.core import *
 from libotp import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
-from direct.actor import Actor
 from toontown.suit import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 import DistributedBattleBase
-from toontown.toon import TTEmote
 from otp.avatar import Emote
 from toontown.toonbase import TTLocalizer
-import MovieUtil
 from direct.fsm import State
-from toontown.suit import Suit
 import SuitBattleGlobals
 import random
 from toontown.toonbase import ToontownGlobals
@@ -36,10 +31,12 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
 
     def setBossBattle(self, value):
         self.bossBattle = value
-        if self.bossBattle:
-            self.battleMusic = base.loader.loadMusic('phase_7/audio/bgm/encntr_suit_winning_indoor.ogg')
+        if self.bossBattle == 2:
+            self.battleMusic = base.loader.loadMusic('phase_5/audio/bgm/ttr_s_ara_csa_stomperRoom.ogg')
+        elif self.bossBattle == 3:
+            self.battleMusic = base.loader.loadMusic('phase_5/audio/bgm/ttr_s_ara_csa_executiveSuite.ogg')
         else:
-            self.battleMusic = base.loader.loadMusic('phase_7/audio/bgm/encntr_general_bg_indoor.ogg')
+            self.battleMusic = base.loader.loadMusic('phase_5/audio/bgm/ttr_s_ara_csa_boilerOffense.ogg')
         base.playMusic(self.battleMusic, looping=1, volume=0.9)
 
     def getBossBattleTaunt(self):
@@ -83,7 +80,7 @@ class DistributedBattleBldg(DistributedBattleBase.DistributedBattleBase):
             suit.setState('Battle')
             suitIsLeader = 0
             oneSuitTrack = Sequence()
-            oneSuitTrack.append(Func(suit.loop, 'neutral'))
+            oneSuitTrack.append(Func(suit.doNeutralAnim))
             oneSuitTrack.append(Func(suit.headsUp, elevatorPos))
             if self.suits.index(suit) == leaderIndex:
                 suitLeader = suit

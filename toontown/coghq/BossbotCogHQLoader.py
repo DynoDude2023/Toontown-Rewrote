@@ -36,6 +36,16 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.rainRender = render.attachNewNode('rainRender')
         self.rainRender.setDepthWrite(0)
         self.rainRender.setBin('fixed', 1)
+        
+        self.musicDict = {ToontownGlobals.BossbotHQ: random.choice(['phase_12/audio/bgm/Bossbot_Entry_v1.ogg',
+                                                                    'phase_12/audio/bgm/Bossbot_Entry_v2.ogg',
+                                                                    'phase_12/audio/bgm/Bossbot_Entry_v3.ogg']),
+                          ToontownGlobals.BossbotLobby: random.choice(['phase_12/audio/bgm/Bossbot_Entry_v1.ogg',
+                                                                       'phase_12/audio/bgm/Bossbot_Entry_v2.ogg',
+                                                                       'phase_12/audio/bgm/Bossbot_Entry_v3.ogg'])}
+        self.musicFile = random.choice(['phase_12/audio/bgm/Bossbot_Entry_v1.ogg',
+                                        'phase_12/audio/bgm/Bossbot_Entry_v2.ogg',
+                                        'phase_12/audio/bgm/Bossbot_Entry_v3.ogg'])
 
         self.rainSound = base.loadSfx('phase_12/audio/sfx/CHQ_rain_ambient.ogg')
         
@@ -63,8 +73,11 @@ class BossbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.notify.info('loadPlaceGeom: %s' % zoneId)
         zoneId = zoneId - zoneId % 100
         self.notify.debug('zoneId = %d ToontownGlobals.BossbotHQ=%d' % (zoneId, ToontownGlobals.BossbotHQ))
-        self.rain.start(camera, self.rainRender)
-        base.playSfx(self.rainSound, looping = 1, volume = 0.25)
+        try:
+            self.rain.start(camera, self.rainRender)
+            base.playSfx(self.rainSound, looping = 1, volume = 0.25)
+        except:
+            pass
         if zoneId == ToontownGlobals.BossbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
 

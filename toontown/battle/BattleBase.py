@@ -1,27 +1,22 @@
 from panda3d.core import *
+
 from toontown.toonbase.ToontownBattleGlobals import *
 from direct.task.Timer import *
 import math
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
+
 TOON_ID_COL = 0
 TOON_TRACK_COL = 1
 TOON_LVL_COL = 2
 TOON_TGT_COL = 3
 TOON_HP_COL = 4
-TOON_ACCBONUS_COL = 5
+TOON_MISSED_COL = 5
 TOON_HPBONUS_COL = 6
 TOON_KBBONUS_COL = 7
 SUIT_DIED_COL = 8
 SUIT_REVIVE_COL = 9
-SUIT_ID_COL = 0
-SUIT_ATK_COL = 1
-SUIT_TGT_COL = 2
-SUIT_HP_COL = 3
-TOON_DIED_COL = 4
-SUIT_BEFORE_TOONS_COL = 5
-SUIT_TAUNT_COL = 6
 NO_ID = -1
 NO_ATTACK = -1
 UN_ATTACK = -2
@@ -32,6 +27,14 @@ PASS = 98
 SOS = 99
 NPCSOS = 97
 PETSOS = 96
+SUIT_ID_COL = 0
+SUIT_ATK_COL = 1
+SUIT_TGT_COL = 2
+SUIT_HP_COL = 3
+TOON_DIED_COL = 4
+SUIT_BEFORE_TOONS_COL = 5
+SUIT_TAUNT_COL = 6
+SOS_TRACKS = [SOS, NPCSOS, PETSOS]
 FIRE = 100
 HEAL = HEAL_TRACK
 TRAP = TRAP_TRACK
@@ -40,14 +43,16 @@ SOUND = SOUND_TRACK
 THROW = THROW_TRACK
 SQUIRT = SQUIRT_TRACK
 DROP = DROP_TRACK
-TOON_ATTACK_TIME = 12.0
-SUIT_ATTACK_TIME = 12.0
+TOON_TGT_TRACKS = [HEAL, PETSOS, NPC_TOONS_HIT, NPC_RESTOCK_GAGS]
+TOON_ATTACK_TIME = 50.0
+SUIT_ATTACK_TIME = 200.0
 TOON_TRAP_DELAY = 0.8
-TOON_SOUND_DELAY = 1.0
 TOON_THROW_DELAY = 0.5
 TOON_THROW_SUIT_DELAY = 1.0
 TOON_SQUIRT_DELAY = 0.5
 TOON_SQUIRT_SUIT_DELAY = 1.0
+TOON_ZAP_DELAY = 0.5
+TOON_ZAP_SUIT_DELAY = 1.0
 TOON_DROP_DELAY = 0.8
 TOON_DROP_SUIT_DELAY = 1.0
 TOON_RUN_T = 3.3
@@ -62,72 +67,55 @@ try:
 except:
     CLIENT_INPUT_TIMEOUT = simbase.config.GetFloat('battle-input-timeout', TTLocalizer.BBbattleInputTimeout)
 
+
 def levelAffectsGroup(track, level):
     return attackAffectsGroup(track, level)
 
 
-def attackAffectsGroup(track, level, type = None):
+def attackAffectsGroup(track, level, type=None):
     if track == NPCSOS or type == NPCSOS or track == PETSOS or type == PETSOS:
         return 1
-    elif track >= 0 and track <= DROP_TRACK:
+    elif 0 <= track <= DROP_TRACK:
         return AvPropTargetCat[AvPropTarget[track]][level]
     else:
         return 0
 
 
-def getToonAttack(id, track = NO_ATTACK, level = -1, target = -1):
-    return [id,
-     track,
-     level,
-     target,
-     [],
-     0,
-     0,
-     [],
-     0,
-     0]
+def getToonAttack(toonId, track=NO_ATTACK, level=-1, target=-1):
+    return [toonId,
+            track,
+            level,
+            target,
+            [],
+            0,
+            [],
+            [],
+            0,
+            0]
 
 
 def getDefaultSuitAttacks():
-    suitAttacks = [[NO_ID,
-      NO_ATTACK,
-      -1,
-      [],
-      0,
-      0,
-      0],
-     [NO_ID,
-      NO_ATTACK,
-      -1,
-      [],
-      0,
-      0,
-      0],
-     [NO_ID,
-      NO_ATTACK,
-      -1,
-      [],
-      0,
-      0,
-      0],
-     [NO_ID,
-      NO_ATTACK,
-      -1,
-      [],
-      0,
-      0,
-      0]]
+    suitAttacks = [[NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0],
+                   [NO_ID, NO_ATTACK, -1, [], 0, 0, 0]]
     return suitAttacks
 
 
 def getDefaultSuitAttack():
     return [NO_ID,
-     NO_ATTACK,
-     -1,
-     [],
-     0,
-     0,
-     0]
+            NO_ATTACK,
+            -1,
+            [],
+            0,
+            0,
+            0]
 
 
 def findToonAttack(toons, attacks, track):
@@ -166,34 +154,182 @@ SERVER_INPUT_TIMEOUT = CLIENT_INPUT_TIMEOUT + SERVER_BUFFER_TIME
 MAX_JOIN_T = TTLocalizer.BBbattleInputTimeout
 FACEOFF_TAUNT_T = 3.5
 FACEOFF_LOOK_AT_PROP_T = 6
-ELEVATOR_T = 4.0
+ELEVATOR_T = 15.5
 BATTLE_SMALL_VALUE = 1e-07
 MAX_EXPECTED_DISTANCE_FROM_BATTLE = 50.0
+
 
 class BattleBase:
     notify = DirectNotifyGlobal.directNotify.newCategory('BattleBase')
     suitPoints = (((Point3(0, 5, 0), 179),),
-     ((Point3(2, 5.3, 0), 170), (Point3(-2, 5.3, 0), 180)),
-     ((Point3(4, 5.2, 0), 170), (Point3(0, 6, 0), 179), (Point3(-4, 5.2, 0), 190)),
-     ((Point3(6, 4.4, 0), 160),
-      (Point3(2, 6.3, 0), 170),
-      (Point3(-2, 6.3, 0), 190),
-      (Point3(-6, 4.4, 0), 200)))
-    suitPendingPoints = ((Point3(-4, 8.2, 0), 190),
-     (Point3(0, 9, 0), 179),
-     (Point3(4, 8.2, 0), 170),
-     (Point3(8, 3.2, 0), 160))
-    toonPoints = (((Point3(0, -6, 0), 0),),
-     ((Point3(1.5, -6.5, 0), 5), (Point3(-1.5, -6.5, 0), -5)),
-     ((Point3(3, -6.75, 0), 5), (Point3(0, -7, 0), 0), (Point3(-3, -6.75, 0), -5)),
-     ((Point3(4.5, -7, 0), 10),
-      (Point3(1.5, -7.5, 0), 5),
-      (Point3(-1.5, -7.5, 0), -5),
-      (Point3(-4.5, -7, 0), -10)))
-    toonPendingPoints = ((Point3(-3, -8, 0), -5),
-     (Point3(0, -9, 0), 0),
-     (Point3(3, -8, 0), 5),
-     (Point3(5.5, -5.5, 0), 20))
+
+                  ((Point3(2, 5.3, 0), 170),
+                   (Point3(-2, 5.3, 0), 180)),
+
+                  ((Point3(4, 5.2, 0), 170),
+                   (Point3(0, 6, 0), 179),
+                   (Point3(-4, 5.2, 0), 190)),
+
+                  ((Point3(6, 4.4, 0), 160),
+                   (Point3(2, 6.3, 0), 170),
+                   (Point3(-2, 6.3, 0), 190),
+                   (Point3(-6, 4.4, 0), 200)),
+
+                  ((Point3(8, 5.4, 0), 163),
+                   (Point3(4, 6.2, 0), 170),
+                   (Point3(0, 7, 0), 179),
+                   (Point3(-4, 6.2, 0), 190),
+                   (Point3(-8, 5.4, 0), 197)),
+
+                  ((Point3(10, 4.4, 0), 155),
+                   (Point3(6, 5.4, 0), 160),
+                   (Point3(2, 7.3, 0), 170),
+                   (Point3(-2, 7.3, 0), 190),
+                   (Point3(-6, 5.4, 0), 200),
+                   (Point3(-10, 4.4, 0), 205)),
+                  ((Point3(12, 5.0, 0), 158),
+                   (Point3(8, 6.4, 0), 163),
+                   (Point3(4, 7.2, 0), 170),
+                   (Point3(0, 8, 0), 179),
+                   (Point3(-4, 7.2, 0), 190),
+                   (Point3(-8, 6.4, 0), 197),
+                   (Point3(-12, 5.0, 0), 203)),
+                  ((Point3(14, 3.6, 0), 150),
+                   (Point3(10, 5.4, 0), 155),
+                   (Point3(6, 6.4, 0), 160),
+                   (Point3(2, 8.3, 0), 170),
+                   (Point3(-2, 8.3, 0), 190),
+                   (Point3(-6, 6.4, 0), 200),
+                   (Point3(-10, 5.4, 0), 205),
+                   (Point3(-14, 3.6, 0), 210)),
+                  ((Point3(14, 3.6, 0), 150),
+                   (Point3(10, 5.4, 0), 155),
+                   (Point3(6, 6.4, 0), 160),
+                   (Point3(2, 8.3, 0), 170),
+                   (Point3(-2, 8.3, 0), 190),
+                   (Point3(-6, 6.4, 0), 200),
+                   (Point3(-10, 5.4, 0), 205),
+                   (Point3(-14, 3.6, 0), 210),
+                   (Point3(-18, 2.8, 0), 210)),
+                  ((Point3(14, 3.6, 0), 150),
+                   (Point3(10, 5.4, 0), 155),
+                   (Point3(6, 6.4, 0), 160),
+                   (Point3(2, 8.3, 0), 170),
+                   (Point3(-2, 8.3, 0), 190),
+                   (Point3(-6, 6.4, 0), 200),
+                   (Point3(-10, 5.4, 0), 205),
+                   (Point3(-14, 3.6, 0), 210),
+                   (Point3(-18, 2.8, 0), 210),
+                   (Point3(16, 2.8, 0), 210)))
+    suitPendingPoints = (
+        (Point3(-4, 8.2, 0), 190),
+        (Point3(0, 9, 0), 179),
+        (Point3(4, 8.2, 0), 170),
+        (Point3(8, 3.2, 0), 160),
+        (Point3(8.5, 7.2, 0), 165),
+        (Point3(4.3, 11.2, 0), 170),
+        (Point3(0, 12, 0), 179),
+        (Point3(-4.3, 11.2, 0), 170),
+        (Point3(-4.3, 8.2, 0), 170),
+        (Point3(-5.1, 8.2, 0), 170))
+    toonPoints = (
+     (
+      (
+       Point3(0, -6, 0), 0),),
+     (
+      (
+       Point3(1.5, -6.5, 0), 5),
+      (
+       Point3(-1.5, -6.5, 0), -5)),
+     (
+      (
+       Point3(3, -6.75, 0), 5),
+      (
+       Point3(0, -7, 0), 0),
+      (
+       Point3(-3, -6.75, 0), -5)),
+     (
+      (
+       Point3(4.5, -7, 0), 10),
+      (
+       Point3(1.5, -7.5, 0), 5),
+      (
+       Point3(-1.5, -7.5, 0), -5),
+      (
+       Point3(-4.5, -7, 0), -10)),
+     (
+      (
+       Point3(6, -7.5, 0), 10),
+      (
+       Point3(3, -7.75, 0), 5),
+      (
+       Point3(0, -8, 0), 0),
+      (
+       Point3(-3, -7.75, 0), -5),
+      (
+       Point3(-6, -7.5, 0), -10)),
+     (
+      (
+       Point3(7.5, -7.5, 0), 15),
+      (
+       Point3(4.5, -8, 0), 10),
+      (
+       Point3(1.5, -8.5, 0), 5),
+      (
+       Point3(-1.5, -8.5, 0), -5),
+      (
+       Point3(-4.5, -8, 0), -10),
+      (
+       Point3(-7.5, -7.5, 0), -15)),
+     (
+      (
+       Point3(9, -8.25, 0), 15),
+      (
+       Point3(6, -8.5, 0), 10),
+      (
+       Point3(3, -8.75, 0), 5),
+      (
+       Point3(0, -9, 0), 0),
+      (
+       Point3(-3, -8.75, 0), -5),
+      (
+       Point3(-6, -8.5, 0), -10),
+      (
+       Point3(-9, -8.25, 0), -15)),
+     (
+      (
+       Point3(10.5, -8, 0), 20),
+      (
+       Point3(7.5, -8.5, 0), 15),
+      (
+       Point3(4.5, -9, 0), 10),
+      (
+       Point3(1.5, -9.5, 0), 5),
+      (
+       Point3(-1.5, -9.5, 0), -5),
+      (
+       Point3(-4.5, -9, 0), -10),
+      (
+       Point3(-7.5, -8.5, 0), -15),
+      (
+       Point3(-10.5, -8, 0), -20)))
+    toonPendingPoints = (
+     (
+      Point3(-3, -8, 0), -5),
+     (
+      Point3(0, -9, 0), 0),
+     (
+      Point3(3, -8, 0), 5),
+     (
+      Point3(5.5, -5.5, 0), 20),
+     (
+      Point3(6, -8, 0), 15),
+     (
+      Point3(3.5, -10.5, 0), 7),
+     (
+      Point3(0.5, -11.5, 0), 0),
+     (
+      Point3(-2.5, -10.5, 0), -7))
     posA = Point3(0, 10, 0)
     posB = Point3(-7.071, 7.071, 0)
     posC = Point3(-10, 0, 0)
@@ -203,31 +339,31 @@ class BattleBase:
     posG = Point3(10, 0, 0)
     posH = Point3(7.071, 7.071, 0)
     allPoints = (posA,
-     posB,
-     posC,
-     posD,
-     posE,
-     posF,
-     posG,
-     posH)
+                 posB,
+                 posC,
+                 posD,
+                 posE,
+                 posF,
+                 posG,
+                 posH)
     toonCwise = [posA,
-     posB,
-     posC,
-     posD,
-     posE]
+                 posB,
+                 posC,
+                 posD,
+                 posE]
     toonCCwise = [posH,
-     posG,
-     posF,
-     posE]
+                  posG,
+                  posF,
+                  posE]
     suitCwise = [posE,
-     posF,
-     posG,
-     posH,
-     posA]
+                 posF,
+                 posG,
+                 posH,
+                 posA]
     suitCCwise = [posD,
-     posC,
-     posB,
-     posA]
+                  posC,
+                  posB,
+                  posA]
     suitSpeed = 4.8
     toonSpeed = 8.0
 
@@ -267,7 +403,7 @@ class BattleBase:
         dist = Vec3(pos0 - pos1).length()
         return dist / BattleBase.toonSpeed
 
-    def buildJoinPointList(self, avPos, destPos, toon = 0):
+    def buildJoinPointList(self, avPos, destPos, toon=0):
         minDist = 999999.0
         nearestP = None
         for p in BattleBase.allPoints:

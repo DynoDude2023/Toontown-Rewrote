@@ -208,6 +208,43 @@ class ToggleRun(MagicWord):
         toon.d_setRun()
         return "Run mode has been toggled."
 
+class SetNametagStyle(MagicWord):
+    aliases = [
+     'setnametag', 'nametag', 'nametagstyle']
+    desc = "Set the style of the target's nametag to the specified ID."
+    execLocation = MagicWordConfig.EXEC_LOC_SERVER
+    arguments = [('style', str, True)]
+
+    def handleWord(self, invoker, avId, toon, *args):
+        styleName = args[0]
+        nametag_list = list(TTLocalizer.NametagFontNames)
+        for index, item in enumerate(nametag_list):
+            nametag_list[index] = item.lower()
+
+        styleName = styleName.lower()
+        if styleName in nametag_list:
+            index = nametag_list.index(styleName)
+        elif styleName == 'basic':
+            index = 100
+        else:
+            return 'Invalid nametag name entered.'
+        toon.b_setNametagStyle(index)
+        return "Set %s's nametag style successfully." % toon.getName()
+
+class SetCogIndex(MagicWord):
+    aliases = [
+     'cogindex']
+    desc = "Set the target's cog index."
+    execLocation = MagicWordConfig.EXEC_LOC_SERVER
+    arguments = [('department', int, False, -1), ('cogType', int, False, 0)]
+
+    def handleWord(self, invoker, avId, toon, *args):
+        deptIndex = args[0]
+        cogType = args[1]
+        if not -1 <= deptIndex <= 3 and not 50 <= deptIndex <= 52:
+            return 'The cog department index must be between 0 and 3!'
+        toon.b_setCogIndex(deptIndex)
+
 
 class SetSpeed(MagicWord):
     aliases = ["speed"]
@@ -1370,6 +1407,13 @@ class LeaveRace(MagicWord):
     def handleWord(self, invoker, avId, toon, *args):
         messenger.send('leaveRace')
 
+class killAllStreetSuits(MagicWord):
+    desc = "Kill all the cogs."
+    execLocation = MagicWordConfig.EXEC_LOC_CLIENT
+
+    def handleWord(self, invoker, avId, toon, *args):
+        messenger.send('kill-all-suits')
+
 
 class SkipCFO(MagicWord):
     desc = "Skips to the indicated round of the CFO."
@@ -1451,10 +1495,10 @@ class SkipCJ(MagicWord):
 
     def handleWord(self, invoker, avId, toon, *args):
         battle = args[0]
-        from toontown.suit.DistributedLawbotBossAI import DistributedLawbotBossAI
+        from toontown.suit.DistributedChiefJusticeAI import DistributedChiefJusticeAI
         boss = None
         for do in simbase.air.doId2do.values():
-            if isinstance(do, DistributedLawbotBossAI):
+            if isinstance(do, DistributedChiefJusticeAI):
                 if invoker.doId in do.involvedToons:
                     boss = do
                     break
@@ -1502,9 +1546,9 @@ class FillJury(MagicWord):
 
     def handleWord(self, invoker, avId, toon, *args):
         boss = None
-        from toontown.suit.DistributedLawbotBossAI import DistributedLawbotBossAI
+        from toontown.suit.DistributedChiefJusticeAI import DistributedChiefJusticeAI
         for do in simbase.air.doId2do.values():
-            if isinstance(do, DistributedLawbotBossAI):
+            if isinstance(do, DistributedChiefJusticeAI):
                 if invoker.doId in do.involvedToons:
                     boss = do
                     break
@@ -1556,6 +1600,24 @@ class SkipVP(MagicWord):
                 boss.b_setState('Victory')
                 return "Skipping final round..."
 
+class playAnimation1(MagicWord):
+    desc = "Play the Animation: Sell Off."
+    execLocation = MagicWordConfig.EXEC_LOC_SERVER
+    accessLevel = "MODERATOR"
+
+    def handleWord(self, invoker, avId, toon, *args):
+        from toontown.animations.DistributedSellOffAI import DistributedSellOffAI
+        animation = None
+        for do in simbase.air.doId2do.values():
+            if isinstance(do, DistributedSellOffAI):        
+                animation = do
+                break
+        if not DistributedSellOffAI:
+            return "Cannot Play Animation!"
+        
+        animation.startAnimation()
+
+        
         
 class StunVP(MagicWord):
     desc = "Stuns the VP in the final round of his battle."

@@ -76,6 +76,8 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         except:
             self.LocalToon_initialized = 1
             self.numFlowers = 0
+            self.defaultShard = 403000001
+            self.defaultZone = 2000
             self.maxFlowerBasket = 0
             DistributedToon.DistributedToon.__init__(self, cr)
             chatMgr = ToontownChatManager.ToontownChatManager(cr, self)
@@ -370,21 +372,28 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if WantNewsPage:
             self.addNewsPage()
         self.wordPage = WordPage.WordPage()
-        self.wordPage.load()
+        try:
+            self.wordPage.load()
+        except:
+            pass
+        
         self.rankPage = ResistanceRankPage.ResistanceRankPage()
         self.rankPage.load()
         self.book.addPage(self.wordPage, pageName=TTLocalizer.SpellbookPageTitle)
         self.book.addPage(self.rankPage, pageName='Resistance Rank')
         self.book.setPage(self.mapPage, enterPage=False)
-        self.laffMeter = LaffMeter.LaffMeter(self.style, self.hp, self.maxHp)
-        self.laffMeter.setAvatar(self)
-        self.laffMeter.setScale(0.075)
-        self.laffMeter.reparentTo(base.a2dBottomLeft)
-        if self.style.getAnimal() == 'monkey':
-            self.laffMeter.setPos(0.153, 0.0, 0.13)
-        else:
-            self.laffMeter.setPos(0.133, 0.0, 0.13)
-        self.laffMeter.stop()
+        try:
+            self.laffMeter = LaffMeter.LaffMeter(self.style, self.hp, self.maxHp)
+            self.laffMeter.setAvatar(self)
+            self.laffMeter.setScale(0.075)
+            self.laffMeter.reparentTo(base.a2dBottomLeft)
+            if self.style.getAnimal() == 'monkey':
+                self.laffMeter.setPos(0.153, 0.0, 0.13)
+            else:
+                self.laffMeter.setPos(0.133, 0.0, 0.13)
+            self.laffMeter.stop()
+        except:
+            pass
         self.questMap = QuestMap.QuestMap(self)
         self.questMap.stop()
         if not base.cr.isPaid():

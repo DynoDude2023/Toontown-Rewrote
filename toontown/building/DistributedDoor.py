@@ -117,10 +117,13 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         return
 
     def getTriggerName(self):
-        if self.doorType == DoorTypes.INT_HQ or self.doorType in self.specialDoorTypes:
-            return 'door_trigger_' + str(self.block) + '_' + str(self.doorIndex)
-        else:
-            return 'door_trigger_' + str(self.block)
+        try:
+            if self.doorType == DoorTypes.INT_HQ or self.doorType in self.specialDoorTypes:
+                return 'door_trigger_' + str(self.block) + '_' + str(self.doorIndex)
+            else:
+                return 'door_trigger_' + str(self.block)
+        except:
+            return 'door_trigger_0'
 
     def getTriggerName_wip(self):
         name = 'door_trigger_%d' % (self.doId,)
@@ -144,8 +147,13 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
     def setTriggerName(self):
         if self.doorType in self.specialDoorTypes:
             building = self.getBuilding()
-            doorTrigger = building.find('**/door_' + str(self.doorIndex) + '/**/door_trigger*')
-            doorTrigger.node().setName(self.getTriggerName())
+            try:
+                doorTrigger = building.find('**/door_' + str(self.doorIndex) + '/**/door_trigger*')
+                doorTrigger.node().setName(self.getTriggerName())
+            except:
+                doorTrigger = building.find('**/door_trigger_0')
+                doorTrigger.node().setName(self.getTriggerName())
+                
         else:
             return
 
@@ -241,7 +249,10 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
             avatar.stopSmooth()
         if avatar.doId == base.localAvatar.doId:
             track.append(LerpPosHprInterval(nodePath=camera, other=avatar, duration=duration, pos=Point3(0, -8, avatar.getHeight()), hpr=VBase3(0, 0, 0), blendType='easeInOut'))
-        finalPos = avatar.getParent().getRelativePoint(otherNP, Point3(self.doorX, 2, ToontownGlobals.FloorOffset))
+        try:
+            finalPos = avatar.getParent().getRelativePoint(otherNP, Point3(self.doorX, 2, ToontownGlobals.FloorOffset))
+        except:
+            finalPos = Point3(-1, 200, 23.140)
         moveHere = Sequence(self.getAnimStateInterval(avatar, 'walk'), LerpPosInterval(nodePath=avatar, duration=duration, pos=finalPos, blendType='easeIn'))
         track.append(moveHere)
         if avatar.doId == base.localAvatar.doId:
@@ -255,10 +266,10 @@ class DistributedDoor(DistributedObject.DistributedObject, DelayDeletable):
         back = -5.0 - 2.0 * len(self.avatarIDList)
         if back < -9.0:
             back = -9.0
-        offset = Point3(self.doorX, back, ToontownGlobals.FloorOffset)
+        offset = Point3(-1, 160, 23.140)
         otherNP = self.getDoorNodePath()
         walkLike = ActorInterval(avatar, 'walk', startTime=1, duration=duration, endTime=0.0001)
-        standHere = Sequence(LerpPosHprInterval(nodePath=avatar, other=otherNP, duration=duration, pos=offset, hpr=VBase3(0, 0, 0), blendType='easeInOut'), self.getAnimStateInterval(avatar, 'neutral'))
+        standHere = Sequence(LerpPosHprInterval(nodePath=avatar, other=render, duration=duration, pos=offset, hpr=VBase3(0, 0, 0), blendType='easeInOut'), self.getAnimStateInterval(avatar, 'neutral'))
         trackName = 'avatarEnqueueDoor-%d-%d' % (self.doId, avatar.doId)
         track = Parallel(walkLike, standHere, name=trackName)
         track.delayDelete = DelayDelete.DelayDelete(avatar, 'avatarEnqueueTrack')

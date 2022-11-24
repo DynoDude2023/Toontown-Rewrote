@@ -437,6 +437,10 @@ def chooseSuitShot(attack, attackDuration):
         shakeIntensity = 5.15
         quake = 1
         camTrack.append(suitCameraShakeShot(suit, attackDuration, shakeIntensity, quake))
+    elif name == ADVANCED_SYNERGY:
+        shakeIntensity = 6.4
+        quake = 5
+        camTrack.append(suitCameraShakeShot(suit, attackDuration, shakeIntensity, quake))
     elif name == RAZZLE_DAZZLE:
         camTrack.append(defaultCamera(openShotDuration=2.2))
     elif name == RED_TAPE:
@@ -666,6 +670,9 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
     if quake == 1:
         shakeDelay = 1.1
         numShakes = 4
+    elif quake == 5:
+        shakeDelay = 0.4
+        numShakes = 10
     else:
         shakeDelay = 0.3
         numShakes = 5
@@ -675,8 +682,8 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
     shakeWaitInterval = shakeTime * ((numShakes - 1.0) / numShakes)
 
     def shakeCameraTrack(intensity, shakeWaitInterval = shakeWaitInterval, quake = quake, shakeDuration = shakeDuration, numShakes = numShakes):
-        vertShakeTrack = Sequence(Wait(shakeWaitInterval), Func(camera.setZ, camera.getZ() + intensity / 2), Wait(shakeDuration / 2), Func(camera.setZ, camera.getZ() - intensity), Wait(shakeDuration / 2), Func(camera.setZ, camera.getZ() + intensity / 2))
-        horizShakeTrack = Sequence(Wait(shakeWaitInterval - shakeDuration / 2), Func(camera.setY, camera.getY() + intensity / 4), Wait(shakeDuration / 2), Func(camera.setY, camera.getY() - intensity / 2), Wait(shakeDuration / 2), Func(camera.setY, camera.getY() + intensity / 4), Wait(shakeDuration / 2), Func(camera.lookAt, Point3(0, 0, 0)))
+        vertShakeTrack = Sequence(Wait(shakeWaitInterval), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY(), camera.getZ() + intensity / 2), blendType='easeInOut'), Wait(shakeDuration / 2), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY(), camera.getZ() - intensity), blendType='easeInOut'), Wait(shakeDuration / 2), blendType='easeInOut'), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY(), camera.getZ() + intensity / 2), blendType='easeInOut'), Func(camera.lookAt, Point3(0, 0, 0))
+        horizShakeTrack = Sequence(Wait(shakeWaitInterval - shakeDuration / 2), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY() + intensity / 4, camera.getZ()),  blendType='easeInOut'), Wait(shakeDuration / 2), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY() - intensity / 2, camera.getZ()),  blendType='easeInOut'), Wait(shakeDuration / 2), LerpPosInterval(camera, 0.5, Point3(camera.getX(), camera.getY() + intensity / 4, camera.getZ()),  blendType='easeInOut'), Wait(shakeDuration / 2), Func(camera.lookAt, Point3(0, 0, 0)))
         shakeTrack = Sequence()
         for i in xrange(0, numShakes):
             if quake == 0:

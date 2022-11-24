@@ -28,16 +28,14 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('factoryInterior')
 
-        if base.localAvatar.defaultShard == 401000001:
-            self.musicFile = 'phase_8/audio/bgm/ttr_s_ara_dga_kaboomberg.ogg'
-        else:
-            self.musicFile = 'phase_9/audio/bgm/encntr_suit_HQ_nbrhood.ogg'
-        if base.localAvatar.defaultShard == 401000001:
-            self.cogHQExteriorModelPath = 'phase_14/models/neighborhoods/ttr_m_ara_dga_kaboomberg.bam'
-        else:
-            self.cogHQExteriorModelPath = 'phase_9/models/cogHQ/SellbotHQExterior'
+        self.cogHQExteriorModelPath = 'phase_9/models/cogHQ/SellbotHQExterior'
+        self.hideOutModel = 'phase_9/models/cogHQ/ttr_m_ara_shq_resistanceHideout'
         self.cogHQLobbyModelPath = 'phase_9/models/cogHQ/SellbotHQLobby'
         self.factoryExteriorModelPath = 'phase_9/models/cogHQ/SellbotFactoryExterior'
+        self.musicDict = {ToontownGlobals.SellbotHQ: 'phase_9/audio/bgm/encntr_suit_HQ_nbrhood.ogg',
+                          ToontownGlobals.SellbotLobby: 'phase_9/audio/bgm/SB_boss_lobby.ogg',
+                          ToontownGlobals.SellbotFactoryExt: 'phase_9/audio/bgm/SB_factory_lobby.ogg',
+                          ToontownGlobals.SellbotResistanceHideout: 'phase_9/audio/bgm/ttr_s_ara_shq_resistanceHideout.ogg'}
         self.geom = None
         return
 
@@ -57,41 +55,47 @@ class SellbotCogHQLoader(CogHQLoader.CogHQLoader):
         zoneId = zoneId - zoneId % 100
         if zoneId == ToontownGlobals.SellbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
-            if base.localAvatar.defaultShard != 401000001:
-                dgLinkTunnel = self.geom.find('**/Tunnel1')
-                dgLinkTunnel.setName('linktunnel_dg_5316_DNARoot')
-                factoryLinkTunnel = self.geom.find('**/Tunnel2')
-                factoryLinkTunnel.setName('linktunnel_sellhq_11200_DNARoot')
-                cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
-                cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
-                cogSignSF = 23
-                dgSign = cogSign.copyTo(dgLinkTunnel)
-                dgSign.setPosHprScale(0.0, -291.5, 29, 180.0, 0.0, 0.0, cogSignSF, cogSignSF, cogSignSF * aspectSF)
-                dgSign.node().setEffect(DecalEffect.make())
-                dgText = DirectGui.OnscreenText(text=TTLocalizer.DaisyGardens[-1], font=ToontownGlobals.getSuitFont(), pos=(0, -0.3), scale=TTLocalizer.SCHQLdgText, mayChange=False, parent=dgSign)
-                dgText.setDepthWrite(0)
-                factorySign = cogSign.copyTo(factoryLinkTunnel)
-                factorySign.setPosHprScale(148.625, -155, 27, -90.0, 0.0, 0.0, cogSignSF, cogSignSF, cogSignSF * aspectSF)
-                factorySign.node().setEffect(DecalEffect.make())
-                factoryTypeText = DirectGui.OnscreenText(text=TTLocalizer.Sellbot, font=ToontownGlobals.getSuitFont(), pos=(0, -0.25), scale=0.075, mayChange=False, parent=factorySign)
-                factoryTypeText.setDepthWrite(0)
-                factoryText = DirectGui.OnscreenText(text=TTLocalizer.Factory, font=ToontownGlobals.getSuitFont(), pos=(0, -0.34), scale=0.12, mayChange=False, parent=factorySign)
-                factoryText.setDepthWrite(0)
-                doors = self.geom.find('**/doors')
-                door0 = doors.find('**/door_0')
-                door1 = doors.find('**/door_1')
-                door2 = doors.find('**/door_2')
-                door3 = doors.find('**/door_3')
-                index = 0
-                for door in [door0,
-                door1,
-                door2,
-                door3]:
-                    doorFrame = door.find('**/doorDoubleFlat/+GeomNode')
-                    door.find('**/doorFrameHoleLeft').wrtReparentTo(doorFrame)
-                    door.find('**/doorFrameHoleRight').wrtReparentTo(doorFrame)
-                    doorFrame.node().setEffect(DecalEffect.make())
-                    index += 1
+            dgLinkTunnel = self.geom.find('**/Tunnel1')
+            dgLinkTunnel.setName('linktunnel_dg_5316_DNARoot')
+            factoryLinkTunnel = self.geom.find('**/Tunnel2')
+            factoryLinkTunnel.setName('linktunnel_sellhq_11200_DNARoot')
+            self.geom.find('**/sewercap').hide()
+            cogSignModel = loader.loadModel('phase_4/models/props/sign_sellBotHeadHQ')
+            cogSign = cogSignModel.find('**/sign_sellBotHeadHQ')
+            cogSignSF = 23
+            dgSign = cogSign.copyTo(dgLinkTunnel)
+            dgSign.setPosHprScale(0.0, -291.5, 29, 180.0, 0.0, 0.0, cogSignSF, cogSignSF, cogSignSF * aspectSF)
+            dgSign.node().setEffect(DecalEffect.make())
+            dgText = DirectGui.OnscreenText(text=TTLocalizer.DaisyGardens[-1], font=ToontownGlobals.getSuitFont(), pos=(0, -0.3), scale=TTLocalizer.SCHQLdgText, mayChange=False, parent=dgSign)
+            dgText.setDepthWrite(0)
+            factorySign = cogSign.copyTo(factoryLinkTunnel)
+            factorySign.setPosHprScale(148.625, -155, 27, -90.0, 0.0, 0.0, cogSignSF, cogSignSF, cogSignSF * aspectSF)
+            factorySign.node().setEffect(DecalEffect.make())
+            factoryTypeText = DirectGui.OnscreenText(text=TTLocalizer.Sellbot, font=ToontownGlobals.getSuitFont(), pos=(0, -0.25), scale=0.075, mayChange=False, parent=factorySign)
+            factoryTypeText.setDepthWrite(0)
+            factoryText = DirectGui.OnscreenText(text=TTLocalizer.Factory, font=ToontownGlobals.getSuitFont(), pos=(0, -0.34), scale=0.12, mayChange=False, parent=factorySign)
+            factoryText.setDepthWrite(0)
+            doors = self.geom.find('**/doors')
+            door0 = doors.find('**/door_0')
+            door1 = doors.find('**/door_1')
+            door2 = doors.find('**/door_2')
+            door3 = doors.find('**/door_3')
+            index = 0
+            for door in [door0,
+             door1,
+             door2,
+             door3]:
+                doorFrame = door.find('**/doorDoubleFlat/+GeomNode')
+                door.find('**/doorFrameHoleLeft').wrtReparentTo(doorFrame)
+                door.find('**/doorFrameHoleRight').wrtReparentTo(doorFrame)
+                doorFrame.node().setEffect(DecalEffect.make())
+                index += 1
+        
+        elif zoneId == ToontownGlobals.SellbotResistanceHideout:
+            self.geom = loader.loadModel('phase_3.5/models/props/tart')
+            self.geom.hide()
+            self.geom2 = loader.loadModel(self.hideOutModel)
+            self.geom2.reparentTo(render)
 
         elif zoneId == ToontownGlobals.SellbotFactoryExt:
             self.geom = loader.loadModel(self.factoryExteriorModelPath)

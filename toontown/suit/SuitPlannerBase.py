@@ -449,19 +449,8 @@ class SuitPlannerBase:
     TOTAL_BWEIGHT_PER_TRACK = [0,
      0,
      0,
-     0,
-     0,
-     0,
-     0,
-     0,
-     0,
      0]
     TOTAL_BWEIGHT_PER_HEIGHT = [0,
-     0,
-     0,
-     0,
-     0,
-     0,
      0,
      0,
      0,
@@ -471,11 +460,6 @@ class SuitPlannerBase:
         tracks = currHoodInfo[SUIT_HOOD_INFO_TRACK]
         levels = currHoodInfo[SUIT_HOOD_INFO_LVL]
         heights = [0,
-         0,
-         0,
-         0,
-         0,
-         0,
          0,
          0,
          0,
@@ -496,11 +480,6 @@ class SuitPlannerBase:
         TOTAL_BWEIGHT_PER_HEIGHT[2] += weight * heights[2]
         TOTAL_BWEIGHT_PER_HEIGHT[3] += weight * heights[3]
         TOTAL_BWEIGHT_PER_HEIGHT[4] += weight * heights[4]
-        TOTAL_BWEIGHT_PER_HEIGHT[5] += weight * heights[5]
-        TOTAL_BWEIGHT_PER_HEIGHT[6] += weight * heights[6]
-        TOTAL_BWEIGHT_PER_HEIGHT[7] += weight * heights[7]
-        TOTAL_BWEIGHT_PER_HEIGHT[8] += weight * heights[8]
-        TOTAL_BWEIGHT_PER_HEIGHT[9] += weight * heights[9]
 
     def __init__(self):
         self.suitWalkSpeed = ToontownGlobals.SuitWalkSpeed
@@ -512,7 +491,7 @@ class SuitPlannerBase:
         if self.dnaStore:
             return None
         self.dnaStore = DNAStorage()
-        dnaFileName = self.genDNAFileName(self.zoneId)
+        dnaFileName = self.genDNAFileName()
         try:
             simbase.air.loadDNAFileAI(self.dnaStore, dnaFileName)
         except:
@@ -521,23 +500,17 @@ class SuitPlannerBase:
         self.initDNAInfo()
         return None
 
-    def genDNAFileName(self, zoneId):
-        zoneId = ZoneUtil.getCanonicalZoneId(zoneId)
-        hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
-        hood = ToontownGlobals.dnaMap[hoodId]
-        if hoodId == zoneId:
-            zoneId = 'sz'
-            phase = ToontownGlobals.phaseMap[hoodId]
-        else:
+    def genDNAFileName(self):
+        try:
+            return simbase.air.genDNAFileName(self.getZoneId())
+        except:
+            zoneId = ZoneUtil.getCanonicalZoneId(self.getZoneId())
+            hoodId = ZoneUtil.getCanonicalHoodId(zoneId)
+            hood = ToontownGlobals.dnaMap[hoodId]
             phase = ToontownGlobals.streetPhaseMap[hoodId]
-
-        if 'outdoor_zone' in hood or 'golf_zone' in hood:
-            phase = '6'
-
-        if zoneId == 11000 and simbase.air.districtId == 401000001:
-            return 'phase_14/dna/daisys_garden_kaboomberg_sz.xml'
-        else:
-            return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
+            if hoodId == zoneId:
+                zoneId = 'sz'
+            return 'phase_%s/dna/%s_%s.dna' % (phase, hood, zoneId)
 
     def getZoneId(self):
         return self.zoneId

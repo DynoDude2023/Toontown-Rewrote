@@ -33,6 +33,7 @@ class NewsManager(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.population = 0
         self.invading = 0
+        self.invadingCog = None
         self.decorationHolidayIds = []
         self.holidayDecorator = None
         self.holidayIdList = []
@@ -63,6 +64,7 @@ class NewsManager(DistributedObject.DistributedObject):
          cogType,
          numRemaining,
          skeleton))
+        self.invadingCog = cogType
         cogName = SuitBattleGlobals.SuitAttributes[cogType]['name']
         cogNameP = SuitBattleGlobals.SuitAttributes[cogType]['pluralname']
         if skeleton:
@@ -101,6 +103,9 @@ class NewsManager(DistributedObject.DistributedObject):
 
     def getInvading(self):
         return self.invading
+    
+    def getInvadingCog(self):
+        return self.invadingCog
 
     def startHoliday(self, holidayId):
         if holidayId not in self.holidayIdList:

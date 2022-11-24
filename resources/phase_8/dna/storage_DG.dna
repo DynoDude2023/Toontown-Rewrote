@@ -7,6 +7,9 @@ hood_model "phase_8/models/modules/cornices_DG" [
 	store_node [ "cornice" "cornice_shinglesDG_ul" ]
 	]
 
+store_font [ "font" "suit"
+             "phase_3/models/fonts/vtRemingtonPortable.ttf" ]
+
 hood_model "phase_3.5/models/modules/walls_basement" [
 	store_node [ "wall" "wall_basement_brick_ur" ]
 	store_node [ "wall" "wall_basement_brick_ul" ]

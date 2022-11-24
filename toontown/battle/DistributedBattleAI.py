@@ -2,17 +2,22 @@ from otp.ai.AIBase import *
 from BattleBase import *
 from BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
 import DistributedBattleBaseAI
 from direct.task import Task
+from SuitBattleGlobals import MAX_SUIT_CAPACITY
 from direct.directnotify import DirectNotifyGlobal
 import random
+
 
 class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedBattleAI')
 
-    def __init__(self, air, battleMgr, pos, suit, toonId, zoneId, finishCallback = None, maxSuits = 4, tutorialFlag = 0, levelFlag = 0, interactivePropTrackBonus = -1):
-        DistributedBattleBaseAI.DistributedBattleBaseAI.__init__(self, air, zoneId, finishCallback, maxSuits=maxSuits, tutorialFlag=tutorialFlag, interactivePropTrackBonus=interactivePropTrackBonus)
+    def __init__(self, air, battleMgr, pos, suit, toonId, zoneId, finishCallback=None,
+                 maxSuits=4, tutorialFlag=0,
+                 levelFlag=0, interactivePropTrackBonus=-1):
+        DistributedBattleBaseAI.DistributedBattleBaseAI.__init__(self, air, zoneId, finishCallback, maxSuits=maxSuits,
+                                                                 tutorialFlag=tutorialFlag,
+                                                                 interactivePropTrackBonus=interactivePropTrackBonus)
         self.battleMgr = battleMgr
         self.pos = pos
         self.initialSuitPos = suit.getConfrontPosHpr()[0]
@@ -71,7 +76,7 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
 
     def handleFaceOffDone(self):
         self.timer.stop()
-        self.activeSuits.append(self.suits[0])
+        self.activateSuit(self.suits[0])
         if len(self.toons) == 0:
             self.b_setState('Resume')
         elif self.faceOffToon == self.toons[0]:
@@ -90,7 +95,8 @@ class DistributedBattleAI(DistributedBattleBaseAI.DistributedBattleBaseAI):
                 if toon:
                     self.toonItems[toonId] = self.air.questManager.recoverItems(toon, self.suitsKilled, self.zoneId)
                     if toonId in self.helpfulToons:
-                        self.toonMerits[toonId] = self.air.promotionMgr.recoverMerits(toon, self.suitsKilled, self.zoneId)
+                        self.toonMerits[toonId] = self.air.promotionMgr.recoverMerits(toon, self.suitsKilled,
+                                                                                      self.zoneId)
                     else:
                         self.notify.debug('toon %d not helpful, skipping merits' % toonId)
 

@@ -747,7 +747,10 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
                     teleportDebug(requestStatus, 'friend not here, giving up')
                     base.localAvatar.setSystemMessage(avId, OTPLocalizer.WhisperTargetLeftVisit % (friend.getName(),))
                     friend.d_teleportGiveup(base.localAvatar.doId)
-        base.transitions.irisIn()
+        if requestStatus['zoneId'] == 11800 or requestStatus['zoneId'] == 13700:
+            base.transitions.irisOut(0)
+        else:
+            base.transitions.irisIn()
         self.nextState = requestStatus.get('nextState', 'walk')
         base.localAvatar.attachCamera()
         base.localAvatar.startUpdateSmartCamera()

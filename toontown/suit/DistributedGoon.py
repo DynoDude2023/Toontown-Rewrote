@@ -41,6 +41,12 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
         self.animMultiplier = 1.0
         self.isDead = 0
         self.isStunned = 0
+        self.goonWalkInterval = None
+        self.goonWalkInterval1 = None
+        self.goonWalkInterval2 = None
+        self.goonWalkInterval3 = None
+        self.goonWalkInterval4 = None
+        self.makeGoonWalkingIntervals()
         self.collapseSound = loader.loadSfx('phase_9/audio/sfx/CHQ_GOON_hunker_down.ogg')
         self.recoverSound = loader.loadSfx('phase_9/audio/sfx/CHQ_GOON_rattle_shake.ogg')
         self.attackSound = loader.loadSfx('phase_9/audio/sfx/CHQ_GOON_tractor_beam_alarmed.ogg')
@@ -64,6 +70,37 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
         self.animMultiplier = self.velocity / (ANIM_WALK_RATE * self.scale)
         self.setPlayRate(self.animMultiplier, 'walk')
 
+    def makeGoonWalkingIntervals(self):
+        self.goonhpr1Interval = self.hprInterval(5.0, Point3(180, 0, 0))
+        self.goonPos1Interval = self.posInterval(5.0, Point3(285, -14.0, 0.025))
+        self.goonhpr2Interval = self.hprInterval(5.0, Point3(0, 0, 0))
+        self.goonPos2Interval = self.posInterval(5.0, Point3(284, 19.0, 0.025))
+        self.goonWalkInterval = Sequence(self.goonhpr1Interval, self.goonPos1Interval, self.goonhpr2Interval, self.goonPos2Interval)
+        
+        self.goonhpr1Interval1 = self.hprInterval(5.0, Point3(0, 0, 0))
+        self.goonPos1Interval1 = self.posInterval(5.0, Point3(95, 200.0, 0.025))
+        self.goonhpr2Interval1 = self.hprInterval(5.0, Point3(180, 0, 0))
+        self.goonPos2Interval1 = self.posInterval(5.0, Point3(84, 140.0, 0.025))
+        self.goonWalkInterval1 = Sequence(self.goonhpr1Interval1, self.goonPos1Interval1, self.goonhpr2Interval1, self.goonPos2Interval1)
+        
+        self.goonhpr1Interval2 = self.hprInterval(10.0, Point3(180, 0, 0))
+        self.goonPos1Interval2 = self.posInterval(20.0, Point3(-202, -187.0, 3.925))
+        self.goonhpr2Interval2 = self.hprInterval(20.0, Point3(0, 0, 0))
+        self.goonPos2Interval2 = self.posInterval(10.0, Point3(-236, -105.0, 3.925))
+        self.goonWalkInterval2 = Sequence(self.goonhpr1Interval2, self.goonPos1Interval2, self.goonhpr2Interval2, self.goonPos2Interval2)
+        
+        self.goonhpr1Interval3 = self.hprInterval(5.0, Point3(0, 0, 0))
+        self.goonPos1Interval3 = self.posInterval(5.0, Point3(18, -142.0, 0.025))
+        self.goonhpr2Interval3 = self.hprInterval(5.0, Point3(180, 0, 0))
+        self.goonPos2Interval3 = self.posInterval(5.0, Point3(4, -207.0, 0.025))
+        self.goonWalkInterval3 = Sequence(self.goonhpr1Interval3, self.goonPos1Interval3, self.goonhpr2Interval3, self.goonPos2Interval3)
+        
+        self.goonhpr1Interval4 = self.hprInterval(10.0, Point3(180, 0, 0))
+        self.goonPos1Interval4 = self.posInterval(20.0, Point3(-225, 167.0, 3.925))
+        self.goonhpr2Interval4 = self.hprInterval(10.0, Point3(0, 0, 0))
+        self.goonPos2Interval4 = self.posInterval(20.0, Point3(-206, 210.0, 3.925))
+        self.goonWalkInterval4 = Sequence(self.goonhpr1Interval4, self.goonPos1Interval4, self.goonhpr2Interval4, self.goonPos2Interval4)
+    
     def initPath(self):
         self.enterOff()
         self.setPath()

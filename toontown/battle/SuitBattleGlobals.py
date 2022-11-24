@@ -1,6 +1,12 @@
 from BattleBase import *
+import copy
 import random
+
+from direct.distributed.PyDatagram import PyDatagram
+from direct.distributed.PyDatagramIterator import PyDatagramIterator
 from direct.directnotify import DirectNotifyGlobal
+from panda3d.core import Point4
+
 from otp.otpbase import OTPLocalizer
 from toontown.toonbase import TTLocalizer
 notify = DirectNotifyGlobal.directNotify.newCategory('SuitBattleGlobals')
@@ -27,31 +33,32 @@ def getActualFromRelativeLevel(name, relLevel):
     return actualLevel
 
 
-def getSuitVitals(name, level = -1):
+def getSuitDataFromName(name):
+    return SuitAttributes[name]
+
+
+def getSuitData(name, level=-1):
     data = SuitAttributes[name]
     if level == -1:
         level = pickFromFreqList(data['freq'])
-    dict = {}
-    dict['level'] = getActualFromRelativeLevel(name, level)
-    if dict['level'] == 11:
-        level = 0
-    dict['hp'] = data['hp'][level]
-    dict['def'] = data['def'][level]
+    suitDict = {'level': getActualFromRelativeLevel(name, level),
+                'hp': data['hp'][level],
+                'def': data['def'][level]}
     attacks = data['attacks']
-    alist = []
-    for a in attacks:
+    attackList = []
+    for attack in attacks:
         adict = {}
-        name = a[0]
+        name = attack[0]
         adict['name'] = name
         adict['animName'] = SuitAttacks[name][0]
-        adict['hp'] = a[1][level]
-        adict['acc'] = a[2][level]
-        adict['freq'] = a[3][level]
+        adict['hp'] = attack[1][level]
+        adict['acc'] = attack[2][level]
+        adict['freq'] = attack[3][level]
         adict['group'] = SuitAttacks[name][1]
-        alist.append(adict)
+        attackList.append(adict)
 
-    dict['attacks'] = alist
-    return dict
+    suitDict['attacks'] = attackList
+    return suitDict
 
 
 def pickSuitAttack(attacks, suitLevel):
@@ -61,11 +68,11 @@ def pickSuitAttack(attacks, suitLevel):
     count = 0
     index = 0
     total = 0
-    for c in attacks:
-        total = total + c[3][suitLevel]
+    for attack in attacks:
+        total = total + attack[3][suitLevel]
 
-    for c in attacks:
-        count = count + c[3][suitLevel]
+    for attack in attacks:
+        count = count + attack[3][suitLevel]
         if randNum < count:
             attackNum = index
             notify.debug('picking attack %d' % attackNum)
@@ -88,8 +95,24 @@ def pickSuitAttack(attacks, suitLevel):
                 return i
 
         return attackNum
-    return
 
+
+def getSuitAttack(suitName, suitLevel, attackNum=-1):
+    attackChoices = SuitAttributes[suitName]['attacks']
+    if attackNum == -1:
+        notify.debug('getSuitAttack: picking attacking for %s' % suitName)
+        attackNum = pickSuitAttack(attackChoices, suitLevel)
+    attack = attackChoices[attackNum]
+    name = attack[0]
+    adict = {'suitName': suitName,
+             'name': name,
+             'id': SuitAttacks.keys().index(name),
+             'animName': SuitAttacks[name][0],
+             'hp': attack[1][suitLevel],
+             'acc': attack[2][suitLevel],
+             'freq': attack[3][suitLevel],
+             'group': SuitAttacks[name][1]}
+    return adict
 
 def getSuitAttack(suitName, suitLevel, attackNum = -1):
     attackChoices = SuitAttributes[suitName]['attacks']
@@ -109,6 +132,8 @@ def getSuitAttack(suitName, suitLevel, attackNum = -1):
     adict['group'] = SuitAttacks[name][1]
     return adict
 
+MAX_SUIT_CAPACITY = 8
+SUIT_CAPACITY = 4
 
 # Formatted by Jake S. - You're welcome!
 SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky, # cog name
@@ -369,6 +394,56 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky, # cog name
                     (3,4,6,8,10,12,14,16),
                     (50,50,50,50,50,50,50,50),
                     (45,40,35,30,25,25,25,25)))},
+ 'fred': {'name': "Fred",
+        'singularname': TTLocalizer.SuitColdCallerS,
+        'pluralname': TTLocalizer.SuitColdCallerP,
+        'level': 0,
+        'hp':(6,12,20,30,42,56,72,90),
+        'def':(2,5,10,12,15,17,19,21),
+        'freq':(50,30,10,5,5,5,5,5),
+        'acc':(35,40,45,50,55,55,55,55),
+        'attacks':
+                (('FreezeAssets',
+                    (1,1,1,1,1,4,6,8),
+                    (90,90,90,90,90,90,90,90),
+                    (5,10,15,20,25,25,25,25)),
+                ('PoundKey',
+                    (2,2,3,4,5,6,7,8),
+                    (75,80,85,90,95,95,95,95),
+                    (25,25,25,25,25,25,25,25)),
+                ('MumboJumbo',
+                    (2,3,4,6,8,10,12,14),
+                    (50,55,60,65,70,70,70,70),
+                    (25,25,25,25,25,25,25,25)),
+                ('HotAir',
+                    (3,4,6,8,10,12,14,16),
+                    (50,50,50,50,50,50,50,50),
+                    (45,40,35,30,25,25,25,25)))},
+ 'bo': {'name': TTLocalizer.SuitColdCaller,
+        'singularname': TTLocalizer.SuitColdCallerS,
+        'pluralname': TTLocalizer.SuitColdCallerP,
+        'level': 0,
+        'hp':(6,12,20,30,42,56,72,90),
+        'def':(2,5,10,12,15,17,19,21),
+        'freq':(50,30,10,5,5,5,5,5),
+        'acc':(35,40,45,50,55,55,55,55),
+        'attacks':
+                (('FreezeAssets',
+                    (1,1,1,1,1,4,6,8),
+                    (90,90,90,90,90,90,90,90),
+                    (5,10,15,20,25,25,25,25)),
+                ('PoundKey',
+                    (2,2,3,4,5,6,7,8),
+                    (75,80,85,90,95,95,95,95),
+                    (25,25,25,25,25,25,25,25)),
+                ('DoubleTalk',
+                    (2,3,4,6,8,10,12,14),
+                    (50,55,60,65,70,70,70,70),
+                    (25,25,25,25,25,25,25,25)),
+                ('HotAir',
+                    (3,4,6,8,10,12,14,16),
+                    (50,50,50,50,50,50,50,50),
+                    (45,40,35,30,25,25,25,25)))},
  'tm': {'name': TTLocalizer.SuitTelemarketer,
         'singularname': TTLocalizer.SuitTelemarketerS,
         'pluralname': TTLocalizer.SuitTelemarketerP,
@@ -445,6 +520,35 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky, # cog name
                     (55,65,75,85,95,95,95,95),
                     (10,20,30,40,45,45,45,45)),
                 ('SongAndDance',
+                    (0,0,0,0,0,0,0,0),
+                    (55,65,75,85,95,95,95,95),
+                    (0,0,0,0,0,0,0,0)))},
+ 'handy': {'name': "Handy",
+        'singularname': TTLocalizer.SuitGladHanderS,
+        'pluralname': TTLocalizer.SuitGladHanderP,
+        'level': 4,
+        'hp':(42,56,72,90,110,132,156,196),
+        'def':(15,20,25,30,35,40,45,50),
+        'freq':(50,30,10,5,5,5,5,5),
+        'acc':(70,75,80,82,85,90,95,100),
+        'attacks':
+                (('RubberStamp',
+                    (5,6,7,8,9,10,1,1),
+                    (90,70,50,30,10,10,10,10),
+                    (40,30,20,10,5,5,5,5)),
+                ('FingerWag',
+                    (5,6,7,8,9,10,11,12),
+                    (70,60,50,40,30,30,30,30),
+                    (40,30,20,10,5,5,5,5)),
+                ('DoubleTalk',
+                    (7,9,10,12,15,17,20,22),
+                    (30,40,50,60,70,70,70,70),
+                    (10,20,30,40,45,45,45,45)),
+                ('Fired',
+                    (10,12,15,18,22,25,27,30),
+                    (55,65,75,85,95,95,95,95),
+                    (10,20,30,40,45,45,45,45)),
+                ('BurnTwo',
                     (0,0,0,0,0,0,0,0),
                     (55,65,75,85,95,95,95,95),
                     (0,0,0,0,0,0,0,0)))},
@@ -525,6 +629,35 @@ SuitAttributes = {'f': {'name': TTLocalizer.SuitFlunky, # cog name
                     (15,15,15,15,15,15,15,15)),
                 ('Schmooze',
                     (7,8,12,15,16,18,20,22),
+                    (55,65,75,85,95,95,95,95),
+                    (30,30,30,30,30,30,30,30)),
+                ('TeeOff',
+                    (8,9,10,11,12,13,15,16),
+                    (70,75,80,85,95,95,95,95),
+                    (10,10,10,10,10,10,10,10)))},
+ 'hfm': {'name': "Hedge Fund Manager",
+       'singularname': TTLocalizer.SuitTheMinglerS,
+       'pluralname': TTLocalizer.SuitTheMinglerP,
+       'level': 6,
+       'hp':(72,90,110,132,156,198,224,254),
+       'def':(30,35,40,45,50,50,55,60),
+       'freq':(50,30,10,5,5,5,5,5),
+       'acc':(35,40,45,50,55,60,65,70),
+       'attacks':
+               (('AdvancedSynergy',
+                    (10,11,13,15,16,18,20,21),
+                    (60,75,80,85,90,90,90,90),
+                    (20,20,20,20,20,20,20,20)),
+                ('AdvancedSynergy',
+                    (12,15,18,24,27,30,33,36),
+                    (60,70,75,80,90,90,90,90),
+                    (25,25,25,25,25,25,25,25)),
+                ('PowerTrip',
+                    (10,13,14,15,18,24,27,32),
+                    (60,65,70,75,80,80,80,80),
+                    (15,15,15,15,15,15,15,15)),
+                ('AdvancedSynergy',
+                    (7,8,12,15,16,18,30,34),
                     (55,65,75,85,95,95,95,95),
                     (30,30,30,30,30,30,30,30)),
                 ('TeeOff',
@@ -957,6 +1090,7 @@ SuitAttacks = {'Audit': ('phone', ATK_TGT_SINGLE),
  'FillWithLead': ('pencil-sharpener', ATK_TGT_SINGLE),
  'FingerWag': ('finger-wag', ATK_TGT_SINGLE),
  'Fired': ('magic2', ATK_TGT_SINGLE),
+ 'BurnTwo': ('magic2', ATK_TGT_SINGLE),
  'FiveOClockShadow': ('glower', ATK_TGT_SINGLE),
  'FloodTheMarket': ('glower', ATK_TGT_SINGLE),
  'FountainPen': ('pen-squirt', ATK_TGT_SINGLE),
@@ -997,6 +1131,7 @@ SuitAttacks = {'Audit': ('phone', ATK_TGT_SINGLE),
  'SongAndDance': ('song-and-dance', ATK_TGT_SINGLE),
  'Spin': ('magic3', ATK_TGT_SINGLE),
  'Synergy': ('magic3', ATK_TGT_GROUP),
+ 'AdvancedSynergy': ('magic3', ATK_TGT_GROUP),
  'Tabulate': ('phone', ATK_TGT_SINGLE),
  'TeeOff': ('golf-club-swing', ATK_TGT_SINGLE),
  'ThrowBook': ('throw-object', ATK_TGT_SINGLE),
@@ -1024,6 +1159,7 @@ FILIBUSTER = SuitAttacks.keys().index('Filibuster')
 FILL_WITH_LEAD = SuitAttacks.keys().index('FillWithLead')
 FINGER_WAG = SuitAttacks.keys().index('FingerWag')
 FIRED = SuitAttacks.keys().index('Fired')
+BurnTwo = SuitAttacks.keys().index('BurnTwo')
 FIVE_O_CLOCK_SHADOW = SuitAttacks.keys().index('FiveOClockShadow')
 FLOOD_THE_MARKET = SuitAttacks.keys().index('FloodTheMarket')
 FOUNTAIN_PEN = SuitAttacks.keys().index('FountainPen')
@@ -1064,6 +1200,7 @@ SHRED = SuitAttacks.keys().index('Shred')
 SONG_AND_DANCE = SuitAttacks.keys().index('SongAndDance')
 SPIN = SuitAttacks.keys().index('Spin')
 SYNERGY = SuitAttacks.keys().index('Synergy')
+ADVANCED_SYNERGY = SuitAttacks.keys().index('AdvancedSynergy')
 TABULATE = SuitAttacks.keys().index('Tabulate')
 TEE_OFF = SuitAttacks.keys().index('TeeOff')
 THROW_BOOK = SuitAttacks.keys().index('ThrowBook')
@@ -1111,3 +1248,65 @@ def getAttackTaunt(attackName, index = None):
 
 
 SuitAttackTaunts = TTLocalizer.SuitAttackTaunts
+
+SuitStatusNames = ['lured', 'soaked', 'trapped', 'dmg-down', 'immune']
+
+TRAPPED_STATUS = 'trapped'
+LURED_STATUS = 'lured'
+SOAKED_STATUS = 'soaked'
+MARKED_STATUS = 'marked'
+DMG_DOWN_STATUS = 'dmg-down'
+IMMUNE_STATUS = 'immune'
+
+SuitStatuses = [{'name': TRAPPED_STATUS, 'level': -1, 'damage': 0, 'toon': 0},
+                {'name': LURED_STATUS, 'rounds': 1, 'kbBonus': 0.5, 'decay': 100, 'toons': [], 'levels': []},
+                {'name': SOAKED_STATUS, 'rounds': 1, 'defense': -15},
+                {'name': MARKED_STATUS, 'rounds': 2, 'stacks': 0, 'damage-mod': 0.0},
+                {'name': DMG_DOWN_STATUS, 'rounds': 1, 'power-mod': 0.4},
+                {'name': IMMUNE_STATUS, 'rounds': 2}]
+ROUND_STATUSES = [LURED_STATUS, SOAKED_STATUS, MARKED_STATUS, DMG_DOWN_STATUS, IMMUNE_STATUS]
+
+
+def genSuitStatus(name):
+    statusEffect = None
+    for status in SuitStatuses:
+        if name == status['name']:
+            statusEffect = copy.deepcopy(status)
+    return statusEffect
+
+def makeStatusString(status):
+    dg = PyDatagram()
+    dg.addString(status['name'])
+    if status['name'] in ROUND_STATUSES:
+        dg.addInt16(status['rounds'])
+    if status['name'] == TRAPPED_STATUS:
+        dg.addInt8(status['level'])
+        dg.addInt32(status['damage'])
+    elif status['name'] == LURED_STATUS:
+        dg.addFloat32(status['kbBonus'])
+        dg.addInt8(status['decay'])
+    elif status['name'] == SOAKED_STATUS:
+        dg.addInt16(status['defense'])
+    elif status['name'] == MARKED_STATUS:
+        dg.addFloat32(status['damage-mod'])
+
+    return dg.getMessage()
+
+
+def getStatusFromString(statusString):
+    dg = PyDatagram(statusString)
+    dgi = PyDatagramIterator(dg)
+    status = genSuitStatus(dgi.getString())
+    if status['name'] in ROUND_STATUSES:
+        status['rounds'] = dgi.getInt16()
+    if status['name'] == TRAPPED_STATUS:
+        status['level'] = dgi.getInt8()
+        status['damage'] = dgi.getInt32()
+    elif status['name'] == LURED_STATUS:
+        status['kbBonus'] = dgi.getFloat32()
+        status['decay'] = dgi.getInt8()
+    elif status['name'] == SOAKED_STATUS:
+        status['defense'] = dgi.getInt16()
+    elif status['name'] == MARKED_STATUS:
+        status['damage-mod'] = dgi.getFloat32()
+    return status

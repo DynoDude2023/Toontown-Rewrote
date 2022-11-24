@@ -13,6 +13,38 @@ from libotp import *
 POP_COLORS_NTT = (Vec4(0.0, 1.0, 0.0, 1.0), Vec4(1.0, 1.0, 0.0, 1.0), Vec4(1.0, 0.0, 0.0, 1.0))
 POP_COLORS = (Vec4(0.4, 0.4, 1.0, 1.0), Vec4(0.4, 1.0, 0.4, 1.0), Vec4(1.0, 0.4, 0.4, 1.0))
 
+def setupInvasionMarkerAny(node):
+    pass # TODO
+
+def setupInvasionMarker(dept):
+    icons = loader.loadModel('phase_3/models/gui/cog_icons')
+
+    if dept == 3:
+        icon = icons.find('**/CorpIcon')
+    elif dept == 2:
+        icon = icons.find('**/LegalIcon')
+    elif dept == 1:
+        icon = icons.find('**/MoneyIcon')
+    elif dept == 0:
+        icon = icons.find('**/SalesIcon')
+    else:
+        icon = icons.find('**/SalesIcon').copyTo(aspect2d)
+    
+    icon.setX(0.1)
+    icon.setScale(0.08)
+    icon.setZ(0.02)
+    
+    return icon
+    
+
+
+
+def removeInvasionMarker(node):
+    markerNode = node.find('**/*invasion-marker')
+
+    if not markerNode.isEmpty():
+        markerNode.removeNode()
+
 class ShardPage(ShtikerPage.ShtikerPage):
     notify = DirectNotifyGlobal.directNotify.newCategory('ShardPage')
 
@@ -27,9 +59,11 @@ class ShardPage(ShtikerPage.ShtikerPage):
         self.ShardInfoUpdateInterval = 5.0
         self.lowPop, self.midPop, self.highPop = base.getShardPopLimits()
         self.showPop = True
+        self.invasionIsHappening = 0
         self.noTeleport = config.GetBool('shard-page-disable', 0)
         self.adminForceReload = 0
         self.safeDistricts = [403000001]
+        self.deptIndex = None
         return
 
     def load(self):
@@ -110,8 +144,38 @@ class ShardPage(ShtikerPage.ShtikerPage):
                 rIconGeom.setX(0.1)
                 rIconGeom.setScale(0.08)
                 rIconGeom.setZ(0.02)
+            elif shardId == 404000001:    
+                shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_font=ToontownGlobals.getSuitFont(), text1_bg=Vec4(0.8, 0.2, 0.4, 1), text2_bg=Vec4(0.7, 0.3, 0.3, 1), text3_fg=Vec4(0.8, 0.3, 0.3, 1), text_scale=0.06, text_align=TextNode.ALeft, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
+                cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+                rIconGeom = cogIcons.find('**/SalesIcon')
+                rIconGeom.reparentTo(shardButtonR)
+                rIconGeom.setX(0.1)
+                rIconGeom.setScale(0.08)
+                rIconGeom.setZ(0.02)
             else:
-                shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
+                dnaToDept = {0: ['cc', 'tm', 'nd', 'gh', 'ms', 'tf', 'm', 'mh'],
+                             1: ['sc', 'pp', 'tw', 'bc', 'nc', 'mb', 'ls', 'rb'],
+                             2: ['bf', 'b', 'dt', 'ac', 'bs', 'sd', 'le', 'bw'],
+                             3: ['f', 'p', 'ym', 'mm', 'ds', 'hh', 'cr', 'tbc']}
+                #if the dna is in the dept list, then set a varable to the dept index.
+                if base.cr.newsManager.getInvading():
+                    self.invasionIsHappening = 1
+                if base.cr.newsManager.getInvading():
+                    for dept in dnaToDept:
+                        if base.cr.newsManager.getInvadingCog() in dnaToDept[dept]:
+                            self.deptIndex = dept
+                else:
+                    self.deptIndex = 5
+                cogDeptIcon = setupInvasionMarker(self.deptIndex)
+                if base.cr.newsManager.getInvading():
+                    
+                    shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_font=ToontownGlobals.getSuitFont(), text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
+                    rIconGeom = cogDeptIcon
+                    rIconGeom.reparentTo(shardButtonR)
+                else:
+                    if cogDeptIcon:
+                       cogDeptIcon.hide()
+                    shardButtonR = DirectButton(parent=shardButtonParent, relief=None, text=popText, text_scale=0.06, text_align=TextNode.ALeft, text1_bg=self.textDownColor, text2_bg=self.textRolloverColor, text3_fg=self.textDisabledColor, textMayChange=1, pos=(0.5, 0, 0), command=self.choseShard, extraArgs=[shardId])
         else:
             model = loader.loadModel('phase_3.5/models/gui/matching_game_gui')
             button = model.find('**/minnieCircle')

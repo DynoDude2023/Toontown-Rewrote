@@ -16,7 +16,7 @@ bSize = 5.29
 cSize = 4.14
 SuitDialogArray = []
 SkelSuitDialogArray = []
-AllSuits = (('walk', 'walk'), ('run', 'walk'), ('neutral', 'neutral'))
+AllSuits = (('walk', 'walk'), ('run', 'walk'), ('sit-vip-loop', 'sit-vip-loop'), ('idle', 'idle'), ('neutral', 'neutral'))
 AllSuitsMinigame = (('victory', 'victory'),
  ('flail', 'flailing'),
  ('tug-o-war', 'tug-o-war'),
@@ -86,6 +86,10 @@ cc = (('speak', 'speak', 5),
  ('glower', 'glower', 5),
  ('phone', 'phone', 3.5),
  ('finger-wag', 'finger-wag', 5))
+fred = (('speak', 'speak', 5),
+ ('glower', 'glower', 5),
+ ('phone', 'phone', 3.5),
+ ('finger-wag', 'finger-wag', 5))
 tm = (('speak', 'speak', 5),
  ('throw-paper', 'throw-paper', 5),
  ('pickpocket', 'pickpocket', 5),
@@ -95,7 +99,18 @@ nd = (('pickpocket', 'pickpocket', 5),
  ('roll-o-dex', 'roll-o-dex', 5),
  ('magic3', 'magic3', 5),
  ('smile', 'smile', 5))
+hfm = (('pickpocket', 'pickpocket', 5),
+ ('speak', 'speak', 5),
+ ('magic2', 'magic2', 5),
+ ('magic1', 'magic1', 5),
+ ('roll-o-dex', 'roll-o-dex', 5),
+ ('magic3', 'magic3', 5),
+ ('smile', 'smile', 5))
 gh = (('speak', 'speak', 5), ('pen-squirt', 'fountain-pen', 5), ('rubber-stamp', 'rubber-stamp', 5))
+handy = (('speak', 'speak', 5), ('finger-wag', 'finger-wag', 5),
+         ('pen-squirt', 'fountain-pen', 5),
+         ('magic2', 'magic2', 5),
+         ('rubber-stamp', 'rubber-stamp', 5))
 ms = (('effort', 'effort', 5),
  ('throw-paper', 'throw-paper', 5),
  ('stomp', 'stomp', 5),
@@ -587,6 +602,22 @@ class Suit(Avatar.Avatar):
             self.generateBody()
             self.generateHead('coldcaller')
             self.setHeight(4.63)
+        elif dna.name == 'fred':
+            self.scale = 3.5 / cSize
+            self.handColor = VBase4(0.55, 0.65, 1.0, 1.0)
+            self.headColor = VBase4(0.25, 0.35, 1.0, 1.0)
+            self.generateBody()
+            self.generateHead('coldcaller')
+            self.setHeight(4.63)
+        elif dna.name == 'bo':
+            self.scale = 3.5 / cSize
+            self.handColor = VBase4(0.55, 0.65, 1.0, 1.0)
+            self.headColor = VBase4(0.25, 0.35, 1.0, 1.0)
+            self.generateBody()
+            self.generateHead('coldcaller')
+            self.makeBoiler()
+            
+            self.setHeight(4.63)
         elif dna.name == 'tm':
             self.scale = 3.75 / bSize
             self.handColor = SuitDNA.salesPolyColor
@@ -600,7 +631,20 @@ class Suit(Avatar.Avatar):
             self.headTexture = 'name-dropper.jpg'
             self.generateHead('numbercruncher')
             self.setHeight(5.98)
+        elif dna.name == 'hfm':
+            self.scale = 4.35 / aSize
+            self.handColor = SuitDNA.salesPolyColor
+            self.generateBody()
+            self.headTexture = 'tt_chr_ene_hedge_fundManager.jpg'
+            self.generateHead('numbercruncher')
+            self.setHeight(5.98)
         elif dna.name == 'gh':
+            self.scale = 4.75 / cSize
+            self.handColor = SuitDNA.salesPolyColor
+            self.generateBody()
+            self.generateHead('gladhander')
+            self.setHeight(6.4)
+        elif dna.name == 'handy':
             self.scale = 4.75 / cSize
             self.handColor = SuitDNA.salesPolyColor
             self.generateBody()
@@ -657,18 +701,23 @@ class Suit(Avatar.Avatar):
     def generateAnimDict(self):
         animDict = {}
         filePrefix, bodyPhase = ModelDict[self.style.body]
-        for anim in AllSuits:
-            animDict[anim[0]] = 'phase_' + str(bodyPhase) + filePrefix + anim[1]
+        if self.style.name != 'bo':
+            for anim in AllSuits:
+                animDict[anim[0]] = 'phase_' + str(bodyPhase) + filePrefix + anim[1]
 
-        for anim in AllSuitsMinigame:
-            animDict[anim[0]] = 'phase_4' + filePrefix + anim[1]
+            for anim in AllSuitsMinigame:
+                animDict[anim[0]] = 'phase_4' + filePrefix + anim[1]
 
-        for anim in AllSuitsTutorialBattle:
-            filePrefix, bodyPhase = TutorialModelDict[self.style.body]
-            animDict[anim[0]] = 'phase_' + str(bodyPhase) + filePrefix + anim[1]
+            for anim in AllSuitsTutorialBattle:
+                filePrefix, bodyPhase = TutorialModelDict[self.style.body]
+                animDict[anim[0]] = 'phase_' + str(bodyPhase) + filePrefix + anim[1]
+            
+            for anim in AllSuitsBattle:
+                animDict[anim[0]] = 'phase_5' + filePrefix + anim[1]
+        else:   
+            animDict['neutral'] = 'phase_5/models/char/ttr_a_chr_cbg_boss_idle'
+            animDict['walk'] = 'phase_5/models/char/ttr_a_chr_cbg_boss_idle'
 
-        for anim in AllSuitsBattle:
-            animDict[anim[0]] = 'phase_5' + filePrefix + anim[1]
 
         if not base.config.GetBool('want-new-cogs', 0):
             if self.style.body == 'a':
@@ -876,14 +925,18 @@ class Suit(Avatar.Avatar):
         if dept == 'c':
             self.corpMedallion = icons.find('**/CorpIcon').copyTo(chestNull)
         elif dept == 's':
-            self.corpMedallion = icons.find('**/SalesIcon').copyTo(chestNull)
+            if self.style.name != 'bo':
+                self.corpMedallion = icons.find('**/SalesIcon').copyTo(chestNull)
+            else:
+                self.corpMedallion = icons.find('**/SalesIcon').copyTo(render)
         elif dept == 'l':
             self.corpMedallion = icons.find('**/LegalIcon').copyTo(chestNull)
         elif dept == 'm':
             self.corpMedallion = icons.find('**/MoneyIcon').copyTo(chestNull)
-        self.corpMedallion.setPosHprScale(0.02, 0.05, 0.04, 180.0, 0.0, 0.0, 0.51, 0.51, 0.51)
-        self.corpMedallion.setColor(self.medallionColors[dept])
-        icons.removeNode()
+        if self.style.name != 'bo':    
+            self.corpMedallion.setPosHprScale(0.02, 0.05, 0.04, 180.0, 0.0, 0.0, 0.51, 0.51, 0.51)
+            self.corpMedallion.setColor(self.medallionColors[dept])
+            icons.removeNode()
 
     def generateHealthBar(self):
         self.removeHealthBar()
@@ -898,7 +951,8 @@ class Suit(Avatar.Avatar):
                 chestNull = self.find('**/def_joint_attachMeter')
         else:
             chestNull = self.find('**/def_joint_attachMeter')
-        button.reparentTo(chestNull)
+        if self.style.name != 'bo':
+            button.reparentTo(chestNull)
         self.healthBar = button
         glow = BattleProps.globalPropPool.getProp('glow')
         glow.reparentTo(self.healthBar)
@@ -1005,7 +1059,27 @@ class Suit(Avatar.Avatar):
         dropShadow.setColor(0.0, 0.0, 0.0, 0.5)
         dropShadow.reparentTo(shadowJoint)
         return self.loseActor
+    
+    def makeBoiler(self):
+        model = 'phase_5/models/char/ttr_r_chr_cbg_boss'
+        anims = self.generateAnimDict()
+        anim = self.getCurrentAnim()
+        dropShadow = self.dropShadow
+        self.removePart('modelRoot')
+        self.loadModel(model)
+        self.loadAnims(anims)
+        self.generateHealthBar()
+        self.generateCorporateMedallion()
+        self.generateCorporateTie()
 
+        self.leftHand = self.find('**/def_joint_left_hold')
+        self.rightHand = self.find('**/def_joint_right_hold')
+        self.shadowJoint = self.find('**/def_shadow')
+        self.nametagNull = self.find('**/def_nameTag')
+        self.loop(anim)
+        self.setBlend(frameBlend=base.settings.getBool('game', 'interpolate-animations', False))
+
+    
     def cleanupLoseActor(self):
         self.notify.debug('cleanupLoseActor()')
         if self.loseActor != None:

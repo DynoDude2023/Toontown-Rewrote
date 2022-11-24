@@ -8,7 +8,8 @@ taskZoneId2pathId = {ToontownGlobals.SellbotFactoryInt: 'sellbotFactory',
  ToontownGlobals.LawbotStageIntA: 'lawOfficeStage',
  ToontownGlobals.LawbotStageIntB: 'lawOfficeStage',
  ToontownGlobals.LawbotStageIntC: 'lawOfficeStage',
- ToontownGlobals.LawbotStageIntD: 'lawOfficeStage'}
+ ToontownGlobals.LawbotStageIntD: 'lawOfficeStage',
+ ToontownGlobals.BossbotHQ: 'BossbotHeadquarters'}
 Paths = {'sellbotFactory': {0: [Vec3(10.0, 0.0, 0.0),
                         Vec3(10.0, 10.0, 0.0),
                         Vec3(-10.0, 10.0, 0.0),
@@ -212,4 +213,5 @@ Paths = {'sellbotFactory': {0: [Vec3(10.0, 0.0, 0.0),
                         Vec3(5.77, 10.0, 0.0),
                         Vec3(-5.77, -10.0, 0.0),
                         Vec3(5.77, -10.0, 0.0)],
-                    3: [Vec3(-10, 0, 0), Vec3(10, 0, 0)]}}
+                    3: [Vec3(-10, 0, 0), Vec3(10, 0, 0)]},
+  'BossbotHeadquarters': {0: [Vec3(284, 19.0, 0.025), Vec3(285, -14.0, 0.025)]}}

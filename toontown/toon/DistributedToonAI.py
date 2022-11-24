@@ -97,6 +97,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.glasses = (0, 0, 0)
         self.backpack = (0, 0, 0)
         self.shoes = (0, 0, 0)
+        self.extraUberGags = [0, 0, 0, 0, 0, 0, 0]
         self.cogTypes = [0,
          0,
          0,
@@ -2714,7 +2715,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def squish(self, damage):
         self.takeDamage(damage)
-
+    
     if simbase.wantKarts:
 
         def hasKart(self):
@@ -3247,9 +3248,6 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def doBuildingTakeover(self, suitIndex):
         streetId = ZoneUtil.getBranchZone(self.zoneId)
-        if streetId not in self.air.suitPlanners:
-            self.notify.warning('Street %d is not known.' % streetId)
-            return ['badlocation', suitIndex, 0]
         sp = self.air.suitPlanners[streetId]
         bm = sp.buildingMgr
         building = self.findClosestDoor()
@@ -3298,6 +3296,19 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def getCogSummonsEarned(self):
         return self.cogSummonsEarned
+    
+    def b_setExtraUberGags(self, uberGags):
+        self.d_setExtraUberGags(uberGags)
+        self.setExtraUberGags(uberGags)
+
+    def d_setExtraUberGags(self, uberGags):
+        self.sendUpdate('setExtraUberGags', [uberGags])
+
+    def setExtraUberGags(self, uberGags):
+        self.extraUberGags = uberGags
+
+    def getExtraUberGags(self):
+        return self.extraUberGags
 
     def restockAllCogSummons(self):
         numSuits = len(SuitDNA.suitHeadTypes)

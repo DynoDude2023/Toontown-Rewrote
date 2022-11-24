@@ -20,7 +20,6 @@ from toontown.toonbase import TTLocalizer
 from direct.gui import DirectLabel
 from otp.distributed.TelemetryLimiter import RotationLimitToH, TLGatherAllAvs
 from toontown.quest import Quests
-from toontown.battle import BattleParticles
 
 class Playground(Place.Place):
     notify = DirectNotifyGlobal.directNotify.newCategory('Playground')
@@ -52,8 +51,7 @@ class Playground(Place.Place):
                             'quest',
                             'purchase',
                             'stopped',
-                            'fishing',
-                            'died']),
+                            'fishing']),
             State.State('stickerBook',
                         self.enterStickerBook,
                         self.exitStickerBook, [
@@ -160,8 +158,7 @@ class Playground(Place.Place):
             State.State('died',
                         self.enterDied,
                         self.exitDied, [
-                            'final',
-                            'walk']),
+                            'final']),
             State.State('tunnelIn',
                         self.enterTunnelIn,
                         self.exitTunnelIn, [
@@ -214,44 +211,18 @@ class Playground(Place.Place):
 
         def __lightDecorationOn__():
             geom = base.cr.playGame.hood.loader.geom
-            self.loader.hood.eventLights = geom.findAllMatches('**/*light*')
-            self.loader.hood.eventLights += geom.findAllMatches('**/*lamp*')
-            self.loader.hood.eventLights += geom.findAllMatches('**/prop_snow_tree*')
-            self.loader.hood.eventLights += geom.findAllMatches('**/prop_tree*')
-            self.loader.hood.eventLights += geom.findAllMatches('**/*christmas*')
-            for light in self.loader.hood.eventLights:
+            self.loader.hood.halloweenLights = geom.findAllMatches('**/*light*')
+            self.loader.hood.halloweenLights += geom.findAllMatches('**/*lamp*')
+            self.loader.hood.halloweenLights += geom.findAllMatches('**/prop_snow_tree*')
+            for light in self.loader.hood.halloweenLights:
                 light.setColorScaleOff(0)
 
         newsManager = base.cr.newsManager
         if newsManager:
             holidayIds = base.cr.newsManager.getDecorationHolidayId()
-            #Halloween Event
             if (ToontownGlobals.HALLOWEEN_COSTUMES in holidayIds or ToontownGlobals.SPOOKY_COSTUMES in holidayIds) and self.loader.hood.spookySkyFile:
                 lightsOff = Sequence(LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(0.55, 0.55, 0.65, 1)), Func(self.loader.hood.startSpookySky), Func(__lightDecorationOn__))
                 lightsOff.start()
-            else:
-                self.loader.hood.startSky()
-                lightsOn = LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(1, 1, 1, 1))
-                lightsOn.start()
-            #Christmas Event
-            if (ToontownGlobals.WINTER_DECORATIONS in holidayIds or ToontownGlobals.WACKY_WINTER_DECORATIONS in holidayIds) and self.loader.hood.snowySkyFile:
-                lightsOff = Sequence(LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(0.7, 0.7, 0.8, 1)), Func(self.loader.hood.startSnowySky), Func(__lightDecorationOn__))
-                lightsOff.start()
-                self.snowEvent = BattleParticles.loadParticleFile('snowdisk.ptf')
-                self.snowEvent.setPos(0, 30, 10)
-                #2 and 3 are only for the blizzard event and should be removed
-                self.snowEvent2 = BattleParticles.loadParticleFile('snowdisk.ptf')
-                self.snowEvent2.setPos(0, 10, 10)
-                self.snowEvent3 = BattleParticles.loadParticleFile('snowdisk.ptf')
-                self.snowEvent3.setPos(0, 20, 5)
-                self.snowEventRender = base.cr.playGame.hood.loader.geom.attachNewNode('snowRender')
-                self.snowEventRender.setDepthWrite(2)
-                self.snowEventRender.setBin('fixed', 1)
-                self.snowEventFade = None
-                self.snowEvent.start(camera, self.snowEventRender)
-                #2 and 3 are only for the blizzard event and should be removed
-                self.snowEvent2.start(camera, self.snowEventRender)
-                self.snowEvent3.start(camera, self.snowEventRender)
             else:
                 self.loader.hood.startSky()
                 lightsOn = LerpColorScaleInterval(base.cr.playGame.hood.loader.geom, 0.1, Vec4(1, 1, 1, 1))
@@ -280,7 +251,7 @@ class Playground(Place.Place):
         self.loader.geom.reparentTo(hidden)
 
         def __lightDecorationOff__():
-            for light in self.loader.hood.eventLights:
+            for light in self.loader.hood.halloweenLights:
                 light.reparentTo(hidden)
 
         newsManager = base.cr.newsManager
@@ -312,13 +283,13 @@ class Playground(Place.Place):
 
     def showTreasurePoints(self, points):
         self.hideDebugPointText()
-        for i in range(len(points)):
+        for i in xrange(len(points)):
             p = points[i]
             self.showDebugPointText(str(i), p)
 
     def showDropPoints(self, points):
         self.hideDebugPointText()
-        for i in range(len(points)):
+        for i in xrange(len(points)):
             p = points[i]
             self.showDebugPointText(str(i), p)
 
@@ -352,7 +323,7 @@ class Playground(Place.Place):
     def hideDebugPointText(self):
         if hasattr(self, 'debugText'):
             children = self.debugText.getChildren()
-            for i in range(children.getNumPaths()):
+            for i in xrange(children.getNumPaths()):
                 children[i].removeNode()
 
     def showDebugPointText(self, text, point):
@@ -565,7 +536,7 @@ class Playground(Place.Place):
                     msg = TTLocalizer.NPCForceAcknowledgeMessage8
                     imgNodePath = imageModel.find('**/hq-dialog-image')
                     imgPos = (0, 0, 0.05)
-                    imgScale = 0.5
+                    imgScale = 0 # TODO: RETRO MODE 0.5
             elif base.localAvatar.quests[0][0] == Quests.PHONE_QUEST_ID:
                 if Quests.avatarHasCompletedPhoneQuest(base.localAvatar):
                     x, y, z, h, p, r = base.cr.hoodMgr.getDropPoint(base.cr.hoodMgr.ToontownCentralHQDropPoints)
@@ -663,7 +634,7 @@ class Playground(Place.Place):
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for i in range(dnaStore.getNumDNAVisGroups()):
+        for i in xrange(dnaStore.getNumDNAVisGroups()):
             groupFullName = dnaStore.getDNAVisGroupName(i)
             groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
             groupNode = self.geom.find('**/' + groupFullName)
@@ -679,7 +650,7 @@ class Playground(Place.Place):
 
     def removeLandmarkBlockNodes(self):
         npc = self.geom.findAllMatches('**/suit_building_origin')
-        for i in range(npc.getNumPaths()):
+        for i in xrange(npc.getNumPaths()):
             npc.getPath(i).removeNode()
 
     def enterTFA(self, requestStatus):

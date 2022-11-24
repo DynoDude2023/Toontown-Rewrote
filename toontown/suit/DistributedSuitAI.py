@@ -264,15 +264,9 @@ class DistributedSuitAI(DistributedSuitBaseAI.DistributedSuitBaseAI):
         elif legType == SuitLeg.TToSuitBuilding:
             self.openSuitDoor()
         elif legType == SuitLeg.TToCoghq:
-            try:
-                self.openCogHQDoor(1)
-            except:
-                pass
+            self.openCogHQDoor(1)
         elif legType == SuitLeg.TFromCoghq:
-            try:
-                self.openCogHQDoor(0)
-            except:
-                pass
+            self.openCogHQDoor(0)
 
     def resume(self):
         self.notify.debug('Suit %s resume' % self.doId)

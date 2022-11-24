@@ -5,10 +5,11 @@ from toontown.toonbase import ToontownGlobals
 class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('LobbyManagerAI')
 
-    def __init__(self, air, bossConstructor):
+    def __init__(self, air, bossConstructor, star=0):
         DistributedObjectAI.DistributedObjectAI.__init__(self, air)
         self.air = air
         self.bossConstructor = bossConstructor
+        self.star = star
 
     def generate(self):
         DistributedObjectAI.DistributedObjectAI.generate(self)
@@ -22,7 +23,10 @@ class LobbyManagerAI(DistributedObjectAI.DistributedObjectAI):
     def createBossOffice(self, avIdList):
         bossZone = self.air.allocateZone()
         self.notify.info('createBossOffice: %s' % bossZone)
-        bossCog = self.bossConstructor(self.air)
+        if self.star:
+            bossCog = self.bossConstructor(self.air, self.star)
+        else:
+            bossCog = self.bossConstructor(self.air)
         for avId in avIdList:
             if avId:
                 bossCog.addToon(avId)

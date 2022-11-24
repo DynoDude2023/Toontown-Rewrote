@@ -114,6 +114,8 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  10600: ('to the', 'in the', 'The Middle Six'),
  10700: ('to the', 'in the', 'The Back Nine'),
  11000: ('to the', 'in the', 'Sellbot HQ Courtyard'),
+ 11800: ('to the', 'in the', 'Resistance Hideout'),
+ 11900: ('to the', 'in the', 'Scrapyard, INC.'),
  11100: ('to the', 'in the', 'Sellbot HQ Lobby'),
  11200: ('to the', 'in the', 'Sellbot Factory'),
  11500: ('to the', 'in the', 'Sellbot Factory'),
@@ -123,6 +125,7 @@ GlobalStreetNames = {20000: ('to', 'on', 'Tutorial Terrace'),
  12600: ('to the', 'in the', 'Cashbot Dollar Mint'),
  12700: ('to the', 'in the', 'Cashbot Bullion Mint'),
  13000: ('to', 'in', 'Lawbot HQ Courtyard'),
+ 13700: ('to', 'in', 'Lawbot HQ: Under New Supervision'),
  13100: ('to the', 'in the', 'Courthouse Lobby'),
  13200: ('to the', 'in the', "DA's Office Lobby"),
  13300: ('to the', 'in the', 'Lawbot A Office'),
@@ -141,8 +144,10 @@ GoofySpeedway = ('to', 'in', lGoofySpeedway)
 DonaldsDreamland = ('to', 'in', lDonaldsDreamland)
 BossbotHQ = ('to', 'in', 'Bossbot HQ')
 SellbotHQ = ('to', 'in', 'Sellbot HQ')
+ScrapyardInc = ('to', 'in', 'Scrapyard, INC.')
 CashbotHQ = ('to', 'in', 'Cashbot HQ')
 LawbotHQ = ('to', 'in', 'Lawbot HQ')
+LawbotStation = ('to the', 'in the', 'Lawbot HQ: New Supervision')
 Tutorial = ('to the', 'in the', 'Toon-torial')
 MyEstate = ('to', 'in', 'your house')
 WelcomeValley = ('to', 'in', 'Welcome Valley')
@@ -612,7 +617,7 @@ QuestDialogDict = {160: {GREETING: '',
        COMPLETE: QuestsDefaultComplete,
        LEAVING: QuestsDefaultLeaving},
  14001: {GREETING: '',
-       QUEST: "Oh good just in time! Welcome to the hideout!\x07Now...for the issue at hand.\x07It's about the lawbots.\x07We found a document from the CJ about a Reformation plan.",
+       QUEST: "Welcome back Smasher! Glad to see you again!\x07We have another task at hand though...\x07In Bossbot HQ theres the CEO Doors, but on the oposite side of the HQ lies the Executive Office.\x07This Facility is no laughing matter, it contains high end Security, Cogs, and the most powerful of all...\x07The Chairman.\x07Now Smasher, you may be woundering how we will stop The Chairman himself.\x07It's Simple...\x07We Prepare!\x07Then. We Break in and stop the Four Bosses and their boooring meeting.\x07And finally we take the Elevator to the Chairman's Rooftop, where stop him at his own game.\x07Now Smasher, Get your game on!",
        INCOMPLETE_PROGRESS: TheCogs + 'Stop that Mr. Hollywood!',
        INCOMPLETE_WRONG_NPC: 'Who?',
        COMPLETE: QuestsDefaultComplete,
@@ -625,6 +630,36 @@ QuestDialogDict = {160: {GREETING: '',
        LEAVING: QuestsDefaultLeaving},
  14003: {GREETING: '',
        QUEST: 'A meeting you say? I saw some Level 13+ Cogs Whispering something.\x07Hunt down them, and see what this plan is about!',
+       INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
+       INCOMPLETE_WRONG_NPC: 'Who?',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 14016: {GREETING: '',
+       QUEST: 'Ripley has been hovering over those bossbots and needs your help right away!\x07Go Visit her and see whats up!',
+       INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
+       INCOMPLETE_WRONG_NPC: 'Who?',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 14017: {GREETING: '',
+       QUEST: "Just the toon i was looking for!\x07I've been dealing with lawbots for a while now, but eversense they snapped a photo on me, the Legal Eagles come at me like mad men!",
+       INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
+       INCOMPLETE_WRONG_NPC: 'Who?',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 14022: {GREETING: '',
+       QUEST: 'Doctor Bumpy has been needing help with Lawbot Troubles!\x07Go see if you can help him out!',
+       INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
+       INCOMPLETE_WRONG_NPC: 'Who?',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 14030: {GREETING: '',
+       QUEST: 'Glad to see you again smasher!\x07However, we have a lawbot issue.\x07While we were preparing, those sneaky Lawbots Rebuilt Lawbot HQ...\x07Prepare for the Unknown, Are key ticket is the Sewer Hole next to the old Lawbot HQ Chief Justice Entrence.\x07I will meet you there.',
+       INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
+       INCOMPLETE_WRONG_NPC: 'Who?',
+       COMPLETE: QuestsDefaultComplete,
+       LEAVING: QuestsDefaultLeaving},
+ 14031: {GREETING: '',
+       QUEST: "Welcome, to what the Cogs have cooked up behind are backs...\x07If you tend to caugh, it's from the construction dust that pleagues the air.\x07Now, onto the promblem at hand\x07Take out the roaming cogs and then we will proceed from there.",
        INCOMPLETE_PROGRESS: TheCogs + 'Those Level 13+ cogs are up to no good!',
        INCOMPLETE_WRONG_NPC: 'Who?',
        COMPLETE: QuestsDefaultComplete,
@@ -1927,6 +1962,7 @@ ChatGarblerMonkey = ['ooh', 'ooo', 'ahh']
 ChatGarblerBear = ['growl', 'grrr']
 ChatGarblerPig = ['oink', 'oik', 'snort']
 ChatGarblerDefault = ['blah']
+InventoryMaxOut = 'MAX LEVEL'
 Bossbot = 'Bossbot'
 Lawbot = 'Lawbot'
 Cashbot = 'Cashbot'
@@ -2422,6 +2458,10 @@ SuitLegalEagleP = 'Legal Eagles'
 SuitBigWigP = 'Big Wigs'
 SuitFaceoffDefaultTaunts = ['Boo!']
 SuitAttackDefaultTaunts = ['Take that!', 'Take a memo on this!']
+SuitCheatNames = ('BurnTwo')
+SuitCheatDescription = {
+  'BurnTwo': 'You are being fired from the company!'
+}
 SuitAttackNames = {'Audit': 'Audit!',
  'Bite': 'Bite!',
  'BounceCheck': 'Bounce Check!',
@@ -2442,7 +2482,8 @@ SuitAttackNames = {'Audit': 'Audit!',
  'FillWithLead': 'Fill With Lead!',
  'FiveOClockShadow': "Five O'Clock Shadow!",
  'FingerWag': 'Finger Wag!',
- 'Fired': 'Fired!',
+ 'Fired': 'Burn!',
+ 'BurnTwo': 'Fired!',
  'FloodTheMarket': 'Flood The Market!',
  'FountainPen': 'Fountain Pen!',
  'FreezeAssets': 'Freeze Assets!',
@@ -2482,6 +2523,7 @@ SuitAttackNames = {'Audit': 'Audit!',
  'SongAndDance': 'Song And Dance!',
  'Spin': 'Spin!',
  'Synergy': 'Synergy!',
+ 'AdvancedSynergy': 'Advanced Synergy!',
  'Tabulate': 'Tabulate!',
  'TeeOff': 'Tee Off!',
  'ThrowBook': 'Throw Book!',
@@ -4801,6 +4843,10 @@ ShardPageLow = 'Quiet'
 ShardPageMed = 'Ideal'
 ShardPageHigh = 'Full'
 ShardPageChoiceReject = 'Sorry, that district is full. Please try another one.'
+TeleportButton = 'Teleport'
+TeleportButtonNoMoney = 'Sorry, but you need %s jellybeans to teleport!'
+TeleportButtonConfirm = 'Would you like to spend %s jellybeans to teleport?'
+TeleportButtonTakenOver = 'Sorry, but this shop has been taken over by the Cogs!'
 SuitPageTitle = 'Cog Gallery'
 SuitPageMystery = DialogQuestion + DialogQuestion + DialogQuestion
 SuitPageQuota = '%s of %s'
@@ -4923,6 +4969,7 @@ InventoryDeleteHelp = 'Click on a gag to DELETE it.'
 InventorySkillCredit = 'Skill credit: %s'
 InventorySkillCreditNone = 'Skill credit: None'
 InventoryDetailAmount = '%(numItems)s / %(maxItems)s'
+InventoryLureDetailData = 'Accuracy: %(accuracy)s\n%(roundString)s: %(rounds)d%(bonus)s\n%(singleOrGroup)s'
 InventoryDetailData = 'Accuracy: %(accuracy)s\n%(damageString)s: %(damage)d%(bonus)s\n%(singleOrGroup)s'
 InventoryTrackExp = '%(curExp)s / %(nextExp)s'
 InventoryUberTrackExp = '%(nextExp)s to Go!'
@@ -4934,6 +4981,7 @@ InventoryAffectsAllToons = 'Affects: All Toons'
 InventoryAffectsAllCogs = 'Affects: All ' + Cogs
 InventoryHealString = 'Toon-up'
 InventoryDamageString = 'Damage'
+InventoryRoundString = 'Rounds'
 InventoryBattleMenu = 'BATTLE MENU'
 InventoryRun = 'RUN'
 InventorySOS = 'SOS'

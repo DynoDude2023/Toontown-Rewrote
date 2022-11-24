@@ -753,6 +753,35 @@
 					</prop>
 				</node>
 			</node>
+			<!-- Winter Snowball Piles -->
+			<node name="winter_snowpile_0">
+				<prop name="winter_snowpile_DNARoot" code="winter_snowpile">
+					<pos x="-23.0" y="40.8" z="0" />
+					<nhpr h="-181.6" p="0" r="0" />
+					<scale x="1.6" y="1.2" z="2.1" />
+				</prop>
+			</node>
+			<node name="winter_snowpile_1">
+				<prop name="winter_snowpile_DNARoot" code="winter_snowpile">
+					<pos x="-27.6" y="-13.8" z="0" />
+					<nhpr h="-11.4" p="0" r="0" />
+					<scale x="1.7" y="1.3" z="1.9" />
+				</prop>
+			</node>
+			<node name="winter_snowpile_3">
+				<prop name="winter_snowpile_DNARoot" code="winter_snowpile">
+					<pos x="33.4" y="-99.2" z="0.0" />
+					<nhpr h="-248.5" p="0" r="0" />
+					<scale x="1.8" y="1.5" z="2.4" />
+				</prop>
+			</node>
+			<node name="winter_snowpile_4">
+				<prop name="winter_snowpile_DNARoot" code="winter_snowpile">
+					<pos x="-32.6" y="-116.0" z="0.0" />
+					<nhpr h="-72.5" p="0" r="0" />
+					<scale x="1.7" y="1.6" z="2.2" />
+				</prop>
+			</node>
 		</visgroup>
 	</group>
 </scene>

@@ -16,6 +16,7 @@ from toontown.toontowngui.TeaserPanel import TeaserPanel
 from direct.directnotify import DirectNotifyGlobal
 from toontown.toontowngui import TTDialog
 from otp.otpbase import OTPLocalizer
+from direct.interval.IntervalGlobal import *
 IMAGE_SCALE_LARGE = 0.2
 IMAGE_SCALE_SMALL = 0.15
 POSTER_WIDTH = 0.7
@@ -69,6 +70,7 @@ class QuestPoster(DirectFrame):
     def __init__(self, parent = aspect2d, **kw):
         bookModel = loader.loadModel('phase_3.5/models/gui/stickerbook_gui')
         questCard = bookModel.find('**/questCard')
+        circleModel = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_nameShop').find('**/tt_t_gui_mat_namePanelCircle')
         optiondefs = (('relief', None, None),
          ('image', questCard, None),
          ('image_scale', (0.8, 1.0, 0.58), None),
@@ -97,11 +99,14 @@ class QuestPoster(DirectFrame):
          -0.1,
          0.12), borderWidth=(0.025, 0.025), scale=0.2, frameColor=(0.945, 0.875, 0.706, 1.0), barColor=(0.5, 0.7, 0.5, 1), text='0/0', text_scale=0.19, text_fg=(0.05, 0.14, 0.4, 1), text_align=TextNode.ACenter, text_pos=(0, -0.04), pos=(0, 0, -0.195))
         self.questProgress.hide()
+        self.teleportButton = DirectButton(parent=self.questFrame, relief=None, image=circleModel, text=TTLocalizer.TeleportButton, text_scale=0.035, text_pos=(-0.0025, -0.015), pos=(0.175, 0, 0.125), scale=0.75)  #, text_bg=(0, 0.75, 1, 1)
+        self.teleportButton.hide()
         self.funQuest = DirectLabel(parent=self.questFrame, relief=None, text=TTLocalizer.QuestPosterFun, text_fg=(0.0, 0.439, 1.0, 1.0), text_shadow=(0, 0, 0, 1), pos=(-0.2825, 0, 0.2), scale=0.03)
         self.funQuest.setR(-30)
         self.funQuest.hide()
         bookModel.removeNode()
         self.laffMeter = None
+        self.dialog = None
         return
 
     def destroy(self):
@@ -201,6 +206,54 @@ class QuestPoster(DirectFrame):
         elevatorNodePath.setPosHpr(0, 0, 0, 0, 0, 0)
         return
 
+    def teleportToShop(self, npcId):
+        if base.cr.playGame.getPlace().getState() != 'walk':
+            return
+
+        npcZone = NPCToons.getNPCZone(npcId)
+        npcHood = ZoneUtil.getCanonicalHoodId(npcZone)
+        hqZone = {2000:2520, 1000:1507, 3000:3508, 4000:4504, 5000:5502, 7000:7503, 9000:9505}
+
+        if npcZone in (-1, 0, None):
+            zoneId = base.localAvatar.getZoneId()
+            if ZoneUtil.isDynamicZone(zoneId) or ZoneUtil.isCogHQZone(zoneId):
+                zoneId = 2000 
+            npcHood = ZoneUtil.getCanonicalHoodId(zoneId)
+            npcZone = hqZone.get(npcHood, 2520)
+        
+        cost = 1
+        self.destroyDialog()
+        base.cr.playGame.getPlace().setState('stopped')
+        
+        if base.localAvatar.getTotalMoney() < cost:
+            self.dialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=TTLocalizer.TeleportButtonNoMoney % cost, command=self.destroyDialog)
+        else:
+            self.dialog = TTDialog.TTDialog(style=TTDialog.YesNo, text=TTLocalizer.TeleportButtonConfirm % cost, command=lambda value: self.teleportToShopConfirm(npcZone, npcHood, cost, value))
+
+        self.dialog.show()
+    
+    def teleportToShopConfirm(self, npcZone, npcHood, cost, value):
+        self.destroyDialog()
+
+        if value > 0:
+            self.teleportToShopCallback(npcZone, npcHood, cost, 0)
+    
+    def teleportToShopCallback(self, npcZone, npcHood, cost, flag):
+        if flag:
+            base.cr.playGame.getPlace().setState('stopped')
+            self.dialog = TTDialog.TTDialog(style=TTDialog.Acknowledge, text=TTLocalizer.TeleportButtonTakenOver, command=self.destroyDialog)
+            self.dialog.show()
+            return
+        base.cr.playGame.getPlace().fsm.request('teleportOut', [{'loader': ZoneUtil.getLoaderName(npcHood),
+                                         'where': ZoneUtil.getToonWhereName(npcZone),
+                                         'how': 'teleportIn',
+                                         'hoodId': npcHood,
+                                         'zoneId': npcZone,
+                                         'shardId': None,
+                                         'avId': -1}])
+        if npcZone == 11800:
+            posSeq = Sequence(Func(base.transitions.irisOut, 2), Wait(7), Func(base.localAvatar.setPos, 66, 75, -21.970), Func(base.localAvatar.setH, -61), Func(base.transitions.irisIn, 2)).start()
+    
     def fitGeometry(self, geom, fFlip = 0, dimension = 0.8):
         p1 = Point3()
         p2 = Point3()
@@ -220,6 +273,12 @@ class QuestPoster(DirectFrame):
         geomXform.setPosHprScale(-mid[0], -mid[1] + 1, -mid[2], 180, 0, 0, s, s, s)
         geomXform.reparentTo(geom)
 
+    def destroyDialog(self, extra=None):
+        if self.dialog:
+            self.dialog.destroy()
+            self.dialog = None
+            base.cr.playGame.getPlace().setState('walk')
+    
     def clear(self):
         self['image_color'] = Vec4(*self.colors['white'])
         self.headline['text'] = ''
@@ -283,6 +342,8 @@ class QuestPoster(DirectFrame):
     def update(self, questDesc):
         questId, fromNpcId, toNpcId, rewardId, toonProgress = questDesc
         quest = Quests.getQuest(questId)
+        self.teleportButton['command'] = self.teleportToShop
+        self.teleportButton['extraArgs'] = [toNpcId]
         if quest == None:
             self.notify.warning('Tried to display poster for unknown quest %s' % questId)
             return
@@ -338,6 +399,11 @@ class QuestPoster(DirectFrame):
         objectiveStrings = quest.getObjectiveStrings()
         captions = map(string.capwords, quest.getObjectiveStrings())
         imageColor = Vec4(*self.colors['white'])
+        self.teleportButton.hide()
+        
+        if base.localAvatar.tutorialAck and (fComplete or quest.getType() in (Quests.DeliverGagQuest, Quests.DeliverItemQuest, Quests.VisitQuest, Quests.TrackChoiceQuest)):
+            self.teleportButton.show()
+            self.teleportButton.setPos(0.3, 0, -0.15)
         if quest.getType() == Quests.DeliverGagQuest or quest.getType() == Quests.DeliverItemQuest:
             frameBgColor = 'red'
             if quest.getType() == Quests.DeliverGagQuest:
@@ -794,6 +860,22 @@ class QuestPoster(DirectFrame):
                 lIconGeom = icon.copyTo(hidden)
                 lIconGeom.setColor(Suit.Suit.medallionColors[dept])
                 cogIcons.removeNode()
+            elif quest.getType() == Quests.SkeleReviveTrackQuest:
+                frameBgColor = 'blue'
+                dept = quest.getCogTrack()
+                cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+                lIconGeomScale = 0.13
+                if dept == 'c':
+                    icon = cogIcons.find('**/CorpIcon')
+                elif dept == 's':
+                    icon = cogIcons.find('**/SalesIcon')
+                elif dept == 'l':
+                    icon = cogIcons.find('**/LegalIcon')
+                elif dept == 'm':
+                    icon = cogIcons.find('**/MoneyIcon')
+                lIconGeom = icon.copyTo(hidden)
+                lIconGeom.setColor(Suit.Suit.medallionColors[dept])
+                cogIcons.removeNode()
             elif quest.getType() == Quests.CogQuest:
                 if quest.getCogType() != Quests.Any:
                     lIconGeom = self.createSuitHead(quest.getCogType())
@@ -803,7 +885,21 @@ class QuestPoster(DirectFrame):
                     lIconGeom = cogIcons.find('**/cog')
                     lIconGeomScale = IMAGE_SCALE_SMALL
                     cogIcons.removeNode()
+            elif quest.getType() == Quests.CogLevelTypeQuest:
+                if quest.getCogType() != Quests.Any:
+                    lIconGeom = self.createSuitHead(quest.getCogType())
+                    lIconGeomScale = IMAGE_SCALE_SMALL
+                else:
+                    cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+                    lIconGeom = cogIcons.find('**/cog')
+                    lIconGeomScale = IMAGE_SCALE_SMALL
+                    cogIcons.removeNode()
             elif quest.getType() == Quests.CogLevelQuest:
+                cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
+                lIconGeom = cogIcons.find('**/cog')
+                lIconGeomScale = IMAGE_SCALE_SMALL
+                cogIcons.removeNode()
+            elif quest.getType() == Quests.CogTierQuest:
                 cogIcons = loader.loadModel('phase_3/models/gui/cog_icons')
                 lIconGeom = cogIcons.find('**/cog')
                 lIconGeomScale = IMAGE_SCALE_SMALL

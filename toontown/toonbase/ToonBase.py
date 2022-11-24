@@ -136,6 +136,20 @@ class ToonBase(OTPBase.OTPBase):
         self.oldX = max(1, base.win.getXSize())
         self.oldY = max(1, base.win.getYSize())
         self.aspectRatio = float(self.oldX) / self.oldY
+        
+        self.MOVE_UP = 'arrow_up'   
+        self.MOVE_DOWN = 'arrow_down'
+        self.MOVE_LEFT = 'arrow_left'      
+        self.MOVE_RIGHT = 'arrow_right'
+        self.JUMP = 'control'
+        self.ACTION_BUTTON = 'delete'
+        self.SCREENSHOT_KEY = 'f9'
+        
+        self.accept('f3', self.toggleGui)
+        self.accept('f4', self.toggleNametags)
+        
+        self.guiToggleDisabled = False
+        
         return
 
     def openMainWindow(self, *args, **kw):
@@ -221,6 +235,34 @@ class ToonBase(OTPBase.OTPBase):
     def __walking(self, pressed):
         self.walking = pressed
 
+    def toggleGui(self):
+        if not self.guiToggleDisabled:
+            if aspect2d.isHidden():
+                aspect2d.show()
+            else:
+                aspect2d.hide()
+
+    def toggleNametags(self):
+        nametags3d = render.findAllMatches('**/nametag3d')
+        nametags2d = render2d.findAllMatches('**/Nametag2d')
+        hide = False
+        for nametag in nametags2d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if not nametag.isHidden():
+                hide = True
+        for nametag in nametags3d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
+        for nametag in nametags2d:
+            if hide:
+                nametag.hide()
+            else:
+                nametag.show()
+    
     def takeScreenShot(self):
         if not os.path.exists('screenshots/'):
             os.mkdir('screenshots/')

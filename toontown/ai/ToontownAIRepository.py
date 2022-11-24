@@ -354,8 +354,7 @@ class ToontownAIRepository(ToontownInternalRepository):
 
         # Lawbot HQ
         self.zoneTable[ToontownGlobals.LawbotHQ] = (
-            (ToontownGlobals.LawbotHQ, 0, 1),
-        )
+            (ToontownGlobals.LawbotHQ, 0, 1), (ToontownGlobals.LawbotOfficeExt, 0, 1), (ToontownGlobals.LawbotStation, 0, 1))
         self.createHood(LawbotHQDataAI, ToontownGlobals.LawbotHQ)
 
         # Bossbot HQ
@@ -416,7 +415,7 @@ class ToontownAIRepository(ToontownInternalRepository):
         if 'outdoor_zone' in hood or 'golf_zone' in hood:
             phase = '6'
 
-        return 'phase_%s/dna/%s_%s.xml' % (phase, hood, zoneId)
+        return 'phase_%s/dna/%s_%s.dna' % (phase, hood, zoneId)
 
     def findFishingPonds(self, dnaData, zoneId, area):
         fishingPonds = []

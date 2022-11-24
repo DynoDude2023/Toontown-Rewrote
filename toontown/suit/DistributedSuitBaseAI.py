@@ -128,6 +128,32 @@ class DistributedSuitBaseAI(DistributedAvatarAI.DistributedAvatarAI, SuitBase.Su
         self.skelecog = 1
         self.currHP = self.maxHP
         self.reviveFlag = 1
+    
+    def getStatus(self, name):
+        return SuitBase.SuitBase.getStatus(self, name)
+
+    def addStatus(self, status):
+        if not status['name'] in self.statuses.keys():
+            self.notify.info("Cog's status updated: " + status['name'])
+            self.statuses[status['name']] = status
+
+    def b_addStatus(self, status):
+        self.addStatus(status)
+        self.d_addStatus(status)
+
+    def d_addStatus(self, status):
+        statusString = SuitBattleGlobals.makeStatusString(status)
+        self.sendUpdate('addStatus', [statusString])
+
+    def removeStatus(self, name):
+        return SuitBase.SuitBase.removeStatus(self, name)
+
+    def b_removeStatus(self, name):
+        self.removeStatus(name)
+        self.d_removeStatus(name)
+
+    def d_removeStatus(self, name):
+        self.sendUpdate('removeStatus', [name])
 
     def reviveCheckAndClear(self):
         returnValue = 0

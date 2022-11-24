@@ -67,6 +67,21 @@ class DistributedNPCToon(DistributedNPCToonBase):
         self.setBackpack(backpack, 0, 0)
         self.setShoes(shoes, 0, 0)
     
+    def getNewPos(self):
+        return self.getPos()
+    
+    def setNewPos(self, npcId):
+        if npcId == 10:
+            self.setPos(-34, 83, 0.025)
+            self.setH(221.147)
+        elif npcId == 11:
+            self.setPos(35, 80, 0.025)
+            self.setH(160)
+        elif npcId == 12:
+            self.setPos(53, 119, 0.025)
+            self.setH(492)
+    
+    
     def handleCollisionSphereEnter(self, collEntry):
         if self.allowedToTalk():
             base.cr.playGame.getPlace().fsm.request('quest', [self])
@@ -78,7 +93,7 @@ class DistributedNPCToon(DistributedNPCToonBase):
             if place:
                 place.fsm.request('stopped')
             self.dialog = TeaserPanel.TeaserPanel(pageName='quests', doneFunc=self.handleOkTeaser)
-
+    
     def handleOkTeaser(self):
         self.dialog.destroy()
         del self.dialog

@@ -3,6 +3,7 @@ from otp.avatar.Avatar import teleportNotify
 import ToonDNA
 from direct.task.Task import Task
 from toontown.suit import SuitDNA
+from toontown.suit import Suit
 from direct.actor import Actor
 import string
 from ToonHead import *
@@ -2765,21 +2766,21 @@ class Toon(Avatar.Avatar, ToonHead):
         suit.initializeDropShadow()
         suit.setPos(self.getPos())
         suit.setHpr(self.getHpr())
-        for part in suit.getHeadParts():
+        '''for part in suit.getHeadParts():
             part.hide()
 
-        suitHeadNull = suit.find('**/def_head')
-        toonHead = self.getPart('head', '1000')
+        suitHeadNull = suit.find('**/joint_head')
+        toonHead = self.getPart('head', '1000')'''
         Emote.globalEmote.disableAll(self)
         toonGeom = self.getGeomNode()
         toonGeom.hide()
-        worldScale = toonHead.getScale(render)
+        '''worldScale = toonHead.getScale(render)
         self.headOrigScale = toonHead.getScale()
         headPosNode = hidden.attachNewNode('headPos')
         toonHead.reparentTo(headPosNode)
-        toonHead.setPos(0, 0, 0.2)
+        toonHead.setPos(0, 0, 0.2
         headPosNode.reparentTo(suitHeadNull)
-        headPosNode.setScale(render, worldScale)
+        headPosNode.setScale(render, worldScale)'''
         suitGeom = suit.getGeomNode()
         suitGeom.reparentTo(self)
         if rental == True:
@@ -2815,16 +2816,13 @@ class Toon(Avatar.Avatar, ToonHead):
                 name = self.getName()
             suitDept = SuitDNA.suitDepts.index(SuitDNA.getSuitDept(suitType))
             suitName = SuitBattleGlobals.SuitAttributes[suitType]['name']
-            self.nametag.setDisplayName(TTLocalizer.SuitBaseNameWithLevel % {'name': name,
-             'dept': suitName,
-             'level': self.cogLevels[suitDept] + 1})
-            self.nametag.setNameWordwrap(9.0)
+            self.setName(suitName)
 
     def takeOffSuit(self):
         if not self.isDisguised:
             return
         suitType = self.suit.style.name
-        toonHeadNull = self.find('**/1000/**/def_head')
+        '''toonHeadNull = self.find('**/1000/**/def_head')
         if not toonHeadNull:
             toonHeadNull = self.find('**/1000/**/joint_head')
         toonHead = self.getPart('head', '1000')
@@ -2832,7 +2830,7 @@ class Toon(Avatar.Avatar, ToonHead):
         toonHead.setScale(self.headOrigScale)
         toonHead.setPos(0, 0, 0)
         headPosNode = self.suitGeom.find('**/headPos')
-        headPosNode.removeNode()
+        headPosNode.removeNode()'''
         self.suitGeom.reparentTo(self.suit)
         self.resetHeight()
         self.nametag3d.setPos(0, 0, self.height + 0.5)
@@ -2841,7 +2839,6 @@ class Toon(Avatar.Avatar, ToonHead):
         Emote.globalEmote.releaseAll(self)
         self.isDisguised = 0
         self.setFont(ToontownGlobals.getToonFont())
-        self.nametag.setNameWordwrap(-1)
         if hasattr(base, 'idTags') and base.idTags:
             name = self.getAvIdName()
         else:

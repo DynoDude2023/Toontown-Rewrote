@@ -5662,9 +5662,6 @@
 				<nhpr h="-90" p="0" r="-0" />
 				<wall height="10" code="wall_bricks_ur">
 					<color r="1" g="0.7" b="0.7" a="1" />
-					<windows code="window_md_curved_ur" count="1">
-						<color r="1" g="0.79" b="0.49" a="1" />
-					</windows>
 					<flat_door code="door_single_square_ur">
 						<color r="1" g="0.79" b="0.49" a="1" />
 					</flat_door>

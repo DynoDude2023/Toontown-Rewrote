@@ -99,7 +99,7 @@ SPMinniesPiano = 4
 CEVirtual = 14
 MaxHpLimit = 137
 MaxCarryLimit = 80
-MaxQuestCarryLimit = 4
+MaxQuestCarryLimit = 8
 MaxCogSuitLevel = 50 - 1
 CogSuitHPLevels = (15 - 1,
  20 - 1,
@@ -188,6 +188,8 @@ SellbotHQ = 11000
 SellbotLobby = 11100
 SellbotFactoryExt = 11200
 SellbotFactoryInt = 11500
+SellbotResistanceHideout = 11800
+ScrapyardInc = 11900
 CashbotHQ = 12000
 CashbotLobby = 12100
 CashbotMintIntA = 12500
@@ -201,6 +203,7 @@ LawbotStageIntA = 13300
 LawbotStageIntB = 13400
 LawbotStageIntC = 13500
 LawbotStageIntD = 13600
+LawbotStation = 13700
 Tutorial = 15000
 MyEstate = 16000
 GolfZone = 17000
@@ -252,7 +255,7 @@ MintNumFloors = {CashbotMintIntA: 20,
  CashbotMintIntB: 20,
  CashbotMintIntC: 20}
 CashbotMintCogLevel = 10
-CashbotMintSkelecogLevel = 11
+CashbotMintSkelecogLevel = 12
 CashbotMintBossLevel = 12
 MintNumBattles = {CashbotMintIntA: 4,
  CashbotMintIntB: 6,
@@ -275,9 +278,9 @@ CountryClubNumBattles = {BossbotCountryClubIntA: 3,
 CountryClubCogBuckRewards = {BossbotCountryClubIntA: 8,
  BossbotCountryClubIntB: 14,
  BossbotCountryClubIntC: 20}
-LawbotStageCogLevel = 10
-LawbotStageSkelecogLevel = 11
-LawbotStageBossLevel = 12
+LawbotStageCogLevel = 11
+LawbotStageSkelecogLevel = 12
+LawbotStageBossLevel = 13
 StageNumBattles = {LawbotStageIntA: 0,
  LawbotStageIntB: 0,
  LawbotStageIntC: 0,
@@ -488,21 +491,6 @@ dnaMap = {Tutorial: 'toontown_central',
  CashbotHQ: 'cog_hq_cashbot',
  LawbotHQ: 'cog_hq_lawbot',
  GolfZone: 'golf_zone'}
-dnaMap2 = {Tutorial: 'toontown_central',
- ToontownCentral: 'toontown_central',
- DonaldsDock: 'donalds_dock',
- MinniesMelodyland: 'minnies_melody_land',
- GoofySpeedway: 'goofy_speedway',
- TheBrrrgh: 'the_burrrgh',
- DaisyGardens: 'daisys_garden',
- FunnyFarm: 'not done yet',
- DonaldsDreamland: 'donalds_dreamland',
- OutdoorZone: 'outdoor_zone',
- BossbotHQ: 'cog_hq_bossbot',
- SellbotHQ: 'cog_hq_sellbot2',
- CashbotHQ: 'cog_hq_cashbot',
- LawbotHQ: 'cog_hq_lawbot',
- GolfZone: 'golf_zone'}
 hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  ToontownCentral: TTLocalizer.ToontownCentral,
  TheBrrrgh: TTLocalizer.TheBrrrgh,
@@ -514,6 +502,7 @@ hoodNameMap = {DonaldsDock: TTLocalizer.DonaldsDock,
  DonaldsDreamland: TTLocalizer.DonaldsDreamland,
  BossbotHQ: TTLocalizer.BossbotHQ,
  SellbotHQ: TTLocalizer.SellbotHQ,
+ ScrapyardInc: TTLocalizer.ScrapyardInc,
  CashbotHQ: TTLocalizer.CashbotHQ,
  LawbotHQ: TTLocalizer.LawbotHQ,
  Tutorial: TTLocalizer.Tutorial,

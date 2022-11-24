@@ -9,7 +9,7 @@ class DGTownLoader(TownLoader.TownLoader):
         self.streetClass = DGStreet.DGStreet
         self.musicFile = 'phase_8/audio/bgm/DG_SZ.ogg'
         self.activityMusicFile = 'phase_8/audio/bgm/DG_SZ.ogg'
-        self.townStorageDNAFile = 'phase_8/dna/storage_DG_town.xml'
+        self.townStorageDNAFile = 'phase_8/dna/storage_DG_town.dna'
         self.hideoutMusicFile = 'phase_9/audio/bgm/ttr_s_ara_shq_resistanceHideout.ogg'
 
     def load(self, zoneId):
@@ -17,7 +17,7 @@ class DGTownLoader(TownLoader.TownLoader):
         Suit.loadSuits(3)
         
         self.hideOutMusic = base.loader.loadMusic(self.hideoutMusicFile)
-        dnaFile = 'phase_8/dna/daisys_garden_' + str(self.canonicalBranchZone) + '.xml'
+        dnaFile = 'phase_8/dna/daisys_garden_' + str(self.canonicalBranchZone) + '.dna'
         self.createHood(dnaFile)
 
     def unload(self):

@@ -23,7 +23,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     MinimumOfOne = config.GetBool('minimum-of-one-building', 0)
     SuitHoodInfo = [
      [
-      2100, 5, 15, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (25, 25, 25, 25), (1, 2, 3), []], [2200, 3, 10, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (10, 70, 10, 10), (1, 2, 3), []], [2300, 3, 10, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (10, 10, 40, 40), (1, 2, 3), []], [1100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (90, 10, 0, 0), (2, 3, 4), []], [1200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 90, 10), (3, 4, 5, 6), []], [1300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 10, 10), (3, 4, 5, 6), []], [3100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (90, 10, 0, 0), (5, 6, 7), []], [3200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (10, 20, 30, 40), (5, 6, 7), []], [3300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 85, 5, 5), (7, 8, 9), []], [4100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 50, 50), (2, 3, 4), []], [4200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 90, 10), (3, 4, 5, 6), []], [4300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (50, 50, 0, 0), (3, 4, 5, 6), []], [5100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 20, 10, 70), (2, 3, 4), []], [5200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (10, 70, 0, 20), (3, 4, 5, 6), []], [5300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 5, 85), (5, 6, 7, 8), []], [9100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (25, 25, 25, 25), (6, 7, 8, 9), []], [9300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (50, 15, 10, 25), (6, 7, 8, 9), []], [9200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 85, 5), (6, 7, 8, 9), []], [11000, 3, 15, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 0, 100), (4, 5, 6), []], [11200, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 0, 100), (4, 5, 6), []], [12000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 100, 0), (7, 8, 9), []], [13000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0), (8, 9, 10), []], [10000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (100, 0, 0, 0), (8, 9, 10), []]]
+      2100, 5, 15, 0, 5, 20, 3, (1, 5, 10, 40, 60, 80), (25, 25, 25, 25), (1, 2, 3), []], [2200, 3, 10, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (10, 70, 10, 10), (1, 2, 3), []], [2300, 3, 10, 0, 5, 15, 3, (1, 5, 10, 40, 60, 80), (10, 10, 40, 40), (1, 2, 3), []], [1100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (90, 10, 0, 0), (2, 3, 4), []], [1200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 90, 10), (3, 4, 5, 6), []], [1300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (40, 40, 10, 10), (3, 4, 5, 6), []], [3100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (90, 10, 0, 0), (5, 6, 7), []], [3200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (10, 20, 30, 40), (5, 6, 7), []], [3300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 85, 5, 5), (7, 8, 9), []], [4100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 50, 50), (2, 3, 4), []], [4200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 0, 90, 10), (3, 4, 5, 6), []], [4300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (50, 50, 0, 0), (3, 4, 5, 6), []], [5100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (0, 20, 10, 70), (2, 3, 4), []], [5200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (10, 70, 0, 20), (3, 4, 5, 6), []], [5300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 5, 85), (5, 6, 7, 8), []], [9100, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (25, 25, 25, 25), (6, 7, 8, 9), []], [9300, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (50, 15, 10, 25), (6, 7, 8, 9), []], [9200, 1, 5, 0, 99, 100, 4, (1, 5, 10, 40, 60, 80), (5, 5, 85, 5), (6, 7, 8, 9), []], [11000, 15, 25, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 0, 100), (12, 13, 14, 15), []], [11200, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 0, 100), (4, 5, 6), []], [12000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 0, 100, 0), (7, 8, 9), []], [13000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0), (7, 8, 9, 10), []], [13700, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0), (10, 11, 12, 13, 14), []], [10000, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (100, 0, 0, 0), (8, 9, 10), []], [13200, 10, 20, 0, 0, 0, 4, (1, 5, 10, 40, 60, 80), (0, 100, 0, 0), (7, 8, 9, 10, 11, 12), []]]
     SUIT_HOOD_INFO_ZONE = 0
     SUIT_HOOD_INFO_MIN = 1
     SUIT_HOOD_INFO_MAX = 2
@@ -35,7 +35,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     SUIT_HOOD_INFO_TRACK = 8
     SUIT_HOOD_INFO_LVL = 9
     SUIT_HOOD_INFO_HEIGHTS = 10
-    MAX_SUIT_TYPES = 6
+    MAX_SUIT_TYPES = 8
     POP_UPKEEP_DELAY = 10
     POP_ADJUST_DELAY = 300
     PATH_COLLISION_BUFFER = 5
@@ -48,18 +48,19 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
     SUIT_BUILDING_TIMEOUT = [
      None, None, None, None, None, None, 72, 60, 48, 36, 24, 12, 6, 3, 1, 0.5]
     TOTAL_SUIT_BUILDING_PCT = 18 * CogdoPopFactor
-    BUILDING_HEIGHT_DISTRIBUTION = [10, 12, 14, 16, 14, 12, 9, 7, 4, 2]
+    BUILDING_HEIGHT_DISTRIBUTION = [
+     14, 18, 25, 23, 20]
     TOTAL_BWEIGHT = 0
     TOTAL_BWEIGHT_PER_TRACK = [
      0, 0, 0, 0]
     TOTAL_BWEIGHT_PER_HEIGHT = [
-     0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+     0, 0, 0, 0, 0]
     for currHoodInfo in SuitHoodInfo:
         weight = currHoodInfo[SUIT_HOOD_INFO_BWEIGHT]
         tracks = currHoodInfo[SUIT_HOOD_INFO_TRACK]
         levels = currHoodInfo[SUIT_HOOD_INFO_LVL]
         heights = [
-         0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+         0, 0, 0, 0, 0]
         for level in levels:
             minFloors, maxFloors = SuitBuildingGlobals.SuitBuildingInfo[level - 1][0]
             for i in xrange(minFloors - 1, maxFloors):
@@ -76,11 +77,6 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         TOTAL_BWEIGHT_PER_HEIGHT[2] += weight * heights[2]
         TOTAL_BWEIGHT_PER_HEIGHT[3] += weight * heights[3]
         TOTAL_BWEIGHT_PER_HEIGHT[4] += weight * heights[4]
-        TOTAL_BWEIGHT_PER_HEIGHT[5] += weight * heights[5]
-        TOTAL_BWEIGHT_PER_HEIGHT[6] += weight * heights[6]
-        TOTAL_BWEIGHT_PER_HEIGHT[7] += weight * heights[7]
-        TOTAL_BWEIGHT_PER_HEIGHT[8] += weight * heights[8]
-        TOTAL_BWEIGHT_PER_HEIGHT[9] += weight * heights[9]
 
     defaultSuitName = simbase.config.GetString('suit-type', 'random')
     if defaultSuitName == 'random':
@@ -392,19 +388,26 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             suitType = SuitDNA.getSuitType(suitName)
             suitTrack = SuitDNA.getSuitDept(suitName)
         if suitLevel == None and buildingHeight != None:
-            if not cogdoTakeover:
-                suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
-            else:
-                suitLevel = self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL][-1] + 1
+            try:
+                if self.air.districtId == 404000001:
+                    suitLevel = random.randint(7, 10)
+                else:
+                    suitLevel = self.chooseSuitLevel(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL], buildingHeight)
+            except:
+                suitLevel = 8
+            
         suitLevel, suitType, suitTrack = self.pickLevelTypeAndTrack(suitLevel, suitType, suitTrack)
-        if suitTrack == 's' and self.air.districtId == 401000001 and self.zoneId == 11000:
-            suitLevel = random.randint(5, 9)
+
         if suitName in SuitDNA.customSuitDepts.keys():
             newSuit.setupCustomDNA(suitLevel, suitName, suitTrack)
         else:
-            newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
-        if suitTrack == 's' and self.air.districtId == 401000001 and self.zoneId == 11000:
-            newSuit.setSkeleRevives(random.choice([0, 0, 0, 1]))
+            if self.air.districtId == 404000001:
+                level = random.randint(7, 10)
+                if level > suitType+7:
+                    suitLevel = suitType+7
+                newSuit.setupSuitDNA(level, suitType, 's')
+            else:
+                newSuit.setupSuitDNA(suitLevel, suitType, suitTrack)
         newSuit.buildingHeight = buildingHeight
         gotDestination = self.chooseDestination(newSuit, startTime, toonBlockTakeover=toonBlockTakeover, cogdoTakeover=cogdoTakeover, minPathLen=minPathLen, maxPathLen=maxPathLen)
         if not gotDestination:
@@ -416,6 +419,9 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.zoneChange(newSuit, None, newSuit.zoneId)
         if skelecog:
             if skelecog == 2:
+                newSuit.setSkeleRevives(1)
+            elif skelecog == 3:
+                newSuit.setLevel(random.randint(9, 13))
                 newSuit.setSkeleRevives(1)
             else:
                 newSuit.setSkelecog(skelecog)
@@ -783,7 +789,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             numPerTrack['m'] += sp.pendingBuildingTracks.count('m')
             numPerTrack['s'] += sp.pendingBuildingTracks.count('s')
 
-        numPerHeight = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+        numPerHeight = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
         for sp in self.air.suitPlanners.values():
             sp.countNumBuildingsPerHeight(numPerHeight)
             numPerHeight[0] += sp.pendingBuildingHeights.count(0)
@@ -791,11 +797,6 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             numPerHeight[2] += sp.pendingBuildingHeights.count(2)
             numPerHeight[3] += sp.pendingBuildingHeights.count(3)
             numPerHeight[4] += sp.pendingBuildingHeights.count(4)
-            numPerHeight[5] += sp.pendingBuildingHeights.count(5)
-            numPerHeight[6] += sp.pendingBuildingHeights.count(6)
-            numPerHeight[7] += sp.pendingBuildingHeights.count(7)
-            numPerHeight[8] += sp.pendingBuildingHeights.count(8)
-            numPerHeight[9] += sp.pendingBuildingHeights.count(9)
 
         while numToAssign > 0:
             smallestCount = None
@@ -818,7 +819,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             buildingTrackIndex = SuitDNA.suitDepts.index(buildingTrack)
             smallestCount = None
             smallestHeights = []
-            for height in xrange(10):
+            for height in xrange(5):
                 if totalWeightPerHeight[height]:
                     count = float(numPerHeight[height]) / float(self.BUILDING_HEIGHT_DISTRIBUTION[height])
                     if smallestCount == None or count < smallestCount:
@@ -866,11 +867,6 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
                     totalWeightPerHeight[2] -= weight * heights[2]
                     totalWeightPerHeight[3] -= weight * heights[3]
                     totalWeightPerHeight[4] -= weight * heights[4]
-                    totalWeightPerHeight[5] -= weight * heights[5]
-                    totalWeightPerHeight[6] -= weight * heights[6]
-                    totalWeightPerHeight[7] -= weight * heights[7]
-                    totalWeightPerHeight[8] -= weight * heights[8]
-                    totalWeightPerHeight[9] -= weight * heights[9]
                     if totalWeightPerTrack[buildingTrackIndex] <= 0:
                         buildingTrack = None
                     if totalWeightPerHeight[buildingHeight] <= 0:
@@ -1081,7 +1077,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
 
     def __suitCanJoinBattle(self, zoneId):
         battle = self.battleMgr.getBattle(zoneId)
-        if len(battle.suits) >= 4:
+        if len(battle.suits) >= 6:
             return 0
         if battle:
             if simbase.config.GetBool('suits-always-join', 0):
@@ -1173,17 +1169,13 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             level = random.choice(self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_LVL])
         
         if type == None:
-            if track == 's' and self.air.districtId == 401000001:
-                typeChoices = xrange(max(level - 7, 1), min(level, self.MAX_SUIT_TYPES) + 1)
-            else:
-                typeChoices = xrange(max(level - 4, 1), min(level, self.MAX_SUIT_TYPES) + 1)
+            
+            typeChoices = xrange(max(level - 7, 1), min(level, self.MAX_SUIT_TYPES) + 1)
             type = random.choice(typeChoices)
         
         if type:
-            if track == 's' and self.air.districtId == 401000001:
-                maxLevelForType = type + 7
-            else:
-                maxLevelForType = type + 4
+            
+            maxLevelForType = type + 7
             minLevelForType = type
             if level > maxLevelForType:
                 level = maxLevelForType

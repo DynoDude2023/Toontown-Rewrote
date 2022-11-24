@@ -81,9 +81,14 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
         return
     
     def _doPlayerEnter(self):
+        if self.npcId in [10, 11, 12]:
+            self.sendUpdate('setNewPos', [self.npcId])
         if self.npcId in self.accList:
             self.putOnAccessories()
         pass
+    
+    def getNewPos(self):
+        return 1
     
     def chooseTrack(self, trackId):
         avId = self.air.getAvatarIdFromSender()
@@ -250,6 +255,8 @@ class DistributedNPCToonAI(DistributedNPCToonBaseAI):
     def setMovieDone(self):
         avId = self.air.getAvatarIdFromSender()
         self.notify.debug('setMovieDone busy: %s avId: %s' % (self.busy, avId))
+        if self.npcId in [10, 11, 12]:
+            self.sendUpdate('setNewPos', [self.npcId])
         if self.busy == avId:
             taskMgr.remove(self.uniqueName('clearMovie'))
             self.sendClearMovie(None)

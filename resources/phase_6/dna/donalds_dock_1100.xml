@@ -920,8 +920,8 @@
 			</group>
 			<group name="props" />
 			<interactive_prop name="interactive_prop_phase_5_models_char__ttc_hydrant_DNARoot" code="interactive_prop_phase_5_models_char__ttc_hydrant" anim="tt_a_ara_ttc_hydrant_idle0" cell_id="0">
-				<pos x="18" y="-8" z="0" />
-				<nhpr h="90" p="0" r="-0" />
+				<pos x="255" y="125" z="0" />
+				<nhpr h="180" p="0" r="-0" />
 			</interactive_prop>
 		</visgroup>
 		<visgroup zone="1106" vis="1104 1105 1106 1107 1108 1109 1110 1122 1121 1123 1124 1129 1128">

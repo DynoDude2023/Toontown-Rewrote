@@ -56,6 +56,9 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         self.weightPerToon = {}
         self.cannonIndexPerToon = {}
         self.battleDifficulty = 0
+        self.lawyerDNA = ['bf', 'b']
+        self.suitPlannerNumber = 13
+        self.damageMult = 1.0
         return
 
     def delete(self):
@@ -275,7 +278,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
             if simbase.config.GetBool('lawbot-boss-cheat', 0):
                 listVersion[13] = weakenedValue
                 SuitBuildingGlobals.SuitBuildingInfo = tuple(listVersion)
-            return self.invokeSuitPlanner(13, 0)
+            return self.invokeSuitPlanner(self.suitPlannerNumber, 0)
         else:
             return self.invokeSuitPlanner(13, 1)
 
@@ -779,17 +782,10 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
 
     def __makeLawyers(self):
         self.__resetLawyers()
-        lawCogChoices = ['b',
-         'dt',
-         'ac',
-         'bs',
-         'sd',
-         'le',
-         'bw']
         for i in xrange(self.numLawyers):
             suit = DistributedLawbotBossSuitAI.DistributedLawbotBossSuitAI(self.air, None)
             suit.dna = SuitDNA.SuitDNA()
-            lawCog = random.choice(lawCogChoices)
+            lawCog = random.choice(self.lawyerDNA)
             suit.dna.newSuit(lawCog)
             suit.setPosHpr(*ToontownGlobals.LawbotBossLawyerPosHprs[i])
             suit.setBoss(self)
@@ -893,3 +889,6 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         if battleDifficulty >= numDifficultyLevels:
             battleDifficulty = numDifficultyLevels - 1
         self.b_setBattleDifficulty(battleDifficulty)
+
+    def getDamageMultiplier(self):
+        return self.damageMult

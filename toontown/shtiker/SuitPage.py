@@ -455,7 +455,10 @@ class SuitPage(ShtikerPage.ShtikerPage):
                 panel.head.show()
                 panel.shadow.show()
             else:
-                self.addSuitHead(panel, suitName)
+                try:
+                    self.addSuitHead(panel, suitName)
+                except:
+                    pass
             
             self.safeDistricts = [403000001]
             

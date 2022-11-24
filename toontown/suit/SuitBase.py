@@ -2,6 +2,7 @@ from panda3d.core import *
 from panda3d.toontown import *
 from direct.distributed.ClockDelta import *
 import math
+import copy
 import random
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
@@ -22,6 +23,7 @@ class SuitBase:
         self.currHP = 10
         self.isSkelecog = 0
         self.isHired = 0
+        self.statuses = {}
         return
 
     def delete(self):
@@ -65,6 +67,34 @@ class SuitBase:
 
     def setHired(self, flag):
         self.isHired = flag
+    
+    def addStatus(self, statusString):
+        status = SuitBattleGlobals.getStatusFromString(statusString)
+        if not status['name'] in self.statuses.keys():
+            self.notify.info("Cog's status updated: " + status['name'])
+            self.statuses[status['name']] = status
+
+    def getStatus(self, name):
+        if name in self.statuses.keys():
+            return self.statuses[name]
+        else:
+            return None
+
+    def removeStatus(self, name):
+        if name in self.statuses.keys():
+            lostStatus = copy.deepcopy(self.statuses.pop(name, None))
+            messenger.send('suit-lost-status', [self, lostStatus])
+            return lostStatus
+
+    def decStatusRounds(self, statusName):
+        for status in self.statuses.values():
+            if status['name'] == statusName and 'rounds' in status:
+                status['rounds'] -= 1
+                if status['rounds'] <= 0:
+                    self.notify.debug('%s %s has ended! (value: %d)' %
+                                      (self.dna.name, status['name'], status['rounds']))
+                    return self.removeStatus(status['name'])
+        return None
 
     def getActualLevel(self):
         if hasattr(self, 'dna'):

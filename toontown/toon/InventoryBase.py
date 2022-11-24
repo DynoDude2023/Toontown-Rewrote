@@ -158,7 +158,10 @@ class InventoryBase(DirectObject.DirectObject):
     def getMax(self, track, level):
         if type(track) == type(''):
             track = Tracks.index(track)
-        maxList = CarryLimits[track]
+        if self.toon.getExtraUberGags()[track]:    
+            maxList = ExtraCarryLimits[track]
+        else:
+            maxList = CarryLimits[track]
         if self.toon.experience:
             return maxList[self.toon.experience.getExpLevel(track)][level]
         else:
@@ -293,7 +296,7 @@ class InventoryBase(DirectObject.DirectObject):
 
     def NPCMaxOutInv(self, targetTrack = -1):
         result = 0
-        for level in xrange(5, -1, -1):
+        for level in xrange(6, -1, -1):
             anySpotsAvailable = 1
             while anySpotsAvailable == 1:
                 anySpotsAvailable = 0

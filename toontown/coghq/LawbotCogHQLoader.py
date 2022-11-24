@@ -26,9 +26,14 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         for stateName in ['quietZone']:
             state = self.fsm.getStateNamed(stateName)
             state.addTransition('factoryExterior')
-
-        self.musicFile = 'phase_11/audio/bgm/LB_courtyard.ogg'
-        self.cogHQExteriorModelPath = 'phase_11/models/lawbotHQ/LawbotPlaza'
+        #ttr_s_ara_lhq_encntr
+        self.musicDict = {ToontownGlobals.LawbotHQ: 'phase_11/audio/bgm/ttr_ara_ext_lhq_crashed.ogg',
+                          ToontownGlobals.LawbotLobby: 'phase_11/audio/bgm/LB_courtyard.ogg',
+                          ToontownGlobals.LawbotOfficeExt: 'phase_11/audio/bgm/LB_courtyard.ogg',
+                          ToontownGlobals.LawbotStation: 'phase_11/audio/bgm/LBHQ_security_station.ogg'}
+        self.battleMusicFile = 'phase_15/audio/bgm/ttr_s_ara_lhq_encntr.ogg'
+        self.cogHQExteriorModelPath2 = 'phase_15/modelDict/lbhq_event/ttr_ara_p_lhq_crashedProps'
+        self.cogHQExteriorModelPath = 'phase_15/modelDict/lbhq/LawbotPlaza.egg'
         self.factoryExteriorModelPath = 'phase_11/models/lawbotHQ/LB_DA_Lobby'
         self.cogHQLobbyModelPath = 'phase_11/models/lawbotHQ/LB_CH_Lobby'
         self.geom = None
@@ -51,10 +56,13 @@ class LawbotCogHQLoader(CogHQLoader.CogHQLoader):
         self.notify.debug('zoneId = %d ToontownGlobals.LawbotHQ=%d' % (zoneId, ToontownGlobals.LawbotHQ))
         if zoneId == ToontownGlobals.LawbotHQ:
             self.geom = loader.loadModel(self.cogHQExteriorModelPath)
+            self.geom2 = loader.loadModel(self.cogHQExteriorModelPath2)
             ug = self.geom.find('**/underground')
             ug.setBin('ground', -10)
             brLinkTunnel = self.geom.find('**/TunnelEntrance1')
             brLinkTunnel.setName('linktunnel_br_3326_DNARoot')
+        if zoneId == ToontownGlobals.LawbotStation:
+            self.geom = loader.loadModel('phase_14/models/neighborhoods/LawbotSecurityStation')
         elif zoneId == ToontownGlobals.LawbotOfficeExt:
             self.geom = loader.loadModel(self.factoryExteriorModelPath)
             ug = self.geom.find('**/underground')

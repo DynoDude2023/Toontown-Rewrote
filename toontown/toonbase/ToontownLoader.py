@@ -3,7 +3,6 @@ from panda3d.toontown import *
 from direct.directnotify.DirectNotifyGlobal import *
 from direct.showbase import Loader
 from toontown.toontowngui import ToontownLoadingScreen
-from toontown.dna import DNAParser as XMLDNAParser
 
 class ToontownLoader(Loader.Loader):
     TickPeriod = 0.2
@@ -94,15 +93,11 @@ class ToontownLoader(Loader.Loader):
         return ret
 
     def loadDNAFileAI(self, dnaStore, dnaFile):
-        with open(filename, 'r') as f:
-            tree = XMLDNAParser.parse(f)
-
-        return tree
+        ret = loadDNAFileAI(dnaStore, dnaFile, CSDefault)
+        self.tick()
+        return ret
 
     def loadDNAFile(self, dnaStore, dnaFile):
-        with open(filename, 'r') as f:
-            tree = XMLDNAParser.parse(f)
-
-        return tree
-    
-        
+        ret = loadDNAFile(dnaStore, dnaFile, CSDefault, 0)
+        self.tick()
+        return ret

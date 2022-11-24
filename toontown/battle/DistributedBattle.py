@@ -1,15 +1,9 @@
-from panda3d.core import *
 from libotp import *
 from direct.interval.IntervalGlobal import *
 from BattleBase import *
-from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 import DistributedBattleBase
 from direct.directnotify import DirectNotifyGlobal
-import MovieUtil
-from toontown.suit import Suit
-from direct.actor import Actor
-from toontown.toon import TTEmote
 from otp.avatar import Emote
 import SuitBattleGlobals
 from toontown.distributed import DelayDelete
@@ -64,10 +58,10 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         if self.battleCleanedUp():
             return
         oldtoons = DistributedBattleBase.DistributedBattleBase.setMembers(self, suits, suitsJoining, suitsPending, suitsActive, suitsLured, suitTraps, toons, toonsJoining, toonsPending, toonsActive, toonsRunning, timestamp)
-        if len(self.toons) == 4 and len(oldtoons) < 4:
+        if len(self.toons) == 7 and len(oldtoons) < 7:
             self.notify.debug('setMembers() - battle is now full of toons')
             self.closeBattleCollision()
-        elif len(self.toons) < 4 and len(oldtoons) == 4:
+        elif len(self.toons) < 7 and len(oldtoons) == 7:
             self.openBattleCollision()
 
     def __faceOff(self, ts, name, callback):
@@ -91,7 +85,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         suit.setState('Battle')
         suitTrack = Sequence()
         toonTrack = Sequence()
-        suitTrack.append(Func(suit.loop, 'neutral'))
+        suitTrack.append(Func(suit.doNeutralAnim))
         suitTrack.append(Func(suit.headsUp, toon))
         taunt = SuitBattleGlobals.getFaceoffTaunt(suit.getStyleName(), suit.doId)
         suitTrack.append(Func(suit.setChatAbsolute, taunt, CFSpeech | CFTimeout))
@@ -131,7 +125,7 @@ class DistributedBattle(DistributedBattleBase.DistributedBattleBase):
         toonTrack.append(Func(toon.headsUp, self, toonPos))
         suitTrack.append(Func(suit.loop, 'walk'))
         suitTrack.append(LerpPosInterval(suit, faceoffTime, suitPos, other=self))
-        suitTrack.append(Func(suit.loop, 'neutral'))
+        suitTrack.append(Func(suit.doNeutralAnim))
         suitTrack.append(Func(suit.setHpr, self, suitHpr))
         toonTrack.append(Func(toon.loop, 'run'))
         toonTrack.append(LerpPosInterval(toon, faceoffTime, toonPos, other=self))

@@ -39,7 +39,10 @@ suitHeadTypes = ['f',
  'tf',
  'm',
  'mh',
- 'sbc']
+ 'sbc',
+ 'hfm',
+ 'fred',
+ 'handy']
 suitATypes = ['ym',
  'hh',
  'tbc',
@@ -54,7 +57,8 @@ suitATypes = ['ym',
  'nd',
  'tf',
  'm',
- 'mh']
+ 'mh',
+ 'hfm']
 suitBTypes = ['p',
  'ds',
  'b',
@@ -62,6 +66,7 @@ suitBTypes = ['p',
  'sd',
  'bc',
  'ls',
+ 'bo',
  'tm',
  'ms']
 suitCTypes = ['f',
@@ -72,7 +77,9 @@ suitCTypes = ['f',
  'tw',
  'mb',
  'cc',
- 'gh']
+ 'gh',
+ 'fred',
+ 'handy']
 suitDepts = ['c',
  'l',
  'm',
@@ -100,7 +107,11 @@ suitsPerLevel = [1,
 suitsPerDept = 8
 goonTypes = ['pg', 'sg']
 customSuitDepts = {
-    'sbc': 'c'
+    'sbc': 'c',
+    'bo': 's',
+    'hfm': 's',
+    'handy': 's',
+    'fred': 's'
 }
 
 def getSuitBodyType(name):
@@ -151,10 +162,10 @@ def getSuitType(name):
 
 def getRandomSuitType(level, rng = random):
     try:
-        return random.randint(max(level - 4, 1), min(level, 8))
+        return random.randint(max(level - 7, 1), min(level, 8))
     except:
-        return 8
-
+        return random.randint(max(level - 4, 1), min(level, 8))
+    
 def getRandomSuitTypeExtra(level, rng = random):
     try:
         return random.randint(max(level - 7, 1), min(level, 8))
@@ -194,7 +205,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         dg = PyDatagram()
         dg.addFixedString(self.type, 1)
         if self.type == 's':
-            dg.addFixedString(self.name, 3)
+            dg.addFixedString(self.name, 5)
             dg.addFixedString(self.dept, 1)
         elif self.type == 'b':
             dg.addFixedString(self.dept, 1)
@@ -209,7 +220,7 @@ class SuitDNA(AvatarDNA.AvatarDNA):
         dgi = PyDatagramIterator(dg)
         self.type = dgi.getFixedString(1)
         if self.type == 's':
-            self.name = dgi.getFixedString(3)
+            self.name = dgi.getFixedString(5)
             self.dept = dgi.getFixedString(1)
             self.body = getSuitBodyType(self.name)
         elif self.type == 'b':

@@ -5,10 +5,12 @@ from toontown.coghq import DistributedFactoryElevatorExtAI
 from toontown.coghq import DistributedCogHQDoorAI
 from toontown.coghq import DistributedSellbotHQDoorAI
 from toontown.building import DoorTypes
-from toontown.coghq import LobbyManagerAI
+from toontown.coghq import LobbyManagerAI, DistributedResistanceHideoutPipeAI
+from toontown.animations import DistributedSellOffAI
 from toontown.building import DistributedVPElevatorAI
 from toontown.suit import DistributedSellbotBossAI
 from toontown.building import DistributedBoardingPartyAI
+
 
 class CSHoodDataAI(HoodDataAI.HoodDataAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('CSHoodDataAI')
@@ -43,26 +45,32 @@ class CSHoodDataAI(HoodDataAI.HoodDataAI):
             self.factoryBoardingParty = DistributedBoardingPartyAI.DistributedBoardingPartyAI(self.air, factoryIdList, 4)
             self.factoryBoardingParty.generateWithRequired(ToontownGlobals.SellbotFactoryExt)
         destinationZone = ToontownGlobals.SellbotLobby
-        if self.air.districtId != 401000001:
-            extDoor0 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=0)
-            extDoor1 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 1, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=1)
-            extDoor2 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 2, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=2)
-            extDoor3 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 3, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=3)
-            extDoorList = [extDoor0, extDoor1, extDoor2, extDoor3]
-            for sp in self.suitPlanners:
-                if sp.zoneId == ToontownGlobals.SellbotHQ:
-                    sp.cogHQDoors = extDoorList
+        extDoor0 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 0, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=0)
+        extDoor1 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 1, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=1)
+        extDoor2 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 2, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=2)
+        extDoor3 = DistributedSellbotHQDoorAI.DistributedSellbotHQDoorAI(self.air, 3, DoorTypes.EXT_COGHQ, destinationZone, doorIndex=3)
+        extDoorList = [extDoor0, extDoor1, extDoor2, extDoor3]
+        for sp in self.suitPlanners:
+            if sp.zoneId == ToontownGlobals.SellbotHQ:
+                sp.cogHQDoors = extDoorList
 
-            intDoor0 = DistributedCogHQDoorAI.DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, ToontownGlobals.SellbotHQ, doorIndex=0)
-            intDoor0.setOtherDoor(extDoor0)
-            intDoor0.zoneId = ToontownGlobals.SellbotLobby
-            for extDoor in extDoorList:
-                extDoor.setOtherDoor(intDoor0)
-                extDoor.zoneId = ToontownGlobals.SellbotHQ
-                extDoor.generateWithRequired(ToontownGlobals.SellbotHQ)
-                extDoor.sendUpdate('setDoorIndex', [extDoor.getDoorIndex()])
-                self.addDistObj(extDoor)
+        from toontown.toon import NPCToons
+        
+        npcs = NPCToons.createNpcsInZone(self.air, 11800)
+        for npc in npcs:
+            self.addDistObj(npc)
+        
+        
+        intDoor0 = DistributedCogHQDoorAI.DistributedCogHQDoorAI(self.air, 0, DoorTypes.INT_COGHQ, ToontownGlobals.SellbotHQ, doorIndex=0)
+        intDoor0.setOtherDoor(extDoor0)
+        intDoor0.zoneId = ToontownGlobals.SellbotLobby
+        for extDoor in extDoorList:
+            extDoor.setOtherDoor(intDoor0)
+            extDoor.zoneId = ToontownGlobals.SellbotHQ
+            extDoor.generateWithRequired(ToontownGlobals.SellbotHQ)
+            extDoor.sendUpdate('setDoorIndex', [extDoor.getDoorIndex()])
+            self.addDistObj(extDoor)
 
-            intDoor0.generateWithRequired(ToontownGlobals.SellbotLobby)
-            intDoor0.sendUpdate('setDoorIndex', [intDoor0.getDoorIndex()])
-            self.addDistObj(intDoor0)
+        intDoor0.generateWithRequired(ToontownGlobals.SellbotLobby)
+        intDoor0.sendUpdate('setDoorIndex', [intDoor0.getDoorIndex()])
+        self.addDistObj(intDoor0)

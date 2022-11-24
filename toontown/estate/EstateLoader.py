@@ -26,7 +26,7 @@ class EstateLoader(SafeZoneLoader.SafeZoneLoader):
          State.State('final', self.enterFinal, self.exitFinal, ['start'])], 'start', 'final')
         self.musicFile = 'phase_5.5/audio/bgm/estate_SZ.ogg'
         self.activityMusicFile = 'phase_3.5/audio/bgm/TC_SZ_activity.ogg'
-        self.dnaFile = 'phase_5.5/dna/estate_1.xml'
+        self.dnaFile = 'phase_5.5/dna/estate_1.dna'
         self.safeZoneStorageDNAFile = None
         self.cloudSwitch = 0
         self.id = MyEstate
